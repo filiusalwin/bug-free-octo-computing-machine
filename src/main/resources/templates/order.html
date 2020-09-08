@@ -5,10 +5,15 @@
     <title>Order</title>
 </head>
 <body>
-<p1>Test</p1>
-<div th:each="product: ${allProducts}">
+<h1>Product catalog</h1>
+<ul>
+<li th:each="product: ${allProducts}">
     <span th:text="${product.name}"/>
-    <span th:text="${product.price}"/>
-</div>
+    <span th:text="${product.euroPrice()}"/>
+    <button>+</button>
+    <button>-</button>
+    <input type="number" value="0"/>
+</li>
+</ul>
 </body>
 </html>

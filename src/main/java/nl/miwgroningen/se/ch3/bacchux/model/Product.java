@@ -15,6 +15,12 @@ public class Product {
     private int price;
 
 
+    public String euroPrice(){
+        double priceInEuro;
+        priceInEuro = price/100.0;
+        return String.format("%.2f €", priceInEuro);
+    }
+
     public String getName() {
         return name;
     }
