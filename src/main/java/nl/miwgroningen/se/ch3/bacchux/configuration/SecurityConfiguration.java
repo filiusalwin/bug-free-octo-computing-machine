@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class BacchuxSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     BacchuxUserDetailsService bacchuxUserDetailsService;

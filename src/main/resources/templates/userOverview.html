@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Overview</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<h1> Users of BacchUx</h1>
+
+<br>
+
+<h2>Overview of existing users</h2>
+
+<table>
+    <tr>
+        <th>Username - </th>
+        <th>Full name - </th>
+        <th>Role - </th>
+    </tr>
+    <tr th:each="user: ${allUsers}"> <!-- TODO: sorteren-->
+        <td th:text="${user.username}" />
+        <td th:text="${user.name}" />
+        <td th:text="${user.role}" />
+        <td><a class="button">Update</a></td>
+        <td><a class="button">Delete</a></td>
+    </tr>
+</table>
+
+<br>
+
+<h2>Create / Update a new user</h2>
+<form action="#" th:action="@{/user/new}" th:object="${user}" method="post">
+    <p>Username: <input type="text" th:field="*{username}" /></p>
+    <p>Password: <input type="text" th:field="*{password}" /></p>
+    <p>Full Name: <input type="text" th:field="*{name}" /></p>
+    <p>Role:
+
+        <input  type="radio" th:field="*{role}" id="Barmanager" th:name="*{role}" th:value="BARMANAGER"> <!-- TODO: Make nicer text (enum) -->
+        <label for="barmanager">Barmanager</label>
+
+        <input type="radio" th:field="*{role}" id="BARTENDER" th:name="*{role}" th:value="BARTENDER">
+        <label for="bartender">Bartender</label>
+
+        <input type="radio" th:field="*{role}" id="CUSTOMER" th:name="*{role}" th:value="CUSTOMER" > <!-- TODO: checked functie -->
+        <label for="customer">Customer</label>
+    </p>
+    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+</form>
+
+
+</body>
+</html>

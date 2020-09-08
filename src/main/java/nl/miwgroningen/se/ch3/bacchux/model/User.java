@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class BacchuxUser implements UserDetails {
+public class User implements UserDetails, Comparable<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,16 +21,9 @@ public class BacchuxUser implements UserDetails {
 
     private String password;
 
-    private Role role;
-
     private String name;
 
-    private String surname;
-
-    private String address;
-
-    private String phoneNumber;
-
+    private Role role;
 
     public Integer getUserId() {
         return userId;
@@ -40,12 +33,36 @@ public class BacchuxUser implements UserDetails {
         this.userId = userId;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -53,16 +70,6 @@ public class BacchuxUser implements UserDetails {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
     }
 
     @Override
@@ -85,11 +92,8 @@ public class BacchuxUser implements UserDetails {
         return true;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
+    @Override
+    public int compareTo(User user) {
+        return name.compareTo(user.getName());
     }
 }
