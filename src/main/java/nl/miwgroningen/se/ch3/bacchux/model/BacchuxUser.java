@@ -21,6 +21,17 @@ public class BacchuxUser implements UserDetails {
 
     private String password;
 
+    private Role role;
+
+    private String name;
+
+    private String surname;
+
+    private String address;
+
+    private String phoneNumber;
+
+
     public Integer getUserId() {
         return userId;
     }
@@ -72,5 +83,13 @@ public class BacchuxUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
