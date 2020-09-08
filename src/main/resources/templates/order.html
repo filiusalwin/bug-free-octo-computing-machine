@@ -10,18 +10,22 @@
     <ul id="productList">
         <li th:each="product: ${allProducts}"
             th:id="${'product' + product.getId()}"
-            th:attr="productPrice=|${product.getPrice()}|" >
+            th:attr="productPrice=|${product.getPrice()}|, productName=|${product.getName()}|" >
             <span th:text="${product.name}"/>
             <span th:text="${product.euroPrice()}"/>
             <button th:attr="onclick=|addProduct(${product.getId()})|">+</button>
             <button th:attr="onclick=|removeProduct(${product.getId()})|">-</button>
-            <input type="number" value="0" class="productCountBox" th:id="${'productCount' + product.getId()}" />
+            <input type="hidden" value="0" class="productCountBox" th:id="${'productCount' + product.getId()}" />
         </li>
     </ul>
+    <h2>Bill</h2>
+    <div id="billProductList">
+
+    </div>
     <h2>
        Total Price
         <span id="totalPrice">
-            0,00 €
+            €0,00
         </span>
     </h2>
 
