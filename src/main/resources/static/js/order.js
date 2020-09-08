@@ -1,13 +1,29 @@
+function updateTotalPrice(priceInCents) {
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'EUR',
+        minimumFractionDigits: 2
+    })
+    var formatted = formatter.format(priceInCents / 100);
+    document.getElementById("totalPrice").innerHTML = formatted;
+}
+
 function calculateTotalPrice() {
     var productList = document.getElementById("productList");
     var products = productList.getElementsByTagName("li");
 
-    for (let product of products) {
-        var countBox = product.getElementsByClassName("productCountBox")[0];
+    var total = 0;
+
+    for (let productLi of products) {
+        var countBox = productLi.getElementsByClassName("productCountBox")[0];
         var count = parseInt(countBox.value);
 
-        // TODO
+        var price = parseInt(productLi.getAttribute("productPrice"));
+
+        total += count * price;
     }
+
+    updateTotalPrice(total);
 }
 
 function addProduct(id) {
