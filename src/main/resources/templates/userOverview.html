@@ -17,7 +17,7 @@
             <tr th:each="user: ${#lists.sort(allUsers)}">
                 <td th:text="${user.name}" />
                 <td th:text="${user.username}" />
-                <td th:text="${user.role}" /> <!-- TODO: Make nicer text (enum) -> text-transform: capitalize ? -->
+                <td class="lowercase" th:text="${#strings.capitalize(#strings.toLowerCase(user.role))}" />
                 <td><a class="button">Update </a></td>
                 <td><a th:href="@{/user/delete/{userId}(userId=${user.userId})}">Delete</a></td>
             </tr>
@@ -34,7 +34,7 @@
                 <label for="Barmanager">Barmanager</label>
                 <input type="radio" th:field="*{role}" id="BARTENDER" th:name="*{role}" th:value="BARTENDER">
                 <label for="Bartender">Bartender</label>
-                <input type="radio" th:field="*{role}" id="CUSTOMER" th:name="*{role}" th:value="CUSTOMER"  th:checked="checked" > <!-- TODO: checked functie -->
+                <input type="radio" th:field="*{role}" id="CUSTOMER" th:name="*{role}" th:value="CUSTOMER">
                 <label for="Customer">Customer</label>
             </p>
             <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>

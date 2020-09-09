@@ -65,6 +65,7 @@ public class User implements UserDetails, Comparable<User> {
         this.name = name;
     }
 
+
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();

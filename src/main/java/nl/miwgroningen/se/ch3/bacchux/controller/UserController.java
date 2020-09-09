@@ -1,6 +1,7 @@
 package nl.miwgroningen.se.ch3.bacchux.controller;
 
 
+import nl.miwgroningen.se.ch3.bacchux.model.Role;
 import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+
+
 @RequestMapping("/user")
+@Secured("ROLE_ADMIN")
 @Controller
 public class UserController {
 
@@ -24,15 +28,16 @@ public class UserController {
     UserRepository userRepository;
 
     @GetMapping("")
-    @Secured("ROLE_ADMIN")
-    protected String showNewUserForm(Model model) {
+    protected String showUserForm(Model model) {
         model.addAttribute("allUsers", userRepository.findAll());
-        model.addAttribute("user", new User());
+        // to check Radio button "Customer"
+        User user = new User();
+        user.setRole(Role.CUSTOMER);
+        model.addAttribute("user", user);
         return "userOverview";
     }
 
     @PostMapping("/new")
-    @Secured("ROLE_ADMIN")
     protected String saveOrUpdateUser(@ModelAttribute("user") User user, BindingResult result) {
         if (result.hasErrors()) {
             return "userOverview";
@@ -43,8 +48,17 @@ public class UserController {
         }
     }
 
+    @GetMapping("update/{userId}")
+    protected String UpdateUser(@PathVariable("userId") final Integer userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            userRepository.deleteById(userId);
+        }
+        return "redirect:/user";
+    }
+
+
     @GetMapping("/delete/{userId}")
-    @Secured("ROLE_ADMIN")
     protected String deleteUser(@PathVariable("userId") final Integer userId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
