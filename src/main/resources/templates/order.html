@@ -9,13 +9,13 @@
     <h1>Product catalog</h1>
     <ul id="productList">
         <li th:each="product: ${allProducts}"
-            th:id="${'product' + product.getId()}"
+            th:id="${'product' + product.getProductId()}"
             th:attr="productPrice=|${product.getPrice()}|, productName=|${product.getName()}|" >
             <span th:text="${product.name}"/>
             <span th:text="${product.euroPrice()}"/>
-            <button th:attr="onclick=|addProduct(${product.getId()})|">+</button>
-            <button th:attr="onclick=|removeProduct(${product.getId()})|">-</button>
-            <input type="hidden" value="0" class="productCountBox" th:id="${'productCount' + product.getId()}" />
+            <button th:attr="onclick=|addProduct(${product.getProductId()})|">+</button>
+            <button th:attr="onclick=|removeProduct(${product.getProductId()})|">-</button>
+            <input type="hidden" value="0" class="productCountBox" th:id="${'productCount' + product.getProductId()}" />
         </li>
     </ul>
     <h2>Bill</h2>

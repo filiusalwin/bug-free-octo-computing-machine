@@ -1,20 +1,24 @@
+// formats number as currency
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: 2
+})
+
 // helper for updateBill()
-function updateProductList(names, counts) {
+function updateProductList(names, counts, subtotals) {
     var productBox = document.getElementById("billProductList");
     productBox.innerHTML = "";
 
     for (var i = 0; i < names.length; i++) {
-        productBox.innerHTML += counts[i] + " " + names[i] + "<br>"
+        productBox.innerHTML += counts[i] + " "
+                                + names[i] + " "
+                                + formatter.format(subtotals[i] / 100) + "<br>"
     }
 }
 
 // helper for updateBill()
 function updateTotalPrice(priceInCents) {
-    const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'EUR',
-        minimumFractionDigits: 2
-    })
 
     // format number as currency
     var formatted = formatter.format(priceInCents / 100);
@@ -33,6 +37,7 @@ function updateBill() {
     var total = 0;
     var productNames = [];
     var productCounts = [];
+    var subtotals = [];
 
     // go through each <li> tag
     for (let productLi of products) {
@@ -49,11 +54,14 @@ function updateBill() {
         if (count != 0) {
             productCounts.push(count);
             productNames.push(productName);
+            subtotals.push(price * count);
         }
     }
 
     updateTotalPrice(total);
-    updateProductList(productNames, productCounts);
+    updateProductList(productNames, productCounts, subtotals);
+
+    console.log(productNames);
 }
 
 // increase product count by 1

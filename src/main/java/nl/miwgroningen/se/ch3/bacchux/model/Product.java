@@ -8,16 +8,18 @@ import javax.persistence.Id;
 @Entity
 public class Product {
 
+    private static final int CENTS_PER_EURO = 100;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private String productId;
     private String name;
     private int price;
 
 
     public String euroPrice(){
         double priceInEuro;
-        priceInEuro = price/100.0;
+        priceInEuro =  (double) price / CENTS_PER_EURO;
         return String.format("%.2f €", priceInEuro);
     }
 
@@ -37,12 +39,12 @@ public class Product {
         this.price = price;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     @Id
-    public String getId() {
-        return id;
+    public String getProductId() {
+        return productId;
     }
 }
