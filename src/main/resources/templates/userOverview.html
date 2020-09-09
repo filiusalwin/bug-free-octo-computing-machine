@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>User Overview</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+    <h1>Overview of existing users</h1>
+        <table>
+            <tr>
+                <th>Username - </th>
+                <th>Full name - </th>
+                <th>Role </th>
+            </tr>
+            <tr th:each="user: ${#lists.sort(allUsers)}">
+                <td th:text="${user.name}" />
+                <td th:text="${user.username}" />
+                <td th:text="${user.role}" /> <!-- TODO: Make nicer text (enum) -> text-transform: capitalize ? -->
+                <td><a class="button">Update </a></td>
+                <td><a th:href="@{/user/delete/{userId}(userId=${user.userId})}">Delete</a></td>
+            </tr>
+        </table>
+    <br>
+
+    <h1>Create / Update a new user</h1>
+        <form action="#" th:action="@{/user/new}" th:object="${user}" method="post">
+            <p>Username: <input type="text" th:field="*{username}" /> (Can not begin with a number) </p>
+            <p>Password: <input type="password" th:field="*{password}" /></p>
+            <p>Full Name: <input type="text" th:field="*{name}" /></p>
+            <p>Role:
+                <input  type="radio" th:field="*{role}" id="Barmanager" th:name="*{role}" th:value="BARMANAGER">
+                <label for="Barmanager">Barmanager</label>
+                <input type="radio" th:field="*{role}" id="BARTENDER" th:name="*{role}" th:value="BARTENDER">
+                <label for="Bartender">Bartender</label>
+                <input type="radio" th:field="*{role}" id="CUSTOMER" th:name="*{role}" th:value="CUSTOMER"  th:checked="checked" > <!-- TODO: checked functie -->
+                <label for="Customer">Customer</label>
+            </p>
+            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        </form>
+    </body>
+</html>
