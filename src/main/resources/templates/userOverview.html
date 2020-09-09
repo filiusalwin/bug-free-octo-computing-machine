@@ -18,7 +18,7 @@
                 <td th:text="${user.name}" />
                 <td th:text="${user.username}" />
                 <td class="lowercase" th:text="${#strings.capitalize(#strings.toLowerCase(user.role))}" />
-                <td><a class="button">Update </a></td>
+                <td><a class="button" th:href="@{/user/update/{userId}(userId=${user.userId})}">Update </a></td>
                 <td><a th:href="@{/user/delete/{userId}(userId=${user.userId})}">Delete</a></td>
             </tr>
         </table>

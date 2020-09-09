@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/new")
-    protected String saveOrUpdateUser(@ModelAttribute("user") User user, BindingResult result) {
+    protected String saveUser(@ModelAttribute("user") User user, BindingResult result) {
         if (result.hasErrors()) {
             return "userOverview";
         } else {
@@ -49,12 +49,16 @@ public class UserController {
     }
 
     @GetMapping("update/{userId}")
-    protected String UpdateUser(@PathVariable("userId") final Integer userId) {
+    protected String UpdateUser(Model model,
+                                @PathVariable("userId") final Integer userId) {
+        model.addAttribute("allUsers", userRepository.findAll());
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
-            userRepository.deleteById(userId);
+            model.addAttribute(user.get());
+        } else {
+            model.addAttribute(new User());
         }
-        return "redirect:/user";
+        return "userOverview";
     }
 
 
