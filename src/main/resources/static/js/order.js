@@ -61,7 +61,11 @@ function updateBill() {
     updateTotalPrice(total);
     updateProductList(productNames, productCounts, subtotals);
 
-    console.log(productNames);
+    if (total == 0) {
+        document.getElementById("cashPayButton").style.display = "none";
+    } else {
+        document.getElementById("cashPayButton").style.display = "inline";
+    }
 }
 
 // increase product count by 1
@@ -81,4 +85,11 @@ function removeProduct(id) {
     }
 
     updateBill();
+}
+
+function doCashPayment() {
+    var price = document.getElementById("totalPrice").innerHTML;
+    if (confirm("The total is " + price + ".")) {
+        location.reload();
+    }
 }
