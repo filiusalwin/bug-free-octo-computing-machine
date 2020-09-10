@@ -12,14 +12,20 @@
             <tr>
                 <th>Username - </th>
                 <th>Full name - </th>
-                <th>Role </th>
+                <th>Role - </th>
+                <th>Balance</th>
             </tr>
             <tr th:each="user: ${#lists.sort(allUsers)}">
                 <td th:text="${user.name}" />
                 <td th:text="${user.username}" />
                 <td class="lowercase" th:text="${#strings.capitalize(#strings.toLowerCase(user.role))}" />
-                <td><a class="button">Update </a></td>
-                <td><a th:href="@{/user/delete/{userId}(userId=${user.userId})}">Delete</a></td>
+                <td th:text="${user.balance}" />
+                <td>
+                    <a class="button">Update </a>
+                </td>
+                <td>
+                    <a th:href="@{/user/delete/{userId}(userId=${user.userId})}">Delete</a>
+                </td>
             </tr>
         </table>
     <br>
