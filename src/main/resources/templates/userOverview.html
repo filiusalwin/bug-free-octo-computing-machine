@@ -26,12 +26,11 @@
 
     <h1>Create / Update a new user</h1>
         <form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
-            <div th:if="${#fields.hasErrors('*')}">errors</div>
-            <p>Username: <input type="text" th:field="*{username}"  />
-                <span th:text="${error}"> </span>
+            <p><input type="hidden" th:field="*{userId}"  /></p>
+            <p>Username: <input type="text" th:field="*{username}" required />
                 (Can not begin with a number) </p>
             <p>Password: <input type="password" th:field="*{password}" /></p>
-            <p>Full Name: <input type="text" th:field="*{name}" /></p>
+            <p>Full Name: <input type="text" th:field="*{name}" required/></p>
             <p>Role:
                 <input  type="radio" th:field="*{role}" id="Barmanager" th:name="*{role}" th:value="BARMANAGER">
                 <label for="Barmanager">Barmanager</label>
@@ -40,7 +39,7 @@
                 <input type="radio" th:field="*{role}" id="CUSTOMER" th:name="*{role}" th:value="CUSTOMER">
                 <label for="Customer">Customer</label>
             </p>
-            <p><input name="action" type="submit" value="save" /> <input name="action" type="submit" value="update" /></p>
+            <p><input name="action" type="submit" value="save" /></p>
         </form>
     </body>
 </html>

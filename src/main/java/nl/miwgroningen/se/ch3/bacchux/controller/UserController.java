@@ -36,6 +36,7 @@ public class UserController {
         User user = new User();
         user.setRole(Role.CUSTOMER);
         model.addAttribute("user", user);
+        user.setUserId(user.getUserId());
         return "userOverview";
     }
 
@@ -48,49 +49,24 @@ public class UserController {
             model.addAttribute(user.get());
         } else {
             model.addAttribute(new User());
+
         }
         return "userOverview";
     }
 
 
-    @RequestMapping(value="/add", method=RequestMethod.POST, params="action=save")
-    protected String saveNewUser(  Model model,
-                                        @ModelAttribute("user") User user,
-                                        BindingResult result) {
-        if (result.hasErrors()) {
-            return "userOverview";
-        } else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            userRepository.save(user);
-            return "redirect:/user";
-        }
-    }
-
-    @RequestMapping(value="/add", method=RequestMethod.POST, params="action=update")
-    protected String UpdateUser(Model model,
-                                BindingResult result,
-                                @PathVariable("userId") final Integer userId) {
-        if (result.hasErrors()) {
-            return "userOverview";
-        }
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            model.addAttribute(user.get());
-            user.get().setPassword(passwordEncoder.encode(user.get().getPassword()));
-            try {
-                userRepository.save(user.get());
-
-            } catch (DataIntegrityViolationException exception) {
-                model.addAttribute("allUsers", userRepository.findAll());
-                model.addAttribute("error", "This username already/exists");
-                System.out.println(exception);
+    @PostMapping ("/add")
+    protected String saveorUpdateUser( Model model,
+                                       @ModelAttribute("user") User user,
+                                       BindingResult result) {
+            if (result.hasErrors()) {
                 return "userOverview";
+            } else {
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+                userRepository.save(user);
             }
-        }
         return "redirect:/user";
     }
-
-
 
     @GetMapping("/delete/{userId}")
     protected String deleteUser(@PathVariable("userId") final Integer userId) {
