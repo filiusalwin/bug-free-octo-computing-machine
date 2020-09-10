@@ -1,17 +1,9 @@
 package nl.miwgroningen.se.ch3.bacchux.model;
 
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 @Entity
-public class User implements UserDetails, Comparable<User> {
+public class User implements Comparable<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,7 +16,9 @@ public class User implements UserDetails, Comparable<User> {
 
     private String name;
 
-    private Role role;
+    private boolean active = true;
+
+    private String role;
 
     public Integer getUserId() {
         return userId;
@@ -50,11 +44,11 @@ public class User implements UserDetails, Comparable<User> {
         this.password = password;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -66,32 +60,12 @@ public class User implements UserDetails, Comparable<User> {
         this.name = name;
     }
 
-
-    @Override
-    public Collection<GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        return authorities;
+    public boolean isActive() {
+        return active;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override

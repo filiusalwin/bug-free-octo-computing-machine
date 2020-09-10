@@ -10,7 +10,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private String productId;
     private String name;
     private int price;
 
@@ -37,12 +37,12 @@ public class Product {
         this.price = price;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setProductId(String id) {
+        this.productId = id;
     }
 
     @Id
-    public String getId() {
-        return id;
+    public String getProductId() {
+        return productId;
     }
 }
