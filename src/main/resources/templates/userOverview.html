@@ -28,16 +28,15 @@
         <form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
             <p><input type="hidden" th:field="*{userId}"  /></p>
             <p>Username: <input type="text" th:field="*{username}" required />
-                <span style="color:Tomato;" th:text="${error}"> </span>
-                (Can not begin with a number) </p>
+                <span style="color:Tomato;" th:text="${error}"> </span></p>
             <p>Password: <input type="password" th:field="*{password}" /></p>
             <p>Full Name: <input type="text" th:field="*{name}" required/></p>
             <p>Role:
-                <input  type="radio" th:field="*{role}" id="Barmanager" th:name="*{role}" th:value="BARMANAGER">
+                <input  type="radio" th:field="*{role}" id="Barmanager" th:name="*{role}" th:value="ROLE_BARMANAGER">
                 <label for="Barmanager">Barmanager</label>
-                <input type="radio" th:field="*{role}" id="BARTENDER" th:name="*{role}" th:value="BARTENDER">
+                <input type="radio" th:field="*{role}" id="BARTENDER" th:name="*{role}" th:value="ROLE_BARTENDER">
                 <label for="Bartender">Bartender</label>
-                <input type="radio" th:field="*{role}" id="CUSTOMER" th:name="*{role}" th:value="CUSTOMER">
+                <input type="radio" th:field="*{role}" id="CUSTOMER" th:name="*{role}" th:value="ROLE_CUSTOMER">
                 <label for="Customer">Customer</label>
             </p>
             <p><input name="action" type="submit" value="save" /></p>
