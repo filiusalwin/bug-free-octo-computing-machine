@@ -63,7 +63,13 @@ public class UserController {
                 return "userOverview";
             } else {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
-                userRepository.save(user);
+                try {
+                    userRepository.save(user);
+                } catch (DataIntegrityViolationException exception) {
+                    model.addAttribute("allUsers", userRepository.findAll());
+                    model.addAttribute("error", "This username already/exists");
+                    return "userOverview";
+                }
             }
         return "redirect:/user";
     }

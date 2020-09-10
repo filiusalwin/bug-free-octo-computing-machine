@@ -10,8 +10,8 @@
     <h1>Overview of existing users</h1>
         <table>
             <tr>
-                <th>Username - </th>
                 <th>Full name - </th>
+                <th>Username - </th>
                 <th>Role </th>
             </tr>
             <tr th:each="user: ${#lists.sort(allUsers)}">
@@ -24,10 +24,11 @@
         </table>
     <br>
 
-    <h1>Create / Update a new user</h1>
+    <h1>Create / Update User <span th:text="${user.name}"/></h1>
         <form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
             <p><input type="hidden" th:field="*{userId}"  /></p>
             <p>Username: <input type="text" th:field="*{username}" required />
+                <span style="color:Tomato;" th:text="${error}"> </span>
                 (Can not begin with a number) </p>
             <p>Password: <input type="password" th:field="*{password}" /></p>
             <p>Full Name: <input type="text" th:field="*{name}" required/></p>
