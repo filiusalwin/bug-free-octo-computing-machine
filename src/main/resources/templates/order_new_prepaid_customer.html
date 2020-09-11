@@ -12,7 +12,6 @@
     <form id="prepaidForm" action="#" th:action="@{/user/new}" th:object="${user}" method="post" onsubmit="submitUser(event)">
         <p>
             Username <input type="text" th:field="*{username}" />
-            Username must start with a letter.
         </p><p>
             Password <input type="password" th:field="*{password}" />
         </p><p>
