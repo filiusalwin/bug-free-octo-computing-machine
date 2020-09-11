@@ -20,6 +20,17 @@ public class User implements Comparable<User> {
 
     private String role;
 
+    // if null, prepaid is not yet enabled
+    private Integer balance;
+
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
+    }
+
     public Integer getUserId() {
         return userId;
     }
