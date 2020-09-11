@@ -63,8 +63,10 @@ function updateBill() {
 
     if (total == 0) {
         document.getElementById("cashPayButton").style.display = "none";
+        document.getElementById("addPrepaidButton").style.display = "none";
     } else {
         document.getElementById("cashPayButton").style.display = "inline";
+        document.getElementById("addPrepaidButton").style.display = "inline";
     }
 }
 
@@ -87,9 +89,21 @@ function removeProduct(id) {
     updateBill();
 }
 
+// Perform direct payment
 function doCashPayment() {
     var price = document.getElementById("totalPrice").innerHTML;
     if (confirm("The total is " + price + ".")) {
         location.reload();
     }
+}
+
+// Open popup window for new prepaid customer
+function addPrepaidCustomer() {
+    window.open("/order/new/prepaid", "popUpWindow",
+         'height=500, width=600, left=50, top=50, resizable=yes, scrollbars=yes, toolbar=yes, menubar=no, location=no, directories=no, status=yes');
+}
+
+// get customer from popup window
+function loadCustomer(username) {
+    alert("Customer " + username + " chosen. The new customer has been added. Prepaid payment option will be added in a future release.");
 }

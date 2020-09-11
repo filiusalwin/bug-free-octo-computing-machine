@@ -13,11 +13,13 @@
                 <th>Full name - </th>
                 <th>Username - </th>
                 <th>Role </th>
+                <th>Balance</th>
             </tr>
             <tr th:each="user: ${#lists.sort(allUsers)}">
                 <td th:text="${user.getName()}" />
                 <td th:text="${user.getUsername()}" />
                 <td class="lowercase" th:text="${#strings.capitalize(#strings.toLowerCase(user.role))}" />
+                <td th:text="${user.balance}" />
                 <td><a class="button" th:href="@{/user/update/{userId}(userId=${user.userId})}">Update </a></td>
                 <td><a th:href="@{/user/delete/{userId}(userId=${user.userId})}">Delete</a></td>
             </tr>
@@ -32,11 +34,11 @@
             <p>Password: <input type="password" th:field="*{password}" /></p>
             <p>Full Name: <input type="text" th:field="*{name}" required/></p>
             <p>Role:
-                <input  type="radio" th:field="*{role}" id="Barmanager" th:name="*{role}" th:value="ROLE_BARMANAGER">
+                <input  type="radio" th:field="*{role}" id="barmanager" th:name="*{role}" th:value="ROLE_BARMANAGER">
                 <label for="Barmanager">Barmanager</label>
-                <input type="radio" th:field="*{role}" id="BARTENDER" th:name="*{role}" th:value="ROLE_BARTENDER">
+                <input type="radio" th:field="*{role}" id="bartender" th:name="*{role}" th:value="ROLE_BARTENDER">
                 <label for="Bartender">Bartender</label>
-                <input type="radio" th:field="*{role}" id="CUSTOMER" th:name="*{role}" th:value="ROLE_CUSTOMER">
+                <input type="radio" th:field="*{role}" id="customer" th:name="*{role}" th:value="ROLE_CUSTOMER">
                 <label for="Customer">Customer</label>
             </p>
             <p><input name="action" type="submit" value="save" /></p>
