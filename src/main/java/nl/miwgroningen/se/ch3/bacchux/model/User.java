@@ -20,16 +20,15 @@ public class User implements Comparable<User> {
 
     private String role;
 
+    private boolean creditAllowed;
+
+    private String creditPaymentBankAccountNumber;
+
+    private boolean prepaidAllowed = true;
+
     // if null, prepaid is not yet enabled
     private Integer balance;
 
-    public Integer getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Integer balance) {
-        this.balance = balance;
-    }
 
     public Integer getUserId() {
         return userId;
@@ -73,6 +72,38 @@ public class User implements Comparable<User> {
 
     public boolean isActive() {
         return active;
+    }
+
+    public boolean isCreditAllowed() {
+        return creditAllowed;
+    }
+
+    public void setCreditAllowed(boolean creditAllowed) {
+        this.creditAllowed = creditAllowed;
+    }
+
+    public boolean isPrepaidAllowed() {
+        return prepaidAllowed;
+    }
+
+    public void setPrepaidAllowed(boolean prepaidAllowed) {
+        this.prepaidAllowed = prepaidAllowed;
+    }
+
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
+    }
+
+    public String getCreditPaymentBankAccountNumber() {
+        return creditPaymentBankAccountNumber;
+    }
+
+    public void setCreditPaymentBankAccountNumber(String creditPaymentDetails) {
+        this.creditPaymentBankAccountNumber = creditPaymentDetails;
     }
 
     public void setActive(boolean active) {
