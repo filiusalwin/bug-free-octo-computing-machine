@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>User Overview</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+    <h1>Overview of existing users</h1>
+        <table>
+            <tr>
+                <th>Full name - </th>
+                <th>Username - </th>
+                <th>Role </th>
+            </tr>
+            <tr th:each="user: ${#lists.sort(allUsers)}">
+                <td th:text="${user.getName()}" />
+                <td th:text="${user.getUsername()}" />
+                <td class="lowercase" th:text="${#strings.capitalize(#strings.toLowerCase(user.role))}" />
+                <td><a class="button" th:href="@{/user/update/{userId}(userId=${user.userId})}">Update </a></td>
+                <td><a th:href="@{/user/delete/{userId}(userId=${user.userId})}">Delete</a></td>
+            </tr>
+        </table>
+    <br>
+
+    <h1>Create / Update User <span th:text="${user.name}"/></h1>
+        <form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
+            <p><input type="hidden" th:field="*{userId}"  /></p>
+            <p>Username: <input type="text" th:field="*{username}" required />
+                <span style="color:Tomato;" th:text="${error}"> </span></p>
+            <p>Password: <input type="password" th:field="*{password}" /></p>
+            <p>Full Name: <input type="text" th:field="*{name}" required/></p>
+            <p>Role:
+                <input  type="radio" th:field="*{role}" id="Barmanager" th:name="*{role}" th:value="ROLE_BARMANAGER">
+                <label for="Barmanager">Barmanager</label>
+                <input type="radio" th:field="*{role}" id="BARTENDER" th:name="*{role}" th:value="ROLE_BARTENDER">
+                <label for="Bartender">Bartender</label>
+                <input type="radio" th:field="*{role}" id="CUSTOMER" th:name="*{role}" th:value="ROLE_CUSTOMER">
+                <label for="Customer">Customer</label>
+            </p>
+            <p><input name="action" type="submit" value="save" /></p>
+        </form>
+    </body>
+</html>
