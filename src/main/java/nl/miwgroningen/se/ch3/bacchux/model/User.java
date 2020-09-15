@@ -20,7 +20,7 @@ public class User implements Comparable<User> {
 
     private String role;
 
-    private boolean creditAllowed;
+    private boolean creditAllowed = false;
 
     private String creditPaymentBankAccountNumber;
 
