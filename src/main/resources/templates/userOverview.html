@@ -7,6 +7,7 @@
 </head>
 <body>
     <nav th:replace="fragments/navbar :: navbar" />
+
     <h1>Overview of existing users</h1>
     <table>
         <tr>
@@ -66,34 +67,21 @@
         </div>
         <p><input name="action" type="submit" value="save" /></p>
     </form>
-    <div th:replace="fragments/head :: scriptFragment" />
-    <script>
-        $(document).ready(function(){
-            console.log($("#CreditAllowedHidden").val());
-            if ($("#CreditAllowedHidden").val() == 'true') {
-                $("#Credit-Choice").show();
-                $("#Credit-Choice-Label").show();
-            } else {
-                $("#Credit-Choice").hide();
-                $("#Credit-Choice-Label").hide();
-            }
-            if ($("#PrepaidAllowedHidden").val() == 'true') {
-                $("#Prepaid-Choice").show();
-                $("#Prepaid-Choice-Label").show();
-            } else {
-                $("#Prepaid-Choice").hide();
-                $("#Prepaid-Choice-Label").hide();
-            }
-            $("#Credit").click(function() {
-                $("#Credit-Choice").toggle();
-                $("#Credit-Choice-Label").toggle();
-            });
-            $("#Prepaid").click(function() {
-                $("#Prepaid-Choice").toggle();
-                $("#Prepaid-Choice-Label").toggle();
-            });
-        });
 
-    </script>
+    <h1>User Search</h1>
+
+    <form action="#" th:action="@{/user/update/{userId}(userId=${user.userId})}" th:object="${user}" method="get">
+        <label for="searchUser">Search your user from the list:</label>
+        <input list="userList"  id="searchUser">
+        <datalist th:field="${user.userId}" id="userList">
+            <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.userId}" th:label="${user.name}" >
+        </datalist>
+        <p><input name="action" type="submit" value="Update" /></p>
+        <!--<button onclick="updateSelectedUser()"> Update User</button>-->
+    </form>
+
+
+    <div th:replace="fragments/head :: scriptFragment" />
+    <script type="text/javascript" th:src="@{/js/userOverview.js}" ></script>
     </body>
 </html>
