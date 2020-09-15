@@ -1,7 +1,6 @@
 package nl.miwgroningen.se.ch3.bacchux.controller;
 
 import nl.miwgroningen.se.ch3.bacchux.model.Category;
-import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,7 +14,6 @@ import java.util.Optional;
 @RequestMapping("/catalog")
 @Controller
 public class CatalogController {
-
 
     @Autowired
     CategoryRepository categoryRepository;

@@ -10,14 +10,18 @@ public class Product {
 
     private static final int CENTS_PER_EURO = 100;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String productId;
 
     private String name;
 
     private int price;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "categoryId", referencedColumnName = "categoryId", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Category category;
-
 
     public String euroPrice(){
         double priceInEuro;
@@ -45,15 +49,10 @@ public class Product {
         this.productId = productId;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public String getProductId() {
         return productId;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "categoryId", referencedColumnName = "categoryId", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     public Category getCategory() {
         return category;
     }
