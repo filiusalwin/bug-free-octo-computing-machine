@@ -22,7 +22,7 @@ public class BacchuxUserDetails implements UserDetails {
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.active = user.isActive();
-        this.authorities = Arrays.stream(user.getRole().split(","))
+        this.authorities = Arrays.stream(user.getRoles().split(","))
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
     }
