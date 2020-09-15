@@ -18,7 +18,7 @@ public class User implements Comparable<User> {
 
     private boolean active = true;
 
-    private String role;
+    private String roles;
 
     private boolean creditAllowed = false;
 
@@ -29,6 +29,12 @@ public class User implements Comparable<User> {
     // if null, prepaid is not yet enabled
     private Integer balance;
 
+    public String getDisplayRoles(){
+        return  roles.replace("ROLE_BARMANAGER", "Manager")
+                .replace("ROLE_BARTENDER", "Bartender")
+                .replace("ROLE_CUSTOMER", "Customer")
+                .replace(",", ", ");
+    }
 
     public Integer getUserId() {
         return userId;
@@ -54,12 +60,12 @@ public class User implements Comparable<User> {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     public String getName() {
