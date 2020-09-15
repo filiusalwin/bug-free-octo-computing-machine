@@ -9,21 +9,18 @@
     <nav th:replace="fragments/navbar :: navbar" />
     <h1>Overview of existing categories</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Category name</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="category: ${allCategories}"> </tr>
-                <td th:text="${category.getname()}"></td>
-        </tbody>
+        <tr>
+            <th>Category name</th>
+        </tr>
+        <tr th:each="category: ${allCategories}">
+            <td th:text="${category.name}"/>
+        </tr>
     </table>
 
 <br>
-
-<h1>Create / Update Category <span th:text="${user.name}"/></h1>
-<form action="#" th:action="@{/category/add}" th:object="${category}" method="post">
+<!--
+<h1>Create / Update Category <span th:text="${category.name}"/></h1>
+<form action="#" th:action="@{/category/add}" th:object="${category}" method="post">-->
 
 </form>
 <div th:replace="fragments/head :: scriptFragment" />
