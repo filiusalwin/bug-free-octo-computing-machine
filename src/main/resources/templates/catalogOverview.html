@@ -6,61 +6,25 @@
     <title>Catalog Overview</title>
 </head>
 <body>
-<nav th:replace="fragments/navbar :: navbar" />
-<h1>Overview of existing categories</h1>
-<table>
-    <tr>
-        <th>Name categorie: </th>
+    <nav th:replace="fragments/navbar :: navbar" />
+    <h1>Overview of existing categories</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Category name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="category: ${allCategories}"> </tr>
+                <td th:text="${category.getname()}"></td>
+        </tbody>
+    </table>
 
-    </tr>
-    <tr th:each="user: ${#lists.sort(allUsers)}">
-        <td th:text="${user.name}" />
-        <td th:text="${user.username}" />
-        <td class="lowercase" th:text="${#strings.capitalize(#strings.toLowerCase(user.role))}" />
-        <td th:text="${user.balance}" />
-        <td th:if="${user.prepaidAllowed}">On</td><td th:if="${!user.prepaidAllowed}">Off</td>
-        <td th:if="${user.creditAllowed}" >On</td><td th:if="${!user.creditAllowed}" >Off</td>
-        <td><a class="button" th:href="@{/user/update/{userId}(userId=${user.userId})}">Update </a></td>
-        <td><a th:href="@{/user/delete/{userId}(userId=${user.userId})}">Delete</a></td>
-    </tr>
-</table>
 <br>
 
-<h1>Create / Update User <span th:text="${user.name}"/></h1>
-<form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
-    <p><input type="hidden" th:field="*{userId}"  /></p>
-    <p><input type="hidden" th:field="*{creditAllowed}" id="CreditAllowedHidden"  /></p>
-    <p><input type="hidden" th:field="*{prepaidAllowed}" id="PrepaidAllowedHidden"  /></p>
+<h1>Create / Update Category <span th:text="${user.name}"/></h1>
+<form action="#" th:action="@{/category/add}" th:object="${category}" method="post">
 
-    <p>Username: <input type="text" th:field="*{username}" required />
-        <span style="color:Tomato;" th:text="${error}"> </span>
-    </p>
-    <p>Password: <input type="password" th:field="*{password}" /></p>
-    <p>Full Name: <input type="text" th:field="*{name}" required/></p>
-    <p>Role:
-        <input  type="radio" th:field="*{role}" id="barmanager" th:name="*{role}" th:value="ROLE_BARMANAGER">
-        <label for="Barmanager">Barmanager</label>
-        <input type="radio" th:field="*{role}" id="bartender" th:name="*{role}" th:value="ROLE_BARTENDER">
-        <label for="Bartender">Bartender</label>
-        <input type="radio" th:field="*{role}" id="customer" th:name="*{role}" th:value="ROLE_CUSTOMER">
-        <label for="Customer">Customer</label>
-    </p>
-    <div>
-        <label for="Prepaid">Prepaid payment off: (checked is on)</label>
-        <input type="checkbox" th:field="*{prepaidAllowed}" id="Prepaid" th:value="false"> </div>
-    <div >
-        <label id="Prepaid-Choice-Label" for="Prepaid-Choice">The prepaid balance: </label>
-        <input type="text" id="Prepaid-Choice" name="Prepaid-Choice"  th:field="*{balance}">
-    </div>
-    <div>
-        <label for="Credit">Credit:</label>
-        <input type="checkbox" th:field="*{creditAllowed}"  id="Credit"  th:value="true">
-        <div >
-            <label id="Credit-Choice-Label" for="Credit-Choice">What is your bank account number?</label>
-            <input type="text" id="Credit-Choice" name="Credit-Choice"  th:field="*{creditPaymentBankAccountNumber}">
-        </div>
-    </div>
-    <p><input name="action" type="submit" value="save" /></p>
 </form>
 <div th:replace="fragments/head :: scriptFragment" />
 

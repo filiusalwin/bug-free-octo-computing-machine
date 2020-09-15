@@ -10,7 +10,6 @@ public class Product {
 
     private static final int CENTS_PER_EURO = 100;
 
-
     private String productId;
 
     private String name;

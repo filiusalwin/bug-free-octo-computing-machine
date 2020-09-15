@@ -20,6 +20,7 @@ public class CatalogController {
     @GetMapping("")
     protected String showCatalogForm(Model model) {
         model.addAttribute("allCategories", categoryRepository.findAll());
+
         return "catalogOverview";
     }
 
