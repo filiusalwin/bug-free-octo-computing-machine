@@ -13,9 +13,10 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String productId;
-    private String name;
-    private int price;
 
+    private String name;
+
+    private int price;
 
     public String euroPrice(){
         double priceInEuro;
