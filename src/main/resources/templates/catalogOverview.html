@@ -20,9 +20,9 @@
 <br>
 
 <h1>Create / Update Category </h1>
-    <form action="#" th:action="@{/catalog/add}" th:object="${catagory}" method="post">
+    <form action="#" th:action="@{/catalog/add}" th:object="${category}" method="post">
         <p><input type="hidden" th:field="*{categoryId}"  /></p>
-        <p>Username: <input type="text" th:field="*{username}" required />
+        <p>Category name: <input type="text" th:field="*{name}" required />
             <span style="color:Tomato;" th:text="${error}"> </span>
         </p>
         <p><input name="action" type="submit" value="save" /></p>
