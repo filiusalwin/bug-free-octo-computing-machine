@@ -28,26 +28,6 @@
             <td><a th:href="@{/user/delete/{userId}(userId=${user.userId})}">Delete</a></td>
         </tr>
     </table>
-        <table>
-            <tr>
-                <th>Full name - </th>
-                <th>Username - </th>
-                <th>Role </th>
-                <th>Balance</th>
-                <th>Prepaid</th>
-                <th>Credit</th>
-            </tr>
-            <tr th:each="user: ${#lists.sort(allUsers)}">
-                <td th:text="${user.name}" />
-                <td th:text="${user.username}" />
-                <td class="lowercase" th:text="${#strings.capitalize(#strings.toLowerCase(user.role))}" />
-                <td th:text="${user.balance}" />
-                <td th:if="${user.prepaidAllowed}">On</td><td th:if="${!user.prepaidAllowed}">Off</td>
-                <td  th:if="${user.creditAllowed}" >On</td><td th:if="${!user.creditAllowed}" >Off</td>
-                <td><a class="button" th:href="@{/user/update/{userId}(userId=${user.userId})}">Update </a></td>
-                <td><a th:href="@{/user/delete/{userId}(userId=${user.userId})}">Delete</a></td>
-            </tr>
-        </table>
     <br>
 
     <h1>Create / Update User <span th:text="${user.name}"/></h1>
