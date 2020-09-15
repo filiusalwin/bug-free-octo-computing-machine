@@ -44,7 +44,6 @@ public class UserController {
             model.addAttribute(user.get());
             model.addAttribute("user", user.get());
             model.addAttribute("userId", userId);
-            model.addAttribute("roles", user.get().getRoles());
         } else {
             model.addAttribute(new User());
         }
