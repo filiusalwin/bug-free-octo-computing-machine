@@ -23,7 +23,9 @@ $(document).ready(function(){
         $("#Prepaid-Choice-Label").toggle();
     });
 });
-function UpdateSelectedUser(){
-    var UserId = {}
 
+function updateSelectedUser(){
+    var username = $("#searchUser").val();
+    var url = "/user/update/username/" + username;
+    window.location = url;
 }

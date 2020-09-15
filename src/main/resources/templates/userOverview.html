@@ -72,13 +72,14 @@
 
     <form action="#" th:action="@{/user/update/{userId}(userId=${user.userId})}" th:object="${user}" method="get">
         <label for="searchUser">Search your user from the list:</label>
-        <input list="userList"  id="searchUser">
+        <input list="userList"  id="searchUser" autocomplete="off">
         <datalist th:field="${user.userId}" id="userList">
-            <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.userId}" th:label="${user.name}" >
+            <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}" th:label="${user.name}"></option>
+<!--                    th:attr="userid=|${user.userId}|">-->
         </datalist>
-        <p><input name="action" type="submit" value="Update" /></p>
-        <!--<button onclick="updateSelectedUser()"> Update User</button>-->
+<!--        <p><input name="action" type="submit" value="Update" /></p>-->
     </form>
+    <button onclick="updateSelectedUser()">Update User</button>
 
 
     <div th:replace="fragments/head :: scriptFragment" />
