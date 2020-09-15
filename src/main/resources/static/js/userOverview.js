@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    console.log($("#CreditAllowedHidden").val());
     if ($("#CreditAllowedHidden").val() == 'true') {
         $("#Credit-Choice").show();
         $("#Credit-Choice-Label").show();

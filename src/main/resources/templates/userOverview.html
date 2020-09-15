@@ -67,17 +67,16 @@
         </div>
         <p><input name="action" type="submit" value="save" /></p>
     </form>
+    <br>
 
     <h1>User Search</h1>
 
     <form action="#" th:action="@{/user/update/{userId}(userId=${user.userId})}" th:object="${user}" method="get">
         <label for="searchUser">Search your user from the list:</label>
-        <input list="userList"  id="searchUser" autocomplete="off">
+        <input list="userList"  id="searchUser" autocomplete="off" required>
         <datalist th:field="${user.userId}" id="userList">
             <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}" th:label="${user.name}"></option>
-<!--                    th:attr="userid=|${user.userId}|">-->
         </datalist>
-<!--        <p><input name="action" type="submit" value="Update" /></p>-->
     </form>
     <button onclick="updateSelectedUser()">Update User</button>
 

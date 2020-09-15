@@ -1,3 +1,4 @@
+
 // formats number as currency
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -106,4 +107,10 @@ function addPrepaidCustomer() {
 // get customer from popup window
 function loadCustomer(username) {
     alert("Customer " + username + " chosen. The new customer has been added. Prepaid payment option will be added in a future release.");
+}
+
+function SelectUser(){
+    var username = $("#searchUser").val();
+    var url = "/order/user/username/" + username;
+    window.location = url;
 }

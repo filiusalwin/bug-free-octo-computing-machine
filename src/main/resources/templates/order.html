@@ -6,6 +6,7 @@
 </head>
 <body>
     <nav th:replace="fragments/navbar :: navbar" />
+    <input hidden th:field="${user.userId}" id="User">
     <h1>Product catalog</h1>
     <ul id="productList">
         <li th:each="product: ${allProducts}"
@@ -32,6 +33,21 @@
     <button id="addPrepaidButton" onclick="addPrepaidCustomer()" style="display:none;">
         Add Prepaid Customer
     </button>
+
+    <h1>User Search</h1>
+
+    <form action="#" th:action="@{/order/update/{userId}(userId=${user.userId})}" th:object="${user}" method="get">
+        <label for="searchUser">Search your user from the list:</label>
+        <input list="userList"  id="searchUser" autocomplete="off" required>
+        <datalist th:field="${user.userId}" id="userList">
+            <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}" th:label="${user.name}"></option>
+        </datalist>
+    </form>
+    <button id="SelectCustomer" onclick="SelectUser()">Select User</button>
+    <br>
+    <label id="Customer-Choice-Label" for="Customer-Choice">The selected customer:</label>
+    <input type="text" id="Customer-Choice" name="Customer-Choice"  th:field="*{user.name}">
+
     <div th:replace="fragments/head :: scriptFragment" />
     <script type="text/javascript" th:src="@{/js/order.js}" ></script>
 </body>
