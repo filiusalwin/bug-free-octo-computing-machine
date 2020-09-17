@@ -46,8 +46,8 @@
     <button id="SelectUser" onclick="SelectUser()">Select User</button>
     <button id="ShowInfoUser" onclick="showInfoSelectedUser()">Show Info User</button>
     <br>
-    <label id="Customer-Choice-Label" for="Customer-Choice">The selected customer:</label>
-    <input type="text" id="Customer-Choice" name="Customer-Choice"  th:field="*{user.name}" readonly>
+    <label id="User-Choice-Label" for="User-Choice">The selected customer:</label>
+    <span id="User-Choice">User</span>
     <p id="errorBox" style="color: red;">
 
     <div th:replace="fragments/head :: scriptFragment" />

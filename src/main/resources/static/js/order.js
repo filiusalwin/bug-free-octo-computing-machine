@@ -1,8 +1,7 @@
 $(document).ready(function() {
-    if ($("#Customer-Choice").val() == '') {
-        console.log($("#Customer-Choice"));
-        $("#Customer-Choice").hide();
-        $("#Customer-Choice-Label").hide();
+    if ($("#User-Choice").val() == '') {
+        $("#User-Choice").hide();
+        $("#User-Choice-Label").hide();
     }
 });
 // formats number as currency
@@ -116,14 +115,16 @@ function loadCustomer(username) {
 }
 
 
-function SelectUser() {
+function SelectUser(qualifiedName, value) {
     var username = $("#searchUser").val();
     if (username == "") {
         document.getElementById("errorBox").innerHTML = "Select a user first!";
         return;
+    } else {
+        $("#User-Choice").show();
+        document.getElementById("User-Choice").innerHTML = username;
+        $("#User-Choice-Label").show();
     }
-    var url = "/order/user/username/" + username;
-    window.location = url;
 }
 
 function showInfoSelectedUser() {
