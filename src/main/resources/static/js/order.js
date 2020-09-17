@@ -1,4 +1,10 @@
-
+$(document).ready(function() {
+    if ($("#Customer-Choice").val() == '') {
+        console.log($("#Customer-Choice"));
+        $("#Customer-Choice").hide();
+        $("#Customer-Choice-Label").hide();
+    }
+});
 // formats number as currency
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -109,8 +115,24 @@ function loadCustomer(username) {
     alert("Customer " + username + " chosen. The new customer has been added. Prepaid payment option will be added in a future release.");
 }
 
-function SelectUser(){
+
+function SelectUser() {
     var username = $("#searchUser").val();
+    if (username == "") {
+        document.getElementById("errorBox").innerHTML = "Select a user first!";
+        return;
+    }
     var url = "/order/user/username/" + username;
     window.location = url;
+}
+
+function showInfoSelectedUser() {
+    var username = $("#searchUser").val();
+    if (username == "") {
+        document.getElementById("errorBox").innerHTML = "Select a user first!";
+        return;
+    }
+    var url2 = "/order/user/info/" + username;
+    window.open(url2, "popUpWindow",
+        'height=500, width=600, left=50, top=50, resizable=yes, scrollbars=yes, toolbar=yes, menubar=no, location=no, directories=no, status=yes');
 }

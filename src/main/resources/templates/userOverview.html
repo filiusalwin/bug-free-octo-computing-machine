@@ -78,8 +78,7 @@
             <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}" th:label="${user.name}"></option>
         </datalist>
     </form>
-    <button onclick="updateSelectedUser()">Update User</button>
-
+    <button onclick="updateSelectedUser()">Select User</button>
 
     <div th:replace="fragments/head :: scriptFragment" />
     <script type="text/javascript" th:src="@{/js/userOverview.js}" ></script>
