@@ -34,7 +34,3 @@ function submitUser(event) {
         },
     });
 }
-
-function closeScreen() {
-    close();
-}
