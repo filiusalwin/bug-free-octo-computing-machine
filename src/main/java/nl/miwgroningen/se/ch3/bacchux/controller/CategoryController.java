@@ -37,7 +37,7 @@ public class CategoryController {
                 categoryRepository.save(category);
             } catch (DataIntegrityViolationException exception) {
                 model.addAttribute("allCategories", categoryRepository.findAll());
-                model.addAttribute("error", "This category already/exists");
+                model.addAttribute("error", "This category already exists!");
                 return "catalogOverview";
             }
         }
