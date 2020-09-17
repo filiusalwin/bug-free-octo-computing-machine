@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/head :: headFragment" />
+    <title>Prepaid Customer</title>
+</head>
+<body>
+    <h1>Prepaid Customer <span th:text="${user.name}"/></h1>
+    <form id="prepaidForm" action="#" th:action="@{/user/add}" th:object="${user}" method="post" onsubmit="submitUser(event)">
+        <input type="hidden" name="role" value="*{role}" />
+        </p><p>
+            Full Name <input type="text" th:field="*{name}" />
+        </p><p>
+            Starting Balance <input type="number" th:field="*{balance}" />
+        </p>
+    </form>
+    <button id="close_screen" onclick="closeScreen()">Close screen</button>
+    <div th:replace="fragments/head :: scriptFragment" />
+    <script type="text/javascript" th:src="@{/js/order_new_prepaid_customer.js}" ></script>
+</body>
+</html>

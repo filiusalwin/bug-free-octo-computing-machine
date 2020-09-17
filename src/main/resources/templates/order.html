@@ -69,7 +69,7 @@
                     <label for="searchUser">Search your user from the list:</label>
                     <input list="userList"  id="searchUser" autocomplete="off" required>
                     <datalist th:field="${user.userId}" id="userList">
-                        <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}" th:label="${user.name}"></option>
+                        <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
                     </datalist>
                 </form>
                 <button id="SelectUser" onclick="SelectUser()">Select User</button>
