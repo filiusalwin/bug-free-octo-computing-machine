@@ -73,7 +73,7 @@
                     </div>
                     <input class="form-control mb-2" placeholder="Select Customer" list="userList"  id="searchUser" autocomplete="off" required>
                     <datalist th:field="${user.userId}" id="userList">
-                        <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}" th:label="${user.name}"></option>
+                        <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
                     </datalist>
                     <div id="customer">
                         <button id="ShowInfoUser" class="btn btn-secondary" onclick="showInfoSelectedUser()"></button>

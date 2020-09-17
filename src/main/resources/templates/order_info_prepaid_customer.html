@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/head :: headFragment" />
+    <title>Prepaid Customer</title>
+</head>
+<body>
+    <h1>Prepaid Customer <span th:text="${user.name}"/></h1>
+        </p><p>
+            Full Name <input type="text" th:field="*{user.name}" />
+        <div >
+            <label id="Prepaid-Choice-Label" for="Prepaid-Choice">The prepaid balance: </label>
+            <input type="text" id="Prepaid-Choice" name="Prepaid-Choice" th:field="*{user.balance}" >
+        </div>
+        <p id="no_balance"></p>
+    <button id="close_screen" onclick="closeScreen()">Close screen</button>
+    <div th:replace="fragments/head :: scriptFragment" />
+    <script type="text/javascript" th:src="@{/js/order_info_prepaid_customer.js}" ></script>
+</body>
+</html>

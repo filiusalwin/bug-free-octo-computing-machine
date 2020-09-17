@@ -51,7 +51,7 @@ public class OrderController {
     protected String showCustomer(Model model,
                                   @PathVariable("username") final String username) {
         loadPageWithUsername(model, username);
-        return "order_new_prepaid_customer";
+        return "order_info_prepaid_customer";
     }
 
     private void loadPageWithUsername(Model model, String username) {

@@ -57,4 +57,13 @@ public class CatalogController {
         }
         return "catalogOverview";
     }
+
+    @GetMapping("/delete/{categoryId}")
+    protected String deleteCategory(@PathVariable("categoryId") final Integer categoryId) {
+        Optional<Category> category = categoryRepository.findById(categoryId);
+        if (category.isPresent()) {
+            categoryRepository.deleteById(categoryId);
+        }
+        return "redirect:/catalog";
+    }
 }
