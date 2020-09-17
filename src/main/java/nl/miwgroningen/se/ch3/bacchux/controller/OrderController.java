@@ -54,13 +54,6 @@ public class OrderController {
         return "order_info_prepaid_customer";
     }
 
-    @GetMapping("/user/username/{username}")
-    protected String SearchUserFormByUsername(Model model,
-                                              @PathVariable("username") final String username) {
-        loadPageWithUsername(model, username);
-        return "order";
-    }
-
     private void loadPageWithUsername(Model model, String username) {
         model.addAttribute("allUsers", userRepository.findAll());
         Optional<User> user = userRepository.findByUsername(username);

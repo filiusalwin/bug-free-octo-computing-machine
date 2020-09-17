@@ -47,37 +47,38 @@
                 </div>
             </div>
             <div class="col-5">
-                <h1>
-                    Bill
-                </h1>
-                <div id="billProductList">
-                </div>
-                <h2>
-                    Total Price
-                    <span id="totalPrice">
+                <div id="bill">
+                    <h2>
+                        Bill
+                    </h2>
+                    <div id="billProductList">
+                    </div>
+                    <h3>
+                        Total
+                        <span id="totalPrice">
                         €0,00
                     </span>
-                </h2>
-                <button id="cashPayButton" onclick="doCashPayment()" style="display:none;" >
-                    Direct Payment
-                </button>
-                <button id="addPrepaidButton" onclick="addPrepaidCustomer()" style="display:none;">
-                    Add Prepaid Customer
-                </button>
-                <h1>User Search</h1>
-                <form action="#" th:action="@{/order/update/{userId}(userId=${user.userId})}" th:object="${user}" method="get">
-                    <label for="searchUser">Search your user from the list:</label>
-                    <input list="userList"  id="searchUser" autocomplete="off" required>
+                    </h3>
+                </div>
+                <hr>
+                <div id="payment">
+                    <h2>Payment</h2>
+                    <div id="quickPaymentButtons" class="mb-2">
+                        <button class="btn btn-primary" id="cashPayButton" onclick="doCashPayment()">
+                            Direct Payment
+                        </button>
+                        <button class="btn btn-secondary" id="addPrepaidButton" onclick="addPrepaidCustomer()">
+                            Add Customer
+                        </button>
+                    </div>
+                    <input class="form-control mb-2" placeholder="Select Customer" list="userList"  id="searchUser" autocomplete="off" required>
                     <datalist th:field="${user.userId}" id="userList">
                         <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
                     </datalist>
-                </form>
-                <button id="SelectUser" onclick="SelectUser()">Select User</button>
-                <button id="ShowInfoUser" onclick="showInfoSelectedUser()">Show Info User</button>
-                <br>
-                <label id="User-Choice-Label" for="User-Choice">The selected customer:</label>
-                <span id="User-Choice">User</span>
-                <p id="errorBox" style="color: red;">
+                    <div id="customer">
+                        <button id="ShowInfoUser" class="btn btn-secondary" onclick="showInfoSelectedUser()"></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
