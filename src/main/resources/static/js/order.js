@@ -2,9 +2,14 @@
 $(document).ready(function() {
     $("#payment").hide();
     $("#ShowInfoUser").hide();
+    $("#categoryList > button:first-child").trigger("click");
 
     $(document).on('change', 'input', function(){
         getUserFromSearch();
+    });
+
+    $("#searchUser").click(function() {
+        this.value = "";
     });
 });
 
@@ -113,6 +118,14 @@ function removeProduct(id) {
 }
 
 function selectCategory(id) {
+    var highlightClass = "list-group-item-dark"
+
+    // unhighlight all buttons
+    $(".categoryButton").removeClass(highlightClass);
+
+    // highlight button
+    $("#category" + id).addClass(highlightClass);
+
     // get all product tags in the productList
     var productList = document.getElementById("productList");
     var products = productList.getElementsByClassName("productListItem");
