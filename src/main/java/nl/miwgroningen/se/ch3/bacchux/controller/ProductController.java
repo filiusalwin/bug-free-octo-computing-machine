@@ -48,7 +48,7 @@ public class ProductController {
             model.addAttribute("allCategories", categoryRepository.findAll());
            return "productForm";
         }
-        return "redirect:/catalog/";
+        return "redirect:/catalog/product/" + categoryId;
     }
 
     @PostMapping("/add")
@@ -66,6 +66,17 @@ public class ProductController {
                 return "catalogOverview";
             }
         }
-        return "redirect:/catalog/";
+        return "redirect:/catalog/product/" + product.getCategory().getCategoryId();
+    }
+
+    @GetMapping("/delete/{productId}")
+    protected String deleteProduct(@PathVariable("productId") final Integer productId) {
+        Optional<Product> product = productRepository.findById(productId);
+        if (product.isPresent()) {
+            int categoryId = product.get().getCategory().getCategoryId();
+            productRepository.deleteById(productId);
+            return "forward:/catalog/product/" + categoryId;
+        }
+        return "redirect:/catalog/product/{categoryId}";
     }
 }

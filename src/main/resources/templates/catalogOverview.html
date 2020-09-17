@@ -43,6 +43,7 @@
         <tr th:each="product: ${category.getProducts()}">
             <td th:text="${product.name}"/>
             <td th:text="${product.price}"/>
+            <td><a th:href="@{/catalog/product/delete/{productId}(productId=${product.productId})}" class="button">Delete</a></td>
        </tr>
    </table>
 
