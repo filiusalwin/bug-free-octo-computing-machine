@@ -50,6 +50,20 @@ public class UserController {
         return "userOverview";
     }
 
+    @GetMapping("update/username/{username}")
+    protected String UpdateUserFormByUsername(Model model,
+                                    @PathVariable("username") final String username) {
+        model.addAttribute("allUsers", userRepository.findAll());
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isPresent()) {
+            model.addAttribute(user.get());
+        } else {
+            model.addAttribute(new User());
+
+        }
+        return "userOverview";
+    }
+
     @PostMapping ("/add")
     protected String saveOrUpdateUser( Model model,
                                        @ModelAttribute("user") User user,

@@ -6,6 +6,7 @@
 </head>
 <body>
     <nav th:replace="fragments/navbar :: navbar" />
+    <input hidden th:field="${user.userId}" id="User">
     <div class="container">
         <h1>Product catalog</h1>
         <div class="row">
@@ -50,7 +51,6 @@
                     Bill
                 </h1>
                 <div id="billProductList">
-
                 </div>
                 <h2>
                     Total Price
@@ -64,6 +64,20 @@
                 <button id="addPrepaidButton" onclick="addPrepaidCustomer()" style="display:none;">
                     Add Prepaid Customer
                 </button>
+                <h1>User Search</h1>
+                <form action="#" th:action="@{/order/update/{userId}(userId=${user.userId})}" th:object="${user}" method="get">
+                    <label for="searchUser">Search your user from the list:</label>
+                    <input list="userList"  id="searchUser" autocomplete="off" required>
+                    <datalist th:field="${user.userId}" id="userList">
+                        <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}" th:label="${user.name}"></option>
+                    </datalist>
+                </form>
+                <button id="SelectUser" onclick="SelectUser()">Select User</button>
+                <button id="ShowInfoUser" onclick="showInfoSelectedUser()">Show Info User</button>
+                <br>
+                <label id="User-Choice-Label" for="User-Choice">The selected customer:</label>
+                <span id="User-Choice">User</span>
+                <p id="errorBox" style="color: red;">
             </div>
         </div>
     </div>

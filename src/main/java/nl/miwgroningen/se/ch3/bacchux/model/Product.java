@@ -26,7 +26,7 @@ public class Product {
     public String euroPrice(){
         double priceInEuro;
         priceInEuro =  (double) price / CENTS_PER_EURO;
-        return String.format("%.2f €", priceInEuro);
+        return String.format("€%.2f", priceInEuro);
     }
 
     public String getName() {

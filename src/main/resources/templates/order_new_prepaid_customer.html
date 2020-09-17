@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/head :: headFragment" />
-    <title>New Prepaid Customer</title>
+    <title>Prepaid Customer</title>
 </head>
 <body>
-    <h1>New Prepaid Customer</h1>
+    <h1>Prepaid Customer</h1>
     <form id="prepaidForm" action="#" th:action="@{/user/add}" th:object="${user}" method="post" onsubmit="submitUser(event)">
         <input type="hidden" name="role" value="*{role}" />
         <p>
