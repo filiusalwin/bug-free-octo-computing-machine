@@ -6,16 +6,13 @@
 </head>
 <body>
     <h1>Prepaid Customer <span th:text="${user.name}"/></h1>
-    <form id="prepaidForm" action="#" th:action="@{/user/add}" th:object="${user}" method="post" onsubmit="submitUser(event)">
-        <input type="hidden" name="role" value="*{role}" />
         </p><p>
             Full Name <input type="text" th:field="*{name}" />
         <div >
             <label id="Prepaid-Choice-Label" for="Prepaid-Choice">The prepaid balance: </label>
-            <input type="text" id="Prepaid-Choice" name="Prepaid-Choice" th:field="*{balance}" >
+            <input type="text" id="Prepaid-Choice" name="Prepaid-Choice" th:field="*{user.balance}" >
         </div>
         <p id="no_balance"></p>
-    </form>
     <button id="close_screen" onclick="closeScreen()">Close screen</button>
     <div th:replace="fragments/head :: scriptFragment" />
     <script type="text/javascript" th:src="@{/js/order_info_prepaid_customer.js}" ></script>
