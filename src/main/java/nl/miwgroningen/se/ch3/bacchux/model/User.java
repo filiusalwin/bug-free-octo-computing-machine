@@ -30,6 +30,9 @@ public class User implements Comparable<User> {
     private Integer balance;
 
     public String getDisplayRoles(){
+        if (roles == null) {
+            return "";
+        }
         return  roles.replace("ROLE_BARMANAGER", "Manager")
                 .replace("ROLE_BARTENDER", "Bartender")
                 .replace("ROLE_CUSTOMER", "Customer")
