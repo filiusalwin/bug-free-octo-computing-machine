@@ -115,16 +115,15 @@ function loadCustomer(username) {
 }
 
 
-function SelectUser(qualifiedName, value) {
+function SelectUser() {
     var username = $("#searchUser").val();
     if (username == "") {
         document.getElementById("errorBox").innerHTML = "Select a user first!";
         return;
-    } else {
-        $("#User-Choice").show();
-        document.getElementById("User-Choice").innerHTML = username;
-        $("#User-Choice-Label").show();
     }
+    $("#User-Choice").show();
+    document.getElementById("User-Choice").innerHTML = username;
+    $("#User-Choice-Label").show();
 }
 
 function showInfoSelectedUser() {
