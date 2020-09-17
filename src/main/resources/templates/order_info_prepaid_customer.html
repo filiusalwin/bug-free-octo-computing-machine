@@ -7,7 +7,7 @@
 <body>
     <h1>Prepaid Customer <span th:text="${user.name}"/></h1>
         </p><p>
-            Full Name <input type="text" th:field="*{name}" />
+            Full Name <input type="text" th:field="*{user.name}" />
         <div >
             <label id="Prepaid-Choice-Label" for="Prepaid-Choice">The prepaid balance: </label>
             <input type="text" id="Prepaid-Choice" name="Prepaid-Choice" th:field="*{user.balance}" >
