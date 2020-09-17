@@ -20,7 +20,7 @@
 
 <br>
 
-<h1>Create / Update Category </h1>
+<h1>Create new category / Update for category: <span th:text="${category.name}"/> </h1>
     <form action="#" th:action="@{/catalog/add}" th:object="${category}" method="post">
         <p><input type="hidden" th:field="*{categoryId}"  /></p>
         <p>Category name: <input type="text" th:field="*{name}" required />
