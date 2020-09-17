@@ -31,7 +31,7 @@ function updateTotalPrice(priceInCents) {
 function updateBill() {
     // get all <li> tags in the productList
     var productList = document.getElementById("productList");
-    var products = productList.getElementsByTagName("li");
+    var products = productList.getElementsByClassName("productListItem");
 
     // prepare totalprice, productnames and counts
     var total = 0;
