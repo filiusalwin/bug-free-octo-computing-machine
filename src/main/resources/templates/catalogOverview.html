@@ -27,6 +27,29 @@
         </p>
         <p><input name="action" type="submit" value="save" /></p>
     </form>
+<br>
+
+    <!--<h1> Overview of products of category <span th:text="${category.name}"> </span></h1>
+   <table>
+        <tr th:each="product: ${category.getProducts()}">
+           <td th: text="product.name" />
+           <td th: text="product.price" />
+       </tr>
+   </table>
+
+      <h1>Create / Update Product </h1>
+       <form action="#" th:action="@{/product/add/{categoryId} (categoryId=${categoryId})}" th:object="${product}" method="post">
+           <p><input type="hidden" th:field="*{productId}"  /></p>
+           <p>Product name: <input type="text" th:field="*{name}" required />
+               <span style="color:Tomato;" th:text="${error}"> </span>
+           </p>
+
+           <p><input name="action" type="submit" value="save" /></p>
+       </form>
+       <br>-->
+
+
+
 
 </body>
 </html>
