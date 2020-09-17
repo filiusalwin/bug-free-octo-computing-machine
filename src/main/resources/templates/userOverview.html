@@ -2,7 +2,7 @@
 <html lang="en">
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <div th:replace="fragments/head :: headFragment" />
+    <div th:replace="fragments/header :: headFragment" />
     <title>User Overview</title>
 </head>
 <body>
@@ -76,7 +76,10 @@
         </datalist>
     </form>
     <button onclick="updateSelectedUser()">Select User</button>
-    <div th:replace="fragments/head :: scriptFragment" />
+    <div th:replace="fragments/header :: scriptFragment" />
     <script type="text/javascript" th:src="@{/js/userOverview.js}" ></script>
-    </body>
+
+    <div th:replace="fragments/footer :: footer"/>
+
+</body>
 </html>

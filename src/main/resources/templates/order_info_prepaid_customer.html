@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <div th:replace="fragments/head :: headFragment" />
+    <div th:replace="fragments/header :: headFragment" />
     <title>Prepaid Customer</title>
 </head>
 <body>
@@ -14,7 +14,7 @@
         </div>
         <p id="no_balance"></p>
     <button id="close_screen" onclick="closeScreen()">Close screen</button>
-    <div th:replace="fragments/head :: scriptFragment" />
+    <div th:replace="fragments/header :: scriptFragment" />
     <script type="text/javascript" th:src="@{/js/order_info_prepaid_customer.js}" ></script>
 </body>
 </html>
