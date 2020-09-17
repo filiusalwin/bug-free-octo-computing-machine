@@ -7,7 +7,6 @@
 </head>
 <body>
     <nav th:replace="fragments/navbar :: navbar" />
-
     <h1>Overview of existing categories</h1>
     <table>
         <tr>
@@ -16,18 +15,20 @@
         <tr th:each="category: ${allCategories}">
             <td th:text="${category.name}"/>
             <td><a class="button" th:href="@{/catalog/update/{categoryId}(categoryId=${category.categoryId})}">Update</a></td>
+            <td><a th:href="@{/catalog/delete/{categoryId}(categoryId=${category.categoryId})}">Delete</a></td>
         </tr>
     </table>
 
 <br>
 
-    <h1>Create / Update Category </h1>
+<h1>Create new category / Update for category: <span th:text="${category.name}"/> </h1>
     <form action="#" th:action="@{/catalog/add}" th:object="${category}" method="post">
         <p><input type="hidden" th:field="*{categoryId}"  /></p>
         <p>Category name: <input type="text" th:field="*{name}" required />
             <span style="color:Tomato;" th:text="${error}"> </span>
         </p>
-        <p><input name="action" type="submit" value="save" /></p>
+        <p><input name="action" type="submit" value="Save" />
+        <input type="reset" value="Reset"></p>
     </form>
 
 <br>
