@@ -1,9 +1,28 @@
+// Run once DOM is loaded
 $(document).ready(function() {
-    if ($("#User-Choice").val() == '') {
-        $("#User-Choice").hide();
-        $("#User-Choice-Label").hide();
-    }
+    $("#payment").hide();
+    $("#ShowInfoUser").hide();
+
+    $(document).on('change', 'input', function(){
+        getUserFromSearch();
+    });
 });
+
+// get user from searchUser input
+function getUserFromSearch() {
+    var options = $('#userList')[0].options;
+    for (var i=0; i < options.length; i++){
+       if (options[i].value == $("#searchUser").val()) {
+           $("#ShowInfoUser").show();
+           $("#ShowInfoUser").html(options[i].label);
+           return;
+       }
+    }
+    // if not matching any username
+    $("#searchUser").val("");
+    $("#ShowInfoUser").hide();
+}
+
 // formats number as currency
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -68,11 +87,9 @@ function updateBill() {
     updateProductList(productNames, productCounts, subtotals);
 
     if (total == 0) {
-        document.getElementById("cashPayButton").style.display = "none";
-        document.getElementById("addPrepaidButton").style.display = "none";
+        $("#payment").hide();
     } else {
-        document.getElementById("cashPayButton").style.display = "inline";
-        document.getElementById("addPrepaidButton").style.display = "inline";
+        $("#payment").show();
     }
 }
 
@@ -127,22 +144,17 @@ function addPrepaidCustomer() {
 }
 
 // get customer from popup window
-function loadCustomer(username) {
-    alert("Customer " + username + " chosen. The new customer has been added. Prepaid payment option will be added in a future release.");
+function loadCustomer(username, fullname) {
+    var newOpt = document.createElement("option");
+    newOpt.value = username;
+    newOpt.innerHTML = fullname;
+    $("#userList").append(newOpt);
+
+    $("#searchUser").val(username);
+    getUserFromSearch();
 }
 
-
-function SelectUser() {
-    var username = $("#searchUser").val();
-    if (username == "") {
-        document.getElementById("errorBox").innerHTML = "Select a user first!";
-        return;
-    }
-    $("#User-Choice").show();
-    document.getElementById("User-Choice").innerHTML = username;
-    $("#User-Choice-Label").show();
-}
-
+// show balance etc for selected user
 function showInfoSelectedUser() {
     var username = $("#searchUser").val();
     if (username == "") {

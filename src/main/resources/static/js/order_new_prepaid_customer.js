@@ -4,6 +4,7 @@ function submitUser(event) {
 
     // get username and check if empty
     var username = document.getElementById("username").value;
+    var fullname = document.getElementById("name").value;
     if (username == "") {
         document.getElementById("errorBox").innerHTML = "Enter a username first!";
         return;
@@ -23,7 +24,7 @@ function submitUser(event) {
         statusCode: {
             // status OK 200: Give username back to order screen
             200: function() {
-                opener.loadCustomer(username);
+                opener.loadCustomer(username, fullname);
                 close();
             },
 
