@@ -35,6 +35,8 @@ public class OrderController {
     @GetMapping("/new/prepaid")
     protected String addPrepaidCustomer(Model model) {
         model.addAttribute("allUsers", userRepository.findAll());
+        User user = new User();
+        user.setRoles("ROLE_CUSTOMER");
         model.addAttribute("user", new User());
         return "order_new_prepaid_customer";
     }

@@ -29,7 +29,7 @@ function updateTotalPrice(priceInCents) {
 
 // updates the displayed Bill with items, counts and total Price
 function updateBill() {
-    // get all <li> tags in the productList
+    // get all tags in the productList
     var productList = document.getElementById("productList");
     var products = productList.getElementsByClassName("productListItem");
 
@@ -39,15 +39,15 @@ function updateBill() {
     var productCounts = [];
     var subtotals = [];
 
-    // go through each <li> tag
-    for (let productLi of products) {
-        // Get the value of the <input type="hidden" /> tag in each <li>
-        var countBox = productLi.getElementsByClassName("productCountBox")[0];
+    // go through each list tag
+    for (let product of products) {
+        // Get the value of the <input type="hidden" /> tag for each product
+        var countBox = product.getElementsByClassName("productCountBox")[0];
         var count = parseInt(countBox.value);
 
         // get product name and price, added as attributes via thymeleaf
-        var productName = productLi.getAttribute("productName");
-        var price = parseInt(productLi.getAttribute("productPrice"));
+        var productName = product.getAttribute("productName");
+        var price = parseInt(product.getAttribute("productPrice"));
 
         // add to total, and if more than 0, add to list of products and counts
         total += count * price;
@@ -90,7 +90,7 @@ function removeProduct(id) {
 }
 
 function selectCategory(id) {
-    // get all <li> tags in the productList
+    // get all product tags in the productList
     var productList = document.getElementById("productList");
     var products = productList.getElementsByClassName("productListItem");
 
