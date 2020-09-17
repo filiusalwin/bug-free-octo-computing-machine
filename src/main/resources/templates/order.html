@@ -7,49 +7,80 @@
 <body>
     <nav th:replace="fragments/navbar :: navbar" />
     <input hidden th:field="${user.userId}" id="User">
-    <h1>Product catalog</h1>
-    <ul id="productList">
-        <li th:each="product: ${allProducts}"
-            th:id="${'product' + product.getProductId()}"
-            th:attr="productPrice=|${product.getPrice()}|, productName=|${product.getName()}|" >
-            <span th:text="${product.name}"/>
-            <span th:text="${product.euroPrice()}"/>
-            <button th:attr="onclick=|addProduct(${product.getProductId()})|">+</button>
-            <button th:attr="onclick=|removeProduct(${product.getProductId()})|">-</button>
-            <input type="hidden" value="0" class="productCountBox" th:id="${'productCount' + product.getProductId()}" />
-        </li>
-    </ul>
-    <h2>Bill</h2>
-    <div id="billProductList">
-
+    <div class="container">
+        <h1>Product catalog</h1>
+        <div class="row">
+            <div class="col-2 border-right">
+                <h2 class="border-bottom">
+                    Categories
+                </h2>
+                <div class="list-group list-group-flush" id="categoryList">
+                    <button class="list-group-item list-group-item-action" th:each="category: ${allCategories}"
+                        th:id="${'category' + category.getCategoryId()}"
+                        th:attr="categoryName=|${category.getName()}|, onclick=|selectCategory(${category.getCategoryId()})|">
+                        <span th:text="${category.name}"/>
+                    </button>
+                </div>
+            </div>
+            <div class="col-5 border-right">
+                <h2 class="border-bottom">
+                    Products
+                </h2>
+                <div class="list-group list-group-flush" id="productList">
+                    <div class="list-group-item d-flex productListItem" th:each="product: ${allProducts}"
+                        th:id="${'product' + product.getProductId()}"
+                        th:attr="productPrice=|${product.getPrice()}|,
+                                 productName=|${product.getName()}|,
+                                 category=|${product.getCategory().getCategoryId()}|" >
+                        <div th:text="${product.name}" />
+                        <div th:text="${product.euroPrice()}" class="ml-auto" />
+                        <button th:attr="onclick=|addProduct(${product.getProductId()})|"
+                                class="btn btn-sm btn-success ml-1">
+                            +1
+                        </button>
+                        <button th:attr="onclick=|removeProduct(${product.getProductId()})|"
+                                class="btn btn-sm btn-danger ml-1">
+                            -1
+                        </button>
+                        <input type="hidden" value="0" class="productCountBox" th:id="${'productCount' + product.getProductId()}" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <h1>
+                    Bill
+                </h1>
+                <div id="billProductList">
+                </div>
+                <h2>
+                    Total Price
+                    <span id="totalPrice">
+                        €0,00
+                    </span>
+                </h2>
+                <button id="cashPayButton" onclick="doCashPayment()" style="display:none;" >
+                    Direct Payment
+                </button>
+                <button id="addPrepaidButton" onclick="addPrepaidCustomer()" style="display:none;">
+                    Add Prepaid Customer
+                </button>
+                <h1>User Search</h1>
+                <form action="#" th:action="@{/order/update/{userId}(userId=${user.userId})}" th:object="${user}" method="get">
+                    <label for="searchUser">Search your user from the list:</label>
+                    <input list="userList"  id="searchUser" autocomplete="off" required>
+                    <datalist th:field="${user.userId}" id="userList">
+                        <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}" th:label="${user.name}"></option>
+                    </datalist>
+                </form>
+                <button id="SelectUser" onclick="SelectUser()">Select User</button>
+                <button id="ShowInfoUser" onclick="showInfoSelectedUser()">Show Info User</button>
+                <br>
+                <label id="User-Choice-Label" for="User-Choice">The selected customer:</label>
+                <span id="User-Choice">User</span>
+                <p id="errorBox" style="color: red;">
+            </div>
+        </div>
     </div>
-    <h2>
-       Total Price
-        <span id="totalPrice">€0,00</span>
-    </h2>
-    <button id="cashPayButton" onclick="doCashPayment()" style="display:none;" >
-        Direct Payment
-    </button>
-    <button id="addPrepaidButton" onclick="addPrepaidCustomer()" style="display:none;">
-        Add Prepaid Customer
-    </button>
-
-    <h1>User Search</h1>
-
-    <form action="#" th:action="@{/order/update/{userId}(userId=${user.userId})}" th:object="${user}" method="get">
-        <label for="searchUser">Search your user from the list:</label>
-        <input list="userList"  id="searchUser" autocomplete="off" required>
-        <datalist th:field="${user.userId}" id="userList">
-            <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}" th:label="${user.name}"></option>
-        </datalist>
-    </form>
-    <button id="SelectUser" onclick="SelectUser()">Select User</button>
-    <button id="ShowInfoUser" onclick="showInfoSelectedUser()">Show Info User</button>
-    <br>
-    <label id="User-Choice-Label" for="User-Choice">The selected customer:</label>
-    <span id="User-Choice">User</span>
-    <p id="errorBox" style="color: red;">
-
     <div th:replace="fragments/head :: scriptFragment" />
     <script type="text/javascript" th:src="@{/js/order.js}" ></script>
 </body>

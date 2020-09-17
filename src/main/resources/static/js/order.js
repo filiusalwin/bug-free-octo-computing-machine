@@ -35,9 +35,9 @@ function updateTotalPrice(priceInCents) {
 
 // updates the displayed Bill with items, counts and total Price
 function updateBill() {
-    // get all <li> tags in the productList
+    // get all tags in the productList
     var productList = document.getElementById("productList");
-    var products = productList.getElementsByTagName("li");
+    var products = productList.getElementsByClassName("productListItem");
 
     // prepare totalprice, productnames and counts
     var total = 0;
@@ -45,15 +45,15 @@ function updateBill() {
     var productCounts = [];
     var subtotals = [];
 
-    // go through each <li> tag
-    for (let productLi of products) {
-        // Get the value of the <input type="hidden" /> tag in each <li>
-        var countBox = productLi.getElementsByClassName("productCountBox")[0];
+    // go through each list tag
+    for (let product of products) {
+        // Get the value of the <input type="hidden" /> tag for each product
+        var countBox = product.getElementsByClassName("productCountBox")[0];
         var count = parseInt(countBox.value);
 
         // get product name and price, added as attributes via thymeleaf
-        var productName = productLi.getAttribute("productName");
-        var price = parseInt(productLi.getAttribute("productPrice"));
+        var productName = product.getAttribute("productName");
+        var price = parseInt(product.getAttribute("productPrice"));
 
         // add to total, and if more than 0, add to list of products and counts
         total += count * price;
@@ -93,6 +93,23 @@ function removeProduct(id) {
     }
 
     updateBill();
+}
+
+function selectCategory(id) {
+    // get all product tags in the productList
+    var productList = document.getElementById("productList");
+    var products = productList.getElementsByClassName("productListItem");
+
+    // show or hide each element.
+    for (let product of products) {
+        if (product.getAttribute("category") == id) {
+            product.style.display = "block";
+            product.classList.add("list-group-item", "d-flex");
+        } else {
+            product.style.display = "none";
+            product.classList.remove("list-group-item", "d-flex");
+        }
+    }
 }
 
 // Perform direct payment

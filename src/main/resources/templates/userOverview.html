@@ -11,9 +11,9 @@
     <h1>Overview of existing users</h1>
     <table>
         <tr>
-            <th>Full name - </th>
-            <th>Username - </th>
-            <th>Role </th>
+            <th>Full name</th>
+            <th>Username</th>
+            <th>Roles</th>
             <th>Balance</th>
             <th>Prepaid</th>
             <th>Credit</th>
@@ -21,7 +21,7 @@
         <tr th:each="user: ${#lists.sort(allUsers)}">
             <td th:text="${user.name}" />
             <td th:text="${user.username}" />
-            <td class="lowercase" th:text="${#strings.capitalize(#strings.toLowerCase(user.role))}" />
+            <td th:text="${user.getDisplayRoles()}" />
             <td th:text="${user.balance}" />
             <td th:if="${user.prepaidAllowed}">On</td><td th:if="${!user.prepaidAllowed}">Off</td>
             <td th:if="${user.creditAllowed}" >On</td><td th:if="${!user.creditAllowed}" >Off</td>
@@ -31,24 +31,22 @@
     </table>
     <br>
 
-    <h1>Create / Update User <span th:text="${user.name}"/></h1>
+    <h1>Create new user / Update for user: <span th:text="${user.name}"/></h1>
     <form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
         <p><input type="hidden" th:field="*{userId}"  /></p>
         <p><input type="hidden" th:field="*{creditAllowed}" id="CreditAllowedHidden"  /></p>
         <p><input type="hidden" th:field="*{prepaidAllowed}" id="PrepaidAllowedHidden"  /></p>
-
         <p>Username: <input type="text" th:field="*{username}" required />
-            <span style="color:Tomato;" th:text="${error}"> </span>
-        </p>
+            <span style="color:Tomato;" th:text="${error}"> </span></p>
         <p>Password: <input type="password" th:field="*{password}" /></p>
         <p>Full Name: <input type="text" th:field="*{name}" required/></p>
-        <p>Role:
-            <input  type="radio" th:field="*{role}" id="barmanager" th:name="*{role}" th:value="ROLE_BARMANAGER">
-            <label for="Barmanager">Barmanager</label>
-            <input type="radio" th:field="*{role}" id="bartender" th:name="*{role}" th:value="ROLE_BARTENDER">
-            <label for="Bartender">Bartender</label>
-            <input type="radio" th:field="*{role}" id="customer" th:name="*{role}" th:value="ROLE_CUSTOMER">
+        <p>Roles:
+            <input type="radio" th:field="*{roles}" id="customer" th:name="*{roles}" th:value="ROLE_CUSTOMER">
             <label for="Customer">Customer</label>
+            <input type="radio" th:field="*{roles}" id="bartender" th:name="*{roles}" th:value="'ROLE_CUSTOMER,ROLE_BARTENDER'">
+            <label for="Bartender">Bartender</label>
+            <input type="radio" th:field="*{roles}" id="barmanager" th:name="*{roles}" th:value="'ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER'">
+            <label for="Barmanager">Barmanager</label>
         </p>
         <div>
             <label for="Prepaid">Prepaid payment off: (checked is on)</label>
@@ -65,12 +63,11 @@
                 <input type="text" id="Credit-Choice" name="Credit-Choice"  th:field="*{creditPaymentBankAccountNumber}">
             </div>
         </div>
-        <p><input name="action" type="submit" value="save" /></p>
+        <p><input name="action" type="submit" value="Save" />
+           <input type="reset" value="Reset"></p>
     </form>
     <br>
-
     <h1>User Search</h1>
-
     <form action="#" th:action="@{/user/update/{userId}(userId=${user.userId})}" th:object="${user}" method="get">
         <label for="searchUser">Search your user from the list:</label>
         <input list="userList"  id="searchUser" autocomplete="off" required>
@@ -79,7 +76,6 @@
         </datalist>
     </form>
     <button onclick="updateSelectedUser()">Select User</button>
-
     <div th:replace="fragments/head :: scriptFragment" />
     <script type="text/javascript" th:src="@{/js/userOverview.js}" ></script>
     </body>

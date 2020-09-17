@@ -1,6 +1,7 @@
 package nl.miwgroningen.se.ch3.bacchux.controller;
 
 import nl.miwgroningen.se.ch3.bacchux.model.User;
+import nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository;
 import nl.miwgroningen.se.ch3.bacchux.repository.ProductRepository;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +25,24 @@ public class OrderController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    CategoryRepository categoryRepository;
+
     @GetMapping("")
     protected String showCatalog(Model model) {
         model.addAttribute("allProducts", productRepository.findAll());
         model.addAttribute("allUsers", userRepository.findAll());
         User user = new User();
         model.addAttribute("user", user);
-        user.setUserId(user.getUserId());
+        model.addAttribute("allCategories", categoryRepository.findAll());
         return "order";
     }
 
     @GetMapping("/new/prepaid")
     protected String addPrepaidCustomer(Model model) {
         model.addAttribute("allUsers", userRepository.findAll());
+        User user = new User();
+        user.setRoles("ROLE_CUSTOMER");
         model.addAttribute("user", new User());
         return "order_new_prepaid_customer";
     }

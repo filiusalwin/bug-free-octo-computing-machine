@@ -1,9 +1,9 @@
 package nl.miwgroningen.se.ch3.bacchux.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
 
 @Entity
 public class Product {
@@ -13,9 +13,15 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String productId;
+
     private String name;
+
     private int price;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "categoryId", referencedColumnName = "categoryId", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Category category;
 
     public String euroPrice(){
         double priceInEuro;
@@ -43,8 +49,15 @@ public class Product {
         this.productId = productId;
     }
 
-    @Id
     public String getProductId() {
         return productId;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
