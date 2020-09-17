@@ -42,9 +42,10 @@ public class UserController {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             model.addAttribute(user.get());
+            model.addAttribute("user", user.get());
+            model.addAttribute("userId", userId);
         } else {
             model.addAttribute(new User());
-
         }
         return "userOverview";
     }
