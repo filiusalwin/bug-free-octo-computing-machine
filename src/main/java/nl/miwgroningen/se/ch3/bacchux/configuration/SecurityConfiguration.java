@@ -44,12 +44,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 /*.antMatchers("/user/**", "/catalog/**").hasRole("BARMANAGER")
-                .antMatchers("/order/**").hasAnyRole("BARMANAGER", "BARTENDER")*/
+                .antMatchers("/order/**").hasAnyRole("BARMANAGER", "BARTENDER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .permitAll()
+                .permitAll()*/
                 .and()
                 .logout()
                 .permitAll()
