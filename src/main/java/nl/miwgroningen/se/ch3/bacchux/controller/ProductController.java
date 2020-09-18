@@ -26,6 +26,7 @@ public class ProductController {
     @GetMapping("/{categoryId}")
     protected String showProducts(@PathVariable("categoryId") final Integer categoryId,
                                   Model model){
+        model.addAttribute("allCategories", categoryRepository.findAll());
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
             model.addAttribute("category", category.get());
@@ -51,9 +52,10 @@ public class ProductController {
         return "redirect:/catalog/product/" + categoryId;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/{categoryId}/save")
     protected String saveOrUpdateProduct( Model model,
                                           @ModelAttribute("product") Product product,
+                                          @PathVariable("categoryId") final Integer categoryId,
                                           BindingResult result) {
         if (result.hasErrors()) {
             return "catalogOverview";
