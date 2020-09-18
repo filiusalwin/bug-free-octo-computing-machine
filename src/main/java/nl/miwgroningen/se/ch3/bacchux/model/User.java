@@ -100,6 +100,9 @@ public class User implements Comparable<User> {
     }
 
     public Integer getBalance() {
+        if (balance == null) {
+            return 0;
+        }
         return balance;
     }
 
