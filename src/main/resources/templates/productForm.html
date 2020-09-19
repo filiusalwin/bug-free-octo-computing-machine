@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Create/Update product</h1>
-    <form id="productForm" action="#" th:action="@{/catalog/product/add}" th:object="${product}" method="post">
+    <form id="productForm" action="#" th:action="@{/catalog/product/{categoryId}/add}" th:object="${product}" method="post">
         <p><input type="hidden" th:field="*{productId}"  /></p>
         <p>Product name: <input type="text" th:field="*{name}" required />
             <span style="color:Tomato;" th:text="${error}"> </span>

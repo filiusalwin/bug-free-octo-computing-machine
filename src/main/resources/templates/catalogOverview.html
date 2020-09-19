@@ -14,7 +14,8 @@
             <th>Category name</th>
         </tr>
         <tr th:each="category: ${allCategories}">
-            <td th:text="${category.name}"/>
+            <td><a th:href="@{/catalog/product/{categoryId}(categoryId=${category.categoryId})}">
+                <span th:text="${category.name}"></span></a></td>
             <td><a class="button" th:href="@{/catalog/update/{categoryId}(categoryId=${category.categoryId})}">Update</a></td>
             <td><a th:href="@{/catalog/delete/{categoryId}(categoryId=${category.categoryId})}">Delete</a></td>
         </tr>
@@ -22,7 +23,7 @@
 
 <br>
 
-<h1>Create new category / Update for category: <span th:text="${category.name}"/> </h1>
+<h1>Create new category / Update for category <span th:text="${category.name}"/> </h1>
     <form action="#" th:action="@{/catalog/add}" th:object="${category}" method="post">
         <p><input type="hidden" th:field="*{categoryId}"  /></p>
         <p>Category name: <input type="text" th:field="*{name}" required />
@@ -34,7 +35,7 @@
 
 <br>
 
-    <h1> Overview of products of category</h1>
+    <h1> Overview of products of category <span th:text="${category.name}"/></h1>
     <p><a class="button" th:href="@{/catalog/product/{categoryId}/add(categoryId=${category.categoryId})}">Add new product</a></p>
     <table>
        <tr>

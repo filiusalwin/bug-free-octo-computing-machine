@@ -26,6 +26,7 @@ public class ProductController {
     @GetMapping("/{categoryId}")
     protected String showProducts(@PathVariable("categoryId") final Integer categoryId,
                                   Model model){
+        model.addAttribute("allCategories", categoryRepository.findAll());
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
             model.addAttribute("category", category.get());
@@ -51,20 +52,20 @@ public class ProductController {
         return "redirect:/catalog/product/" + categoryId;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/{categoryId}/add")
     protected String saveOrUpdateProduct( Model model,
                                           @ModelAttribute("product") Product product,
                                           BindingResult result) {
         if (result.hasErrors()) {
-            return "catalogOverview";
+            return "productForm";
         } else {
-            try {
-                productRepository.save(product);
-            } catch (DataIntegrityViolationException exception) {
-                model.addAttribute("allProductsByCategory", productRepository.findAll());
-                model.addAttribute("error", "This product already exists!");
-                return "catalogOverview";
-            }
+                try {
+                    productRepository.save(product);
+                } catch (DataIntegrityViolationException exception) {
+                    model.addAttribute("allProductsByCategory", productRepository.findAll());
+                    model.addAttribute("error", "This product already exists!");
+                    return "catalogOverview";
+                }
         }
         return "redirect:/catalog/product/" + product.getCategory().getCategoryId();
     }
