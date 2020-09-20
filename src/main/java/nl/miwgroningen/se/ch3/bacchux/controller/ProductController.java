@@ -54,20 +54,40 @@ public class ProductController {
 
     @PostMapping("/{categoryId}/add")
     protected String saveOrUpdateProduct( Model model,
+                                          @PathVariable("categoryId") final Integer categoryId,
                                           @ModelAttribute("product") Product product,
                                           BindingResult result) {
         if (result.hasErrors()) {
             return "productForm";
         } else {
-                try {
-                    productRepository.save(product);
-                } catch (DataIntegrityViolationException exception) {
-                    model.addAttribute("allProductsByCategory", productRepository.findAll());
-                    model.addAttribute("error", "This product already exists!");
-                    return "catalogOverview";
+                Optional<Category> category = categoryRepository.findById(categoryId);
+                if (category.isPresent()) {
+                    try {
+                        product.setCategory(category.get());
+                        productRepository.save(product);
+                    } catch (DataIntegrityViolationException exception) {
+                        model.addAttribute("allProductsByCategory", productRepository.findAll());
+                        model.addAttribute("error", "This product already exists!");
+                        return "catalogOverview";
+                    }
                 }
+
         }
-        return "redirect:/catalog/product/" + product.getCategory().getCategoryId();
+        return "redirect:/catalog/product/" + categoryId;
+    }
+
+    @GetMapping("update/{productId}")
+    protected String UpdateProductForm(Model model,
+                                       @PathVariable("productId") final Integer productId) {
+        Optional<Product> product = productRepository.findById(productId);
+        if (product.isPresent()) {
+            model.addAttribute(product.get());
+            Category category = product.get().getCategory();
+            model.addAttribute(category);
+        } else {
+            model.addAttribute(new Product());
+        }
+        return "productForm";
     }
 
     @GetMapping("/delete/{productId}")
