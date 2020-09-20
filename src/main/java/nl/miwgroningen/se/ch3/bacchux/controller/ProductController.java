@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@RequestMapping("catalog/product/")
+@RequestMapping("/catalog/product")
 @Controller
 public class ProductController {
 
@@ -31,6 +31,7 @@ public class ProductController {
         if (category.isPresent()) {
             model.addAttribute("category", category.get());
             model.addAttribute("categoryId", categoryId);
+            model.addAttribute("allProducts", category.get().getProducts());
             return "catalogOverview";
         } else {
             return "redirect:/catalog/";
@@ -66,16 +67,16 @@ public class ProductController {
                         product.setCategory(category.get());
                         productRepository.save(product);
                     } catch (DataIntegrityViolationException exception) {
-                        model.addAttribute("allProductsByCategory", productRepository.findAll());
+                        model.addAttribute("allProducts", productRepository.findAll());
                         model.addAttribute("error", "This product already exists!");
-                        return "catalogOverview";
+                        return "productForm";
                     }
                 }
         }
         return "redirect:/catalog/product/" + categoryId;
     }
 
-    @GetMapping("update/{productId}")
+    @GetMapping("/update/{productId}")
     protected String UpdateProductForm(Model model,
                                        @PathVariable("productId") final Integer productId) {
         Optional<Product> product = productRepository.findById(productId);
@@ -99,6 +100,6 @@ public class ProductController {
             productRepository.deleteById(productId);
             return "redirect:/catalog/product/" + categoryId;
         }
-        return "redirect:/catalog/product/{categoryId}";
+        return "redirect:/catalog/product/{categoryId}/";
     }
 }

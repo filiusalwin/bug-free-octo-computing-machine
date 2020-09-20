@@ -38,7 +38,7 @@ public class OrderController {
         return "order";
     }
 
-    @GetMapping("/new/prepaid")
+    @GetMapping("new/prepaid")
     protected String addPrepaidCustomer(Model model) {
         model.addAttribute("allUsers", userRepository.findAll());
         User user = new User();
@@ -47,7 +47,7 @@ public class OrderController {
         return "order_new_prepaid_customer";
     }
 
-    @GetMapping("/user/info/{username}")
+    @GetMapping("user/info/{username}")
     protected String showCustomer(Model model,
                                   @PathVariable("username") final String username) {
         loadPageWithUsername(model, username);

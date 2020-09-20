@@ -42,7 +42,7 @@
            <th>Product name</th>
            <th>Product price</th>
        </tr>
-        <tr th:each="product: ${category.getProducts()}">
+        <tr th:each="product: ${allProducts}">
             <td><a th:href="@{/catalog/product/update/{productId}(productId=${product.productId})}">
                 <span th:text="${product.name}"></span></a></td>
             <td th:text="${product.price}"/>
