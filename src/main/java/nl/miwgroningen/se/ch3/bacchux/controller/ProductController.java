@@ -71,7 +71,6 @@ public class ProductController {
                         return "catalogOverview";
                     }
                 }
-
         }
         return "redirect:/catalog/product/" + categoryId;
     }
@@ -81,13 +80,15 @@ public class ProductController {
                                        @PathVariable("productId") final Integer productId) {
         Optional<Product> product = productRepository.findById(productId);
         if (product.isPresent()) {
-            model.addAttribute(product.get());
             Category category = product.get().getCategory();
-            model.addAttribute(category);
+            product.get().setCategory(category);
+            model.addAttribute(product.get());
+            model.addAttribute("categoryId", category.getCategoryId());
+            return "productForm";
         } else {
             model.addAttribute(new Product());
         }
-        return "productForm";
+        return "redirect:/catalog/product/" + product.get().getCategory().getCategoryId();
     }
 
     @GetMapping("/delete/{productId}")
@@ -96,7 +97,7 @@ public class ProductController {
         if (product.isPresent()) {
             int categoryId = product.get().getCategory().getCategoryId();
             productRepository.deleteById(productId);
-            return "forward:/catalog/product/" + categoryId;
+            return "redirect:/catalog/product/" + categoryId;
         }
         return "redirect:/catalog/product/{categoryId}";
     }

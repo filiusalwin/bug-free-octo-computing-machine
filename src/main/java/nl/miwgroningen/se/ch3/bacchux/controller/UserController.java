@@ -80,7 +80,7 @@ public class UserController {
                     return "userOverview";
                 }
             }
-        return "redirect:/user";
+        return "redirect:/user/";
     }
 
     @GetMapping("/delete/{userId}")
@@ -89,7 +89,7 @@ public class UserController {
         if (user.isPresent()) {
             userRepository.deleteById(userId);
         }
-        return "redirect:/user";
+        return "redirect:/user/";
     }
 
 }
