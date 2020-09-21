@@ -18,6 +18,7 @@
                 <span th:text="${category.name}"></span></a></td>
             <td><a class="button" th:href="@{/catalog/update/{categoryId}(categoryId=${category.categoryId})}">Update</a></td>
             <td><a th:href="@{/catalog/delete/{categoryId}(categoryId=${category.categoryId})}">Delete</a></td>
+            <td><a th:href="@{/catalog/product/{categoryId}(categoryId=${category.categoryId})}">Select Category for Product</a></td>
         </tr>
     </table>
 
@@ -36,7 +37,7 @@
 <br>
 
     <h1> Products of category <span th:text="${category.name}"/></h1>
-    <p><a class="button" th:href="@{/catalog/product/{categoryId}/add(categoryId=${category.categoryId})}">Add new product</a></p>
+    <p th:if="${category.categoryId != null}"><a class="button" th:href="@{/catalog/product/{categoryId}/add(categoryId=${category.categoryId})}">Add new product</a></p>
     <table>
        <tr>
            <th>Product name</th>
