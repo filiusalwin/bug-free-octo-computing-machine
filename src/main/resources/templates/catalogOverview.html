@@ -36,7 +36,7 @@
 <br>
 
     <h1> Overview of products of category <span th:text="${category.name}"/></h1>
-    <p><a class="button" th:href="@{/catalog/product/{categoryId}/add(categoryId=${category.categoryId})}">Add new product</a></p>
+    <p th:if="${category.categoryId != null}"><a class="button" th:href="@{/catalog/product/{categoryId}/add(categoryId=${category.categoryId})}">Add new product</a></p>
     <table>
        <tr>
            <th>Product name</th>
