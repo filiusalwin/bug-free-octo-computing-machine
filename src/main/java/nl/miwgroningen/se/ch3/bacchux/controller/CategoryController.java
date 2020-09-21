@@ -41,10 +41,10 @@ public class CategoryController {
                 return "catalogOverview";
             }
         }
-        return "redirect:/catalog";
+        return "redirect:/catalog/";
     }
 
-    @GetMapping("update/{categoryId}")
+    @GetMapping("/update/{categoryId}")
     protected String UpdateCategoryForm(Model model,
                                     @PathVariable("categoryId") final Integer categoryId) {
         model.addAttribute("allCategories", categoryRepository.findAll());
@@ -63,7 +63,7 @@ public class CategoryController {
         if (category.isPresent()) {
             categoryRepository.deleteById(categoryId);
         }
-        return "redirect:/catalog";
+        return "redirect:/catalog/";
     }
 
 }

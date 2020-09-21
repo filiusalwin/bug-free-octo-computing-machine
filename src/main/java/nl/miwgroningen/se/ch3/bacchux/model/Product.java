@@ -14,6 +14,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer productId;
 
+    @Column(unique = true)
     private String name;
 
     private int price;

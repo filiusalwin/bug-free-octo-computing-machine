@@ -14,7 +14,8 @@
             <th>Category name</th>
         </tr>
         <tr th:each="category: ${allCategories}">
-            <td th:text="${category.name}"/>
+            <td><a th:href="@{/catalog/product/{categoryId}(categoryId=${category.categoryId})}">
+                <span th:text="${category.name}"></span></a></td>
             <td><a class="button" th:href="@{/catalog/update/{categoryId}(categoryId=${category.categoryId})}">Update</a></td>
             <td><a th:href="@{/catalog/delete/{categoryId}(categoryId=${category.categoryId})}">Delete</a></td>
             <td><a th:href="@{/catalog/product/{categoryId}(categoryId=${category.categoryId})}">Select Category for Product</a></td>
@@ -35,15 +36,16 @@
 
 <br>
 
-    <h1> Overview of products of category <span th:text="${category.name}"/></h1>
+    <h1> Products of category <span th:text="${category.name}"/></h1>
     <p th:if="${category.categoryId != null}"><a class="button" th:href="@{/catalog/product/{categoryId}/add(categoryId=${category.categoryId})}">Add new product</a></p>
     <table>
        <tr>
            <th>Product name</th>
            <th>Product price</th>
        </tr>
-        <tr th:each="product: ${category.getProducts()}">
-            <td th:text="${product.name}"/>
+        <tr th:each="product: ${allProducts}">
+            <td><a th:href="@{/catalog/product/update/{productId}(productId=${product.productId})}">
+                <span th:text="${product.name}"></span></a></td>
             <td th:text="${product.price}"/>
             <td><a th:href="@{/catalog/product/delete/{productId}(productId=${product.productId})}" class="button">Delete</a></td>
        </tr>

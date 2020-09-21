@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@RequestMapping("catalog/product/")
+@RequestMapping("/catalog/product")
 @Controller
 public class ProductController {
 
@@ -31,10 +31,11 @@ public class ProductController {
         if (category.isPresent()) {
             model.addAttribute("category", category.get());
             model.addAttribute("categoryId", categoryId);
+            model.addAttribute("allProducts", category.get().getProducts());
             return "catalogOverview";
-        } else {
-            return "redirect:/catalog/";
         }
+        return "redirect:/catalog/";
+
     }
 
     @GetMapping("/{categoryId}/add")
@@ -52,23 +53,43 @@ public class ProductController {
         return "redirect:/catalog/product/" + categoryId;
     }
 
-    @PostMapping("/{categoryId}/save")
+    @PostMapping("/{categoryId}/add")
     protected String saveOrUpdateProduct( Model model,
-                                          @ModelAttribute("product") Product product,
                                           @PathVariable("categoryId") final Integer categoryId,
+                                          @ModelAttribute("product") Product product,
                                           BindingResult result) {
+
         if (result.hasErrors()) {
-            return "catalogOverview";
-        } else {
+            return "productForm";
+        }
+        Optional<Category> category = categoryRepository.findById(categoryId);
+        if (category.isPresent()) {
             try {
+                product.setCategory(category.get());
                 productRepository.save(product);
             } catch (DataIntegrityViolationException exception) {
-                model.addAttribute("allProductsByCategory", productRepository.findAll());
+                model.addAttribute("allProducts", productRepository.findAll());
                 model.addAttribute("error", "This product already exists!");
-                return "catalogOverview";
+                return "productForm";
             }
         }
-        return "redirect:/catalog/product/" + product.getCategory().getCategoryId();
+        return "redirect:/catalog/product/" + categoryId;
+    }
+
+    @GetMapping("/update/{productId}")
+    protected String UpdateProductForm(Model model,
+                                       @PathVariable("productId") final Integer productId) {
+        Optional<Product> product = productRepository.findById(productId);
+        if (product.isPresent()) {
+            Category category = product.get().getCategory();
+            product.get().setCategory(category);
+            model.addAttribute(product.get());
+            model.addAttribute("categoryId", category.getCategoryId());
+            return "productForm";
+        } else {
+            model.addAttribute(new Product());
+        }
+        return "redirect:/catalog/product/" + product.get().getCategory().getCategoryId();
     }
 
     @GetMapping("/delete/{productId}")
@@ -77,8 +98,8 @@ public class ProductController {
         if (product.isPresent()) {
             int categoryId = product.get().getCategory().getCategoryId();
             productRepository.deleteById(productId);
-            return "forward:/catalog/product/" + categoryId;
+            return "redirect:/catalog/product/" + categoryId;
         }
-        return "redirect:/catalog/product/{categoryId}";
+        return "redirect:/catalog/product/{categoryId}/";
     }
 }
