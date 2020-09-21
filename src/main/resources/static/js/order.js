@@ -1,7 +1,7 @@
 // Run once DOM is loaded
 $(document).ready(function() {
     $("#payment").hide();
-    $("#ShowInfoUser").hide();
+    $("#customer").hide();
     $("#categoryList > button:first-child").trigger("click");
 
     $(document).on('change', 'input', function(){
@@ -18,14 +18,14 @@ function getUserFromSearch() {
     var options = $('#userList')[0].options;
     for (var i=0; i < options.length; i++){
        if (options[i].value == $("#searchUser").val()) {
-           $("#ShowInfoUser").show();
+           $("#customer").show();
            $("#ShowInfoUser").html(options[i].label);
            return;
        }
     }
     // if not matching any username
     $("#searchUser").val("");
-    $("#ShowInfoUser").hide();
+    $("#customer").hide();
 }
 
 // formats number as currency
@@ -177,4 +177,30 @@ function showInfoSelectedUser() {
     var url2 = "/order/user/info/" + username;
     window.open(url2, "popUpWindow",
         'height=500, width=600, left=50, top=50, resizable=yes, scrollbars=yes, toolbar=yes, menubar=no, location=no, directories=no, status=yes');
+}
+
+// perform topup of user
+function doTopUp() {
+    var username = $("#searchUser").val();
+    var amount = Number($("#topUpAmount").val().replace(/[^0-9]+/g, ""));
+    if (isNaN(amount)) {
+            alert("Invalid amount. Top-up not possible.");
+        }
+
+    $.ajax({
+        type: "PUT",
+        url: "/user/topup",
+        data: {
+            username: username,
+            amount: amount,
+        },
+        statusCode: {
+            200: function() {
+                alert("Topup complete.");
+            },
+            440: function() {
+                alert("User not found");
+            }
+        }
+    });
 }
