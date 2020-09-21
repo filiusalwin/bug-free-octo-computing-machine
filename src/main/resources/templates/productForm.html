@@ -7,7 +7,7 @@
     <title>Create/Update product</title>
 </head>
 <body>
-    <h1>Create/Update product</h1>
+    <h1>Create/Update product of category <span th:text="${product.getCategory().getName()}"/></h1>
     <form id="productForm" action="#" th:action="@{/catalog/product/{categoryId}/add(categoryId=${categoryId})}" th:object="${product}" method="post">
         <p><input type="hidden" th:field="*{productId}"  /></p>
         <p>Product name: <input type="text" th:field="*{name}" required />
@@ -18,9 +18,12 @@
             <input type="submit" value="Submit" />
             <input type="reset" value="Reset" />
         </p>
-        <p th:type="button">Back to catalogOverview</p>
     </form>
+
+    <button th:href="@{/catalog/product/{categoryId}(categoryId=${product.getCategory().getCategoryId()})}">Back to catalogOverview</button>
     <p id="errorBox" style="color: red;"></p>
+
+        <div th:replace="fragments/footer :: footer"/>
 
 </body>
 </html>
