@@ -19,11 +19,7 @@
             <input type="reset" value="Reset" />
         </p>
     </form>
-
-    <button th:href="@{/catalog/product/{categoryId}(categoryId=${product.getCategory().getCategoryId()})}">Back to catalogOverview</button>
     <p id="errorBox" style="color: red;"></p>
-
-        <div th:replace="fragments/footer :: footer"/>
 
 </body>
 </html>
