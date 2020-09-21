@@ -1,11 +1,11 @@
-package nl.miwgroningen.se.ch3.bacchux.test;
+package nl.miwgroningen.se.ch3.bacchux;
 
 import nl.miwgroningen.se.ch3.bacchux.model.Product;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FirstTest {
+public class UserTest {
     @Test
     public void testEuroPrice() {
         Product product = new Product();
