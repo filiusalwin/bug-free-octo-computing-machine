@@ -31,7 +31,6 @@ public class UserController {
         user.setRoles("ROLE_CUSTOMER");
         model.addAttribute("user", user);
         user.setUserId(user.getUserId());
-        user.setCreditAllowed(false);
         return "userOverview";
     }
 
