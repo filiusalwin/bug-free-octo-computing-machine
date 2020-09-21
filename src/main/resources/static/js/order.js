@@ -1,17 +1,5 @@
 // Run once DOM is loaded
-$(document).ready(function() {
-    $("#payment").hide();
-    $("#customer").hide();
-    $("#categoryList > button:first-child").trigger("click");
 
-    $(document).on('change', 'input', function(){
-        getUserFromSearch();
-    });
-
-    $("#searchUser").click(function() {
-        this.value = "";
-    });
-});
 
 // get user from searchUser input
 function getUserFromSearch() {
