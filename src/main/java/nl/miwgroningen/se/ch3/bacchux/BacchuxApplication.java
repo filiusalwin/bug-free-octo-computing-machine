@@ -18,7 +18,7 @@ public class BacchuxApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(BacchuxApplication.class, args);
 
-		context.getBean(UserChecker.class)
+		context.getBean(UserChecker.class).checkForFirstUser();
 	}
 
 }
