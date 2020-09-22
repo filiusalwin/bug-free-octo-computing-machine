@@ -7,112 +7,131 @@
 </head>
 <body>
     <nav th:replace="fragments/navbar :: navbar" />
+    <h1></h1>
     <div class="container">
-        <h1>Maintain Users</h1>
-        <div class="row">
-            <div class="col border-right">
-                <div class="row">
-                    <div class="col-10">
-                    <h2>User Search</h2>
-                        </div>
-                        <datalist th:field="${user.userId}" id="userList">
-                            <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
-                        </datalist>
-                        <input class="form-control mb-1" placeholder="Select Customer" list="userList"  id="searchUser" autocomplete="off" required>
-                        <div id="customersearch">
-                            <button id="ShowInfoUser" class="btn btn-secondary mb" onclick="showInfoSelectedUser()"></button>
-                        </div>
-                </div>
-                <br>
-                <br>
-                <div class="row">
-                    <div class="col-10">
-                        <h2>User Overview</h2>
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Username</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                            </tr>
-                            </thead>
-                            <tr th:each="user: ${#lists.sort(allUsers)}">
-                                <td th:text="${user.name}" />
-                                <td th:text="${user.username}" />
-                                <td><a class="btn btn-secondary" th:href="@{/user/update/{userId}(userId=${user.userId})}">Update </a></td>
-                                <td><a class="btn btn-secondary" th:href="@{/user/delete/{userId}(userId=${user.userId})}">Delete</a></td>
-                            </tr>
-                        </table>
+        <div class="col">
+            <div class="row">
+                <div class="col-10">
+                <h2>User Search</h2>
                     </div>
-                </div>
+                    <datalist th:field="${user.userId}" id="userList">
+                        <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
+                    </datalist>
+                    <input class="form-control mx-3 mb-3" placeholder="Search User" list="userList"  id="searchUser" autocomplete="off" required>
+                    <div id="customersearch" class="mb-2 mx-3">
+                        <button id="ShowInfoUser" class="btn btn-secondary mb-3" onclick="showInfoSelectedUser()"></button>
+                    </div>
             </div>
-
-
-            <div class="col">
-                <h2>Maintain Users</h2>
-                <form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
-                    <p><input type="hidden" th:field="*{userId}"  /></p>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Username</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" th:field="*{username}">
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon2">Password</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2" th:field="*{password}">
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon3">Name</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon3" th:field="*{username}">
-                    </div>
-                    <div class="input-group mb-">
-                        <div class="input-group-text">
-                            <input type="radio" th:field="*{roles}" id="customer" th:name="*{roles}" th:value="ROLE_CUSTOMER">
-                            <label for="Customer">Customer</label>
-                            <input type="radio" th:field="*{roles}" id="bartender" th:name="*{roles}" th:value="'ROLE_CUSTOMER,ROLE_BARTENDER'">
-                            <label for="Bartender">Bartender</label>
-                            <input type="radio" th:field="*{roles}" id="barmanager" th:name="*{roles}" th:value="'ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER'">
-                            <label for="Barmanager">Barmanager</label>
-                        </div>
-                    </div>
-                    <p>Roles:
-                        <input type="radio" th:field="*{roles}" id="customer" th:name="*{roles}" th:value="ROLE_CUSTOMER">
-                        <label for="Customer">Customer</label>
-                        <input type="radio" th:field="*{roles}" id="bartender" th:name="*{roles}" th:value="'ROLE_CUSTOMER,ROLE_BARTENDER'">
-                        <label for="Bartender">Bartender</label>
-                        <input type="radio" th:field="*{roles}" id="barmanager" th:name="*{roles}" th:value="'ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER'">
-                        <label for="Barmanager">Barmanager</label>
-                    </p>
-                    <div class="input-group mb-3">
-                        <input type="checkbox" aria-label="Radio button for following text input" th:field="*{prepaidAllowed}">Prepaid payment off: (checked is on)<input>
-                    </div>
-                    <div>
-                        <label for="Prepaid">Prepaid payment off: (checked is on)</label>
-                        <input type="checkbox" th:field="*{prepaidAllowed}" id="Prepaid" th:value="false"> </div>
-                    <div >
-                        <label id="Prepaid-Choice-Label" for="Prepaid-Choice">The prepaid balance: </label>
-                        <input type="text" id="Prepaid-Choice" name="Prepaid-Choice"  th:field="*{balance}">
-                    </div>
-                    <div>
-                        <label for="Credit">Credit:</label>
-                        <input type="checkbox" th:field="*{creditAllowed}"  id="Credit"  th:value="true">
-                        <div >
-                            <label id="Credit-Choice-Label" for="Credit-Choice">What is your bank account number?</label>
-                            <input type="text" id="Credit-Choice" name="Credit-Choice"  th:field="*{creditPaymentBankAccountNumber}">
-                        </div>
-                    </div>
-                    <p><input name="action" type="submit" value="Save" />
-                        <input type="reset" value="Reset"></p>
-                </form>
+            <br>
+            <div class="row">
+                <div class="col-12">
+                    <h2>User Overview</h2>
+                    <table class="table table-striped m">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Balance</th>
+                            <th scope="col">Prepaid</th>
+                            <th scope="col">Credit</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tr th:each="user: ${#lists.sort(allUsers)}">
+                            <td th:text="${user.name}" />
+                            <td th:text="${user.username}" />
+                            <td th:text="${user.balance}" />
+                            <td th:if="${user.prepaidAllowed}">On</td><td th:if="${!user.prepaidAllowed}">Off</td>
+                            <td th:if="${user.creditAllowed}" >On</td><td th:if="${!user.creditAllowed}" >Off</td>
+                            <td><a class="btn btn-secondary" th:attr="onclick=|addUser(${user.getUserId()})|" data-toggle="modal" data-target="#maintainUserModal">Update </a></td>
+                            <td><a class="btn btn-secondary" th:href="@{/user/delete/{userId}(userId=${user.userId})}">Delete</a></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
+    </div>
 
+    <div class="modal fade" id="maintainUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Maintain Users</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
+                        <p><input type="hidden" th:field="*{userId}"  /></p>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="width: 100px;" id="basic-addon1">Username</span>
+                                <input type="text" id="usernameInput" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" th:field="*{username}">
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="width: 100px;" id="basic-addon2">Password</span>
+                                <input type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2" th:field="*{password}">
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend" >
+                                <span class="input-group-text" style="width: 100px;" id="basic-addon3">Name</span>
+                                <input type="text" id="nameInput" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon3" th:field="*{name}">
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" th:field="*{roles}" id="customer" th:name="*{roles}" th:value="ROLE_CUSTOMER">
+                                <label class="form-check-label" for="customer">Customer</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio"  th:field="*{roles}" id="bartender" th:name="*{roles}" th:value="'ROLE_CUSTOMER,ROLE_BARTENDER'">
+                                <label class="form-check-label" for="bartender">Bartender</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" th:field="*{roles}" id="barmanager" th:name="*{roles}" th:value="'ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER'">
+                                <label class="form-check-label" for="barmanager">Barmanager</label>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" th:field="*{prepaidAllowed}" id="Prepaid">
+                                <label for="Prepaid">Prepaid payment</label>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="form-check">
+                                <label id="Prepaid-Choice-Label" for="prepaid_balance">The prepaid balance</label>
+                                <input type="number" id="prepaid_balance" name="prepaid_balance" disabled th:field="*{balance}">
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" th:field="*{creditAllowed}"  id="Credit">
+                                <label for="Credit">Credit</label>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="form-check" >
+                                <label id="Credit-Choice-Label" for="credit_account">What is your bank account number?</label>
+                                <input type="text" id="credit_account" name="credit_account"  th:field="*{creditPaymentBankAccountNumber}">
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" name="action" type="submit" value="Save" >Save</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" name="action" type="submit">Save changes</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
     <div th:replace="fragments/header :: scriptFragment" />
     <script type="text/javascript" th:src="@{/js/userOverview.js}" ></script>
 

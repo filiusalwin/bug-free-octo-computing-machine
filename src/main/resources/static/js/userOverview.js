@@ -11,28 +11,6 @@ $(document).ready(function(){
             this.value = "";
         });
     });
-    if ($("#CreditAllowedHidden").val() == 'true') {
-        $("#Credit-Choice").show();
-        $("#Credit-Choice-Label").show();
-    } else {
-        $("#Credit-Choice").hide();
-        $("#Credit-Choice-Label").hide();
-    }
-    if ($("#PrepaidAllowedHidden").val() == 'true') {
-        $("#Prepaid-Choice").show();
-        $("#Prepaid-Choice-Label").show();
-    } else {
-        $("#Prepaid-Choice").hide();
-        $("#Prepaid-Choice-Label").hide();
-    }
-    $("#Credit").click(function() {
-        $("#Credit-Choice").toggle();
-        $("#Credit-Choice-Label").toggle();
-    });
-    $("#Prepaid").click(function() {
-        $("#Prepaid-Choice").toggle();
-        $("#Prepaid-Choice-Label").toggle();
-    });
 });
 
 function getUserFromSearch() {
@@ -49,6 +27,33 @@ function getUserFromSearch() {
     // if not matching any username
     $("#searchUser").val("");
     $("#customersearch").hide();
+}
+
+function addUser(userId) {
+    $.ajax({
+        type: "GET",
+        url: "/user/" + userId,
+        data: {
+            userId: userId,
+        },
+    }).done(function getUserData (userData) {
+        console.log(userData);
+        $("#usernameInput").val(userData.username);
+        $("#nameInput").val(userData.name);
+        $("#Prepaid"). prop("checked", userData.prepaidAllowed);
+        $("#prepaid_balance").val(userData.balance);
+        $("#Credit").prop("checked",userData.creditAllowed);
+        $("#credit_account").val(userData.creditPaymentBankAccountNumber);
+
+        // to check radio boxes
+        if(userData.roles === "ROLE_CUSTOMER") {
+            $("#customer").prop("checked",true);
+        } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER") {
+            $("#bartender").prop("checked",true);
+        } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER") {
+            $("#barmanager").prop("checked",true);
+        }
+    });
 }
 
 
