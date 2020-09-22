@@ -29,7 +29,8 @@ public class LandingController {
         if (user.isEmpty()) {
             return "redirect:/login";
         }
-        if (user.get().getPasswordNeedsChange()) {
+        Boolean passwordNeedsChange = user.get().getPasswordNeedsChange();
+        if (passwordNeedsChange != null && passwordNeedsChange) {
             return "redirect:/profile/password";
         }
         return "redirect:/order";
