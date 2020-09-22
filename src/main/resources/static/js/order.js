@@ -60,12 +60,15 @@ function updateProductList(products) {
         subtotal.classList.add("ml-auto");
         newitem.append(subtotal);
 
-        newitem.addEventListener("click", function() {
-            removeProduct(product.id);
-        });
+        newitem.addEventListener("click", removeFunctionMaker(product.id));
 
         productBox.append(newitem);
     }
+}
+
+// function factory to prevent closure issues
+function removeFunctionMaker(productId) {
+    return function() {removeProduct(productId)};
 }
 
 // helper for updateBill()
