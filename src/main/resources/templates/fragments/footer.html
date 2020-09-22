@@ -7,9 +7,7 @@
 </head>
 <body>
 <div th:fragment="footer">
-
     <div class="container">
-
         <footer>
             <!-- this is footer -->
             &copy; BacchUX 2020
@@ -17,13 +15,8 @@
                 | Logged user: <span sec:authentication="name"></span> |
                 Roles: <span sec:authentication="principal.authorities"></span> |
             </span>
-
-            <script type="text/javascript"
-                    src="/order"></script>
-
         </footer>
     </div>
-
 </div>
 </body>
 </html>

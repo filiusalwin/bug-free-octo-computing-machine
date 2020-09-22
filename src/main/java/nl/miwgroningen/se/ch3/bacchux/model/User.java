@@ -14,6 +14,8 @@ public class User implements Comparable<User> {
 
     private String password;
 
+    private Boolean passwordNeedsChange = false;
+
     private String name;
 
     private boolean active = true;
@@ -61,6 +63,14 @@ public class User implements Comparable<User> {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getPasswordNeedsChange() {
+        return passwordNeedsChange;
+    }
+
+    public void setPasswordNeedsChange(Boolean passwordNeedsChange) {
+        this.passwordNeedsChange = passwordNeedsChange;
     }
 
     public String getRoles() {
