@@ -16,7 +16,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
-@EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -43,13 +42,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                /*.antMatchers("/user/**", "/catalog/**").hasRole("BARMANAGER")
+                .antMatchers("/user/**", "/catalog/**").hasRole("BARMANAGER")
                 .antMatchers("/order/**").hasAnyRole("BARMANAGER", "BARTENDER")
-                .anyRequest().authenticated()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")*/
-                /*.permitAll()*/
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/")
+                .permitAll()
                 .and()
                 .logout()
                 .permitAll()

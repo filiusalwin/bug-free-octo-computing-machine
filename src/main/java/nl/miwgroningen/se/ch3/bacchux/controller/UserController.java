@@ -34,7 +34,7 @@ public class UserController {
         return "userOverview";
     }
 
-    @GetMapping("update/{userId}")
+    @GetMapping("/update/{userId}")
     protected String UpdateUserForm(Model model,
                                     @PathVariable("userId") final Integer userId) {
         model.addAttribute("allUsers", userRepository.findAll());
@@ -49,7 +49,7 @@ public class UserController {
         return "userOverview";
     }
 
-    @GetMapping("update/username/{username}")
+    @GetMapping("/update/username/{username}")
     protected String UpdateUserFormByUsername(Model model,
                                     @PathVariable("username") final String username) {
         model.addAttribute("allUsers", userRepository.findAll());
@@ -67,19 +67,19 @@ public class UserController {
     protected String saveOrUpdateUser( Model model,
                                        @ModelAttribute("user") User user,
                                        BindingResult result) {
-            if (result.hasErrors()) {
+        if (result.hasErrors()) {
+            return "userOverview";
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            try {
+                userRepository.save(user);
+            } catch (DataIntegrityViolationException exception) {
+                model.addAttribute("allUsers", userRepository.findAll());
+                model.addAttribute("error", "This username already exists!");
                 return "userOverview";
-            } else {
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
-                try {
-                    userRepository.save(user);
-                } catch (DataIntegrityViolationException exception) {
-                    model.addAttribute("allUsers", userRepository.findAll());
-                    model.addAttribute("error", "This username already/exists");
-                    return "userOverview";
-                }
             }
-        return "redirect:/user";
+        }
+        return "redirect:/user/";
     }
 
     @GetMapping("/delete/{userId}")
@@ -88,6 +88,6 @@ public class UserController {
         if (user.isPresent()) {
             userRepository.deleteById(userId);
         }
-        return "redirect:/user";
+        return "redirect:/user/";
     }
 }
