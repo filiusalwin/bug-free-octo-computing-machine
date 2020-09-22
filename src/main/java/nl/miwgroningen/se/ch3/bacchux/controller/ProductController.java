@@ -30,12 +30,9 @@ public class ProductController {
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
             model.addAttribute("category", category.get());
-            model.addAttribute("categoryId", categoryId);
-            model.addAttribute("allProducts", category.get().getProducts());
             return "catalogOverview";
         }
         return "redirect:/catalog/";
-
     }
 
     @GetMapping("/{categoryId}/add")
@@ -46,7 +43,6 @@ public class ProductController {
             Product product = new Product();
             product.setCategory(category.get());
             model.addAttribute("product", product);
-            model.addAttribute("categoryId", categoryId);
             model.addAttribute("allCategories", categoryRepository.findAll());
            return "productForm";
         }

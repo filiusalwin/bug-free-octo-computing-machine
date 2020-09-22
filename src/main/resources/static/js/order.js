@@ -36,14 +36,37 @@ const formatter = new Intl.NumberFormat('en-US', {
 })
 
 // helper for updateBill()
-function updateProductList(names, counts, subtotals) {
+function updateProductList(products) {
     var productBox = document.getElementById("billProductList");
     productBox.innerHTML = "";
 
-    for (var i = 0; i < names.length; i++) {
-        productBox.innerHTML += counts[i] + " "
-                                + names[i] + " "
-                                + formatter.format(subtotals[i] / 100) + "<br>"
+    for (product of products) {
+        var newitem = document.createElement("li");
+        newitem.classList.add("list-group-item");
+        newitem.classList.add("list-group-item-action");
+        newitem.classList.add("d-flex");
+
+        var amount = document.createElement("div");
+        amount.innerHTML = product.amount;
+        amount.style.width = "30px";
+        newitem.append(amount);
+
+        var name = document.createElement("div");
+        name.innerHTML = product.name;
+        newitem.append(name);
+
+        var subtotal = document.createElement("div");
+        subtotal.innerHTML = formatter.format(product.subtotal / 100);
+        subtotal.classList.add("ml-auto");
+        newitem.append(subtotal);
+
+        // function factory to prevent closure issues
+        function removeFunctionMaker(productId) {
+            return function() {removeProduct(productId)};
+        }
+        newitem.addEventListener("click", removeFunctionMaker(product.id));
+
+        productBox.append(newitem);
     }
 }
 
@@ -65,9 +88,7 @@ function updateBill() {
 
     // prepare totalprice, productnames and counts
     var total = 0;
-    var productNames = [];
-    var productCounts = [];
-    var subtotals = [];
+    var productsInBill = [];
 
     // go through each list tag
     for (let product of products) {
@@ -79,17 +100,22 @@ function updateBill() {
         var productName = product.getAttribute("productName");
         var price = parseInt(product.getAttribute("productPrice"));
 
+        var productId = parseInt(product.getAttribute("productId"));
+
         // add to total, and if more than 0, add to list of products and counts
         total += count * price;
         if (count != 0) {
-            productCounts.push(count);
-            productNames.push(productName);
-            subtotals.push(price * count);
+            productsInBill.push({
+                id: productId,
+                amount: count,
+                name: productName,
+                subtotal: price * count
+            });
         }
     }
 
     updateTotalPrice(total);
-    updateProductList(productNames, productCounts, subtotals);
+    updateProductList(productsInBill);
 
     if (total == 0) {
         $("#payment").hide();

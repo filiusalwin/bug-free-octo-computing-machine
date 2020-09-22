@@ -16,7 +16,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
-@EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -49,6 +48,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/")
                 .permitAll()
                 .and()
                 .logout()
