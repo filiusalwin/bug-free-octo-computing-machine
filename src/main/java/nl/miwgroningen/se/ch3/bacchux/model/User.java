@@ -14,7 +14,7 @@ public class User implements Comparable<User> {
 
     private String password;
 
-    private Boolean passwordNeedsChange;
+    private Boolean passwordNeedsChange = false;
 
     private String name;
 
