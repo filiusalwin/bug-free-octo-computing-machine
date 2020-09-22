@@ -17,11 +17,9 @@
                     <datalist th:field="${user.userId}" id="userList">
                         <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
                     </datalist>
-                    <input class="form-control mx-3 mb-3" placeholder="Search User" list="userList"  id="searchUser" autocomplete="off" required>
-                    <div id="customersearch" class="mb-2 mx-3">
-                        <button id="ShowInfoUser" class="btn btn-secondary mb-3" onclick="showInfoSelectedUser()"></button>
-                    </div>
+                    <input class="form-control mx-3 mb-3" placeholder="Search User" list="userList"  id="searchUser" autocomplete="off" required th:attr="onclick=|addUserByUsername(${user.getUsername()})|">
             </div>
+            <button class="btn btn-secondary" th:attr="onclick=|addUser(${user.getUserId()})|" data-toggle="modal" data-target="#maintainUserModal">New User</button>
             <br>
             <div class="row">
                 <div class="col-12">
@@ -63,8 +61,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
-                        <p><input type="hidden" th:field="*{userId}"  /></p>
+                    <form id="userForm" action="#" th:action="@{/user/add}" th:object="${user}" method="post">
+                        <p><input type="hidden" id="userIdInput" th:field="*{userId}"  /></p>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon1">Username</span>
@@ -121,13 +119,12 @@
                                 <input type="text" id="credit_account" name="credit_account"  th:field="*{creditPaymentBankAccountNumber}">
                             </div>
                         </div>
-                        <button class="btn btn-secondary" name="action" type="submit" value="Save" >Save</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" name="action" type="submit">Save changes</button>-->
+                    <button class="btn btn-secondary" form="userForm" name="action" type="submit" value="Save" >Save</button>
+                    <button class="btn btn-secondary" onclick="deleteUser()">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

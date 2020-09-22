@@ -39,4 +39,14 @@ public class UserRestController {
         User user = userOptional.get();
         return user;
     }
+
+    @GetMapping("/byUsername/{username}")
+    User oneUsername(@PathVariable String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (!userOptional.isPresent()) {
+            return new User();
+        }
+        User user = userOptional.get();
+        return user;
+    }
 }
