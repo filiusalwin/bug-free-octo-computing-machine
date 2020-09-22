@@ -6,10 +6,7 @@
 <head>
 </head>
 <body>
-<div th:fragment="footer">
-
-    <div class="container">
-
+<div class="footer fixed-bottom text-center" th:fragment="footer">
         <footer>
             <!-- this is footer -->
             &copy; BacchUX 2020
@@ -17,12 +14,9 @@
                 | Logged user: <span sec:authentication="name"></span> |
             </span>
 
-            <script type="text/javascript"
-                    src="/order"></script>
+            <script type="text/javascript" src="/order"></script>
 
         </footer>
-    </div>
-
 </div>
 </body>
 </html>

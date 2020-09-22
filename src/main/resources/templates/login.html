@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
 >
 <head>
     <title>BacchUx P.0.S</title>
-    <div th:replace="fragments/header :: headFragment"/>
+    <div th:replace="fragments/header :: headFragment" />
 </head>
 <body>
 
-<div class="container">
-
-    <div class="row" style="margin-top:20px">
-        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+<div class="container h-100 align-self-center justify-content-center ">
+    <div class="row justify-content-center">
+        <div class="col-4">
             <form th:action="@{/login}" method="post">
                 <fieldset>
                     <h1>BacchUx P.O.S</h1>
@@ -36,21 +35,19 @@
                                placeholder="Password" required="true"/>
                     </div>
 
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
                             <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign In"/>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6">
                         </div>
                     </div>
                 </fieldset>
             </form>
         </div>
     </div>
-
 </div>
 
 <div th:replace="fragments/footer :: footer"/>
+
 
 </body>
 </html>
