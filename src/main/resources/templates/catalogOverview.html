@@ -37,13 +37,17 @@
 <br>
 
     <h1> Products of category <span th:text="${category.name}"/></h1>
-    <p th:if="${category.categoryId != null}"><a class="button" th:href="@{/catalog/product/{categoryId}/add(categoryId=${category.categoryId})}">Add new product</a></p>
+    <p th:if="${category.categoryId != null}">
+        <a class="button" th:href="@{/catalog/product/{categoryId}/add(categoryId=${category.categoryId})}">
+            Add new product
+        </a>
+    </p>
     <table>
        <tr>
            <th>Product name</th>
            <th>Product price</th>
        </tr>
-        <tr th:each="product: ${allProducts}">
+        <tr th:each="product: ${category.getProducts()}">
             <td><a th:href="@{/catalog/product/update/{productId}(productId=${product.productId})}">
                 <span th:text="${product.name}"></span></a></td>
             <td th:text="${product.price}"/>

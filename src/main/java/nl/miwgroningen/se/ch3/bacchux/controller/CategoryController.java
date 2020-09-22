@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/catalog")
@@ -20,8 +21,14 @@ public class CategoryController {
 
     @GetMapping("")
     protected String showCategoryForm(Model model) {
-        model.addAttribute("allCategories", categoryRepository.findAll());
-        Category category = new Category();
+        List<Category> allCategories = categoryRepository.findAll();
+        model.addAttribute("allCategories", allCategories);
+        Category category;
+        if (allCategories.isEmpty()) {
+             category = new Category();
+        } else {
+             category = allCategories.get(0);
+        }
         model.addAttribute("category", category);
         return "catalogOverview";
     }
