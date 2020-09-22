@@ -21,6 +21,6 @@
         <a class="btn btn-secondary" th:href="@{/catalog/product/{categoryId}(categoryId=${categoryId})}">Back</a>
     </form>
     <p id="errorBox" style="color: red;"></p>
-
+    <div th:replace="fragments/footer :: footer"/>
 </body>
 </html>
