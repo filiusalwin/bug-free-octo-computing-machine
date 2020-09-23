@@ -10,24 +10,32 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
+@RequestMapping("/profile")
 @Controller
 public class ProfileController {
+
     @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/profile/password")
+    @GetMapping("")
+    protected String changeProfile() {
+        return "profileOverview";
+    }
+
+    @GetMapping("/password")
     protected String changePassword() {
         return "changePassword";
     }
 
-    @PostMapping("/profile/password")
+    @PostMapping("/password")
     protected String doChangePassword(Model model, @RequestParam("currentPassword") String currentPassword,
                                       @RequestParam("newPassword") String newPassword) {
         Optional<User> user = getCurrentUser();
@@ -56,5 +64,31 @@ public class ProfileController {
         }
         String username = ((UserDetails) principal).getUsername();
         return userRepository.findByUsername(username);
+    }
+
+    @GetMapping("/pin")
+    protected String changePin() {
+        return "changePin";
+    }
+
+    @PostMapping("/pin")
+    protected String doChangePin(Model model, @RequestParam("currentPin") String currentPin,
+                                      @RequestParam("newPin") String newPin) {
+        Optional<User> user = getCurrentUser();
+        if (user == null || user.isEmpty()) {
+            return "redirect:/login";
+        }
+        if (!passwordEncoder.matches(currentPin, (String) user.get().getPin())) {
+            model.addAttribute("error", "Wrong pin code.");
+            return "changePin";
+        }
+        if (passwordEncoder.matches(newPin, (String) user.get().getPin())) {
+            model.addAttribute("error", "New and old pin code may not be the same!");
+            return "changePin";
+        }
+        user.get().setPin(passwordEncoder.encode(newPin));
+        userRepository.save(user.get());
+        model.addAttribute("success", "Pin code changed successfully.");
+        return "/profileOverview";
     }
 }
