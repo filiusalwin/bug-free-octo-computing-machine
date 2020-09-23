@@ -83,8 +83,15 @@ function deleteUser() {
     console.log($("#userIdInput").val());
     window.location.href = "/user/delete/" + userId;
 }
+// see checkIfUsernameexists()
+var newUser;
+
+function resetNewUser() {
+    newUser = false;
+}
 
 function openModalNewUser() {
+    newUser = true;
     $('#maintainUserModal').modal('show');
     $("#usernameInput").val("");
     $("#usernameError").hide();
@@ -101,18 +108,19 @@ function openModalNewUser() {
 }
 
 function checkIfUserNameExists() {
-    username1 = $("#usernameInput").val();
-    console.log(username1);
-    $.ajax({
-        type: "GET",
-        url: "/user/byUsername/" + username1,
-        data: {
-            username: username1,
-        },
-    }).done(function getUserData (userData) {
-        if (userData.username === username1) {
-            $("#usernameError").show();
-        }
-    });
+    if(newUser === true) {
+        username1 = $("#usernameInput").val();
+        $.ajax({
+            type: "GET",
+            url: "/user/byUsername/" + username1,
+            data: {
+                username: username1,
+            },
+        }).done(function getUserData(userData) {
+            if (userData.username === username1) {
+                $("#usernameError").show();
+            }
+        });
+    }
 }
 
