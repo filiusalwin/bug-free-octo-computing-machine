@@ -37,7 +37,7 @@
         <p>Username: <input type="text" th:field="*{username}" required />
             <span style="color:Tomato;" th:text="${error}"> </span></p>
         <p>Password: <input type="password" th:field="*{password}" /></p>
-        <p th:if="${user.userId != null}">Pin code: <input type="password" th:field="*{pin}" name="*{pin}"
+        <p>Pin code: <input type="password" th:field="*{pin}" name="*{pin}"
         onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,''),
         alert('only numbers')" id="password" value="" placeholder="Pincode is only number"></p>
         <p>Full Name: <input type="text" th:field="*{name}" required/></p>
