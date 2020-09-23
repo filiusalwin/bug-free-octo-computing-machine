@@ -5,9 +5,13 @@ import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +37,7 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         checkForFirstUser();
         return "login";
     }
@@ -45,14 +49,8 @@ public class LoginController {
 
     @GetMapping("/")
     protected String landingPage() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (!(principal instanceof UserDetails)) {
-            return "redirect:/login";
-        }
-        String username = ((UserDetails)principal).getUsername();
-        Optional<User> user = userRepository.findByUsername(username);
-        if (user.isEmpty()) {
+        Optional<User> user = getCurrentUser();
+        if (user == null || user.isEmpty()) {
             return "redirect:/login";
         }
         Boolean passwordNeedsChange = user.get().getPasswordNeedsChange();
@@ -61,4 +59,15 @@ public class LoginController {
         }
         return "redirect:/order/";
     }
+
+    public Optional<User> getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!(principal instanceof UserDetails)) {
+            return null;
+        }
+        String username = ((UserDetails) principal).getUsername();
+        return userRepository.findByUsername(username);
+    }
+
+
 }

@@ -7,13 +7,13 @@
 </head>
 <body>
 <div class="footer fixed-bottom text-center" th:fragment="footer">
-        <footer>
-            <!-- this is footer -->
-            &copy; BacchUX 2020
-            <span sec:authorize="isAuthenticated()">
-                | Logged user: <span sec:authentication="name"></span> |
-            </span>
-        </footer>
+    <footer>
+        <!-- this is footer -->
+        &copy; BacchUX 2020
+        <span sec:authorize="isAuthenticated()">
+            | Logged user: <span sec:authentication="name"></span> |
+        </span>
+    </footer>
 </div>
 </body>
 </html>
