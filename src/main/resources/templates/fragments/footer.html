@@ -6,17 +6,14 @@
 <head>
 </head>
 <body>
-<div th:fragment="footer" style="position:absolute; bottom: 0;">
-    <div class="container">
-        <footer>
-            <!-- this is footer -->
-            &copy; BacchUX 2020
-            <span sec:authorize="isAuthenticated()">
-                | Logged user: <span sec:authentication="name"></span> |
-                Roles: <span sec:authentication="principal.authorities"></span> |
-            </span>
-        </footer>
-    </div>
+<div class="footer fixed-bottom text-center" th:fragment="footer">
+    <footer>
+        <!-- this is footer -->
+        &copy; BacchUX 2020
+        <span sec:authorize="isAuthenticated()">
+            | Logged user: <span sec:authentication="name"></span> |
+        </span>
+    </footer>
 </div>
 </body>
 </html>
