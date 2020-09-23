@@ -7,55 +7,6 @@
     <div th:replace="fragments/header :: headFragment" />
 </head>
 <body>
-<!--
-&lt;!&ndash; Full Page Intro &ndash;&gt;
-<div class="view" style="background-image: url('https://girlswhomagazine.nl/wp-content/uploads/ruby-rose-utrecht-e1581498005584.jpg');
- background-repeat: no-repeat; background-size: cover; background-position: center center;">
-
-    &lt;!&ndash; Mask & flexbox options&ndash;&gt;
-    <div class="mask rgba-black-light align-items-center">
-
-        &lt;!&ndash; Content &ndash;&gt;
-<div class="container h-100 align-self-center justify-content-center ">
-    <div class="row justify-content-center">
-        <div class="col-4">
-            <form th:action="@{/login}" method="post">
-                <fieldset>
-                    <h1>BacchUx P.O.S</h1>
-
-                    <div th:if="${param.error}">
-                        <div class="alert alert-danger">
-                            Invalid username and password.
-                        </div>
-                    </div>
-                    <div th:if="${param.logout}">
-                        <div class="alert alert-info">
-                            You have been logged out.
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" name="username" id="username" class="form-control input-lg"
-                               placeholder="UserName" required="true" autofocus="true"/>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="password" id="password" class="form-control input-lg"
-                               placeholder="Password" required="true"/>
-                    </div>
-
-                    <div class="row justify-content-center">
-                        <div class="col-auto">
-                            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign In"/>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-        </div>
-    </div>
-</div>
-    </div>
-</div>-->
-
 <header>
 
     <!-- Navbar -->
@@ -69,21 +20,19 @@
                 <!--Grid row-->
                 <div class="row mt-9">
                     <!--Grid column-->
-                    <div class="col-md-6 mb-5 mt-md-0 mt-5 white-text text-center text-md-center">
-                        <br>
+                    <div class="col-md-6 mb-5 mt-md-5 mt-5 white-text text-center text-md-center">
                         <h1 class="h1-responsive font-weight-bold text-white">BacchUx P.O.S</h1>
                     </div>
                     <!--Grid column-->
                     <!--Grid column-->
-                    <div class="col align-items-center">
-                        <br>
+                    <div class="col align-items-center p-4">
                         <!--Form-->
-                        <div class="card ">
+                        <div class="card p-4">
                             <div class="card-body">
                                 <!--Header-->
-                                <div class="text-center">
+                                <div class="text-center shadow-lg p-4 mb-4 bg-white">
                                     <h3 class="white-text">
-                                        <i class="fas fa-user text-gray"></i> Welcome to the club!</h3>
+                                        <i class="fas fa-user "></i> Welcome to the club!</h3>
                                     <hr class="hr-light">
                                 </div>
 
@@ -96,7 +45,7 @@
                                     </div>
                                 </div>
                                 <div th:if="${param.logout}">
-                                    <div class="alert alert-info">
+                                    <div class="alert alert-secondary">
                                         You have been logged out.
                                     </div>
                                 </div>
@@ -117,12 +66,11 @@
                                 <br>
                                 <br>
                                 <div class="col-auto">
-                                    <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign In"/>
+                                    <input type="submit" class="btn btn-lg btn-secondary btn-block " value="Sign In"/>
                                 </div>
                                 <br>
                             </form>
                         </div>
-                        <br>
                         <!--/.Form-->
                     </div>
                     <!--Grid column-->
