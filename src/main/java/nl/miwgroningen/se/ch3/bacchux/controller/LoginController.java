@@ -29,6 +29,7 @@ public class LoginController {
         if (allUsers.size() == 0) {
             User newUser = new User();
             newUser.setUsername("admin");
+            newUser.setName("admin");
             newUser.setPassword(passwordEncoder.encode("admin"));
             newUser.setRoles("ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER");
             newUser.setPasswordNeedsChange(true);
