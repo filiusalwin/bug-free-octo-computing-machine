@@ -70,4 +70,25 @@ public class ProfileController {
     protected String changePin() {
         return "changePin";
     }
+
+    @PostMapping("/pin")
+    protected String doChangePin(Model model, @RequestParam("currentPin") String currentPin,
+                                      @RequestParam("newPin") String newPin) {
+        Optional<User> user = getCurrentUser();
+        if (user == null || user.isEmpty()) {
+            return "redirect:/login";
+        }
+        if (!passwordEncoder.matches(currentPin, (String) user.get().getPin())) {
+            model.addAttribute("error", "Wrong pin code.");
+            return "changePin";
+        }
+        if (passwordEncoder.matches(newPin, (String) user.get().getPin())) {
+            model.addAttribute("error", "New and old pin code may not be the same!");
+            return "changePin";
+        }
+        user.get().setPin(passwordEncoder.encode(newPin));
+        userRepository.save(user.get());
+        model.addAttribute("success", "Pin code changed successfully.");
+        return "/profileOverview";
+    }
 }
