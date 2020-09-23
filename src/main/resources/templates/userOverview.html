@@ -67,14 +67,14 @@
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon1">Username</span>
-                                <input type="text" id="usernameInput" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" th:field="*{username}" onfocusout="checkIfUserNameExists()">
+                                <input type="text" id="usernameInput" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" th:field="*{username}" onfocusout="checkIfUserNameExists()" required>
                             </div>
                             <span id="usernameError" class="help-inline">This username already exists</span>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon2">Password</span>
-                                <input id="password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2" th:field="*{password}">
+                                <input id="password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2" th:field="*{password}" required>
                             </div>
                         </div>
                         <div class="input-group mb-3">
@@ -87,7 +87,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-prepend" >
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon4">Name</span>
-                                <input type="text" id="nameInput" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon4" th:field="*{name}">
+                                <input type="text" id="nameInput" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon4" th:field="*{name}" required>
                             </div>
                         </div>
                         <div class="input-group mb-3">
@@ -132,7 +132,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" form="userForm" name="action" type="submit" value="Save" >Save</button>
-                    <button class="btn btn-secondary" onclick="deleteUser()">Delete</button>
+                    <button class="btn btn-secondary" form="userForm" name="action" type="reset" value="Reset">Reset</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>

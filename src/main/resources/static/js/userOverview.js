@@ -51,6 +51,7 @@ function fillOutForm(userData) {
     $("#usernameError").hide();
     $("#userIdInput").val(userData.userId);
     $("#nameInput").val(userData.name);
+    $("#password").val(userData.password);
     $("#Prepaid").prop("checked", userData.prepaidAllowed);
     $("#prepaid_balance").val(userData.balance);
     $("#Credit").prop("checked", userData.creditAllowed);
@@ -88,7 +89,7 @@ function openModalNewUser() {
     $("#password").val("");
     $("#userIdInput").val("");
     $("#nameInput").val("");
-    $("#customer").prop("checked",false);
+    $("#customer").prop("checked",true);
     $("#bartender").prop("checked",false);
     $("#barmanager").prop("checked",false);
     $("#Prepaid").prop("checked", false);
