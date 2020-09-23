@@ -85,6 +85,10 @@ public class LoginController {
             model.addAttribute("error", "Wrong password.");
             return "changePassword";
         }
+        if (passwordEncoder.matches(newPassword, user.get().getPassword())) {
+            model.addAttribute("error", "New and old password may not be the same!");
+            return "changePassword";
+        }
         user.get().setPassword(passwordEncoder.encode(newPassword));
         user.get().setPasswordNeedsChange(false);
         userRepository.save(user.get());
