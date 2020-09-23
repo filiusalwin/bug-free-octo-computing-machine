@@ -74,10 +74,8 @@
         </datalist>
     </form>
     <button onclick="updateSelectedUser()">Select User</button>
+    <div th:replace="fragments/footer :: footer"/>
     <div th:replace="fragments/header :: scriptFragment" />
     <script type="text/javascript" th:src="@{/js/userOverview.js}" ></script>
-
-    <div th:replace="fragments/footer :: footer"/>
-
 </body>
 </html>
