@@ -5,7 +5,6 @@ import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,51 +12,41 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class LoginController {
-    @Autowired
-    UserRepository userRepository;
-
+public class ProfileController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public void checkForFirstUser() {
-        List<User> allUsers = userRepository.findAll();
-        if (allUsers.size() == 0) {
-            User newUser = new User();
-            newUser.setUsername("admin");
-            newUser.setPassword(passwordEncoder.encode("admin"));
-            newUser.setRoles("ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER");
-            newUser.setPasswordNeedsChange(true);
-            userRepository.save(newUser);
-        }
+    @Autowired
+    UserRepository userRepository;
+
+    @GetMapping("/profile/password")
+    protected String changePassword() {
+        return "changePassword";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        checkForFirstUser();
-        return "login";
-    }
-
-    @GetMapping("/403")
-    public String error403() {
-        return "/403";
-    }
-
-    @GetMapping("/")
-    protected String landingPage() {
+    @PostMapping("/profile/password")
+    protected String doChangePassword(Model model, @RequestParam("currentPassword") String currentPassword,
+                                      @RequestParam("newPassword") String newPassword) {
         Optional<User> user = getCurrentUser();
         if (user == null || user.isEmpty()) {
             return "redirect:/login";
         }
-        Boolean passwordNeedsChange = user.get().getPasswordNeedsChange();
-        if (passwordNeedsChange != null && passwordNeedsChange) {
-            return "redirect:/profile/password";
+        if (!passwordEncoder.matches(currentPassword, user.get().getPassword())) {
+            model.addAttribute("error", "Wrong password.");
+            return "changePassword";
         }
-        return "redirect:/order/";
+        if (passwordEncoder.matches(newPassword, user.get().getPassword())) {
+            model.addAttribute("error", "New and old password may not be the same!");
+            return "changePassword";
+        }
+        user.get().setPassword(passwordEncoder.encode(newPassword));
+        user.get().setPasswordNeedsChange(false);
+        userRepository.save(user.get());
+        model.addAttribute("success", "Password changed successfully.");
+        return "changePassword";
     }
 
     public Optional<User> getCurrentUser() {
@@ -68,6 +57,4 @@ public class LoginController {
         String username = ((UserDetails) principal).getUsername();
         return userRepository.findByUsername(username);
     }
-
-
 }
