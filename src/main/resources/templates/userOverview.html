@@ -74,13 +74,20 @@
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon2">Password</span>
-                                <input id=""password type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2" th:field="*{password}">
+                                <input id="password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2" th:field="*{password}">
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="width: 100px;" id="basic-addon3">Pincode</span>
+                                <input id="pin" type="password" class="form-control" name="*{pin}" placeholder="Pincode" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,''),
+                                    alert('only numbers')" aria-label="Pincode" aria-describedby="basic-addon3" th:field="*{pin}">
                             </div>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend" >
-                                <span class="input-group-text" style="width: 100px;" id="basic-addon3">Name</span>
-                                <input type="text" id="nameInput" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon3" th:field="*{name}">
+                                <span class="input-group-text" style="width: 100px;" id="basic-addon4">Name</span>
+                                <input type="text" id="nameInput" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon4" th:field="*{name}">
                             </div>
                         </div>
                         <div class="input-group mb-3">
@@ -132,9 +139,7 @@
         </div>
     </div>
     <div th:replace="fragments/header :: scriptFragment" />
-    <script type="text/javascript" th:src="@{/js/userOverview.js}" ></script>
-
     <div th:replace="fragments/footer :: footer"/>
-
+    <script type="text/javascript" th:src="@{/js/userOverview.js}" ></script>
 </body>
 </html>

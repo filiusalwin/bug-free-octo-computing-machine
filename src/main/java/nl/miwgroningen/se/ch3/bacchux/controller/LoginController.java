@@ -14,26 +14,28 @@ import java.util.Optional;
 
 @Controller
 public class LoginController {
+
     @Autowired
     UserRepository userRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public void checkForFirstUser() {
-        List<User> allUsers = userRepository.findAll();
-        if (allUsers.size() == 0) {
-            User newUser = new User();
-            newUser.setUsername("admin");
-            newUser.setPassword(passwordEncoder.encode("admin"));
-            newUser.setRoles("ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER");
-            newUser.setPasswordNeedsChange(true);
-            userRepository.save(newUser);
+    @GetMapping({"", "/"})
+    protected String landingPage() {
+        Optional<User> user = getCurrentUser();
+        if (user == null || user.isEmpty()) {
+            return "redirect:/login";
         }
+        Boolean passwordNeedsChange = user.get().getPasswordNeedsChange();
+        if (passwordNeedsChange != null && passwordNeedsChange) {
+            return "redirect:/profile/password";
+        }
+        return "redirect:/order/";
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         checkForFirstUser();
         return "login";
     }
@@ -43,22 +45,25 @@ public class LoginController {
         return "/403";
     }
 
-    @GetMapping("/")
-    protected String landingPage() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public void checkForFirstUser() {
+        List<User> allUsers = userRepository.findAll();
+        if (allUsers.size() == 0) {
+            User newUser = new User();
+            newUser.setUsername("admin");
+            newUser.setPassword(passwordEncoder.encode("admin"));
+            newUser.setPin(passwordEncoder.encode("1234"));
+            newUser.setRoles("ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER");
+            newUser.setPasswordNeedsChange(true);
+            userRepository.save(newUser);
+        }
+    }
 
+    public Optional<User> getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!(principal instanceof UserDetails)) {
-            return "redirect:/login";
+            return null;
         }
-        String username = ((UserDetails)principal).getUsername();
-        Optional<User> user = userRepository.findByUsername(username);
-        if (user.isEmpty()) {
-            return "redirect:/login";
-        }
-        Boolean passwordNeedsChange = user.get().getPasswordNeedsChange();
-        if (passwordNeedsChange != null && passwordNeedsChange) {
-            return "redirect:/profile/password";
-        }
-        return "redirect:/order/";
+        String username = ((UserDetails) principal).getUsername();
+        return userRepository.findByUsername(username);
     }
 }
