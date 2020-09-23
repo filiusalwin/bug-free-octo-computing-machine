@@ -1,6 +1,5 @@
 $(document).ready(function(){
     $(document).ready(function() {
-        $("#customersearch").hide();
         $("#categoryList > button:first-child").trigger("click");
 
         $(document).on('change', 'input', function(){
@@ -10,6 +9,7 @@ $(document).ready(function(){
         $("#searchUser").click(function() {
             this.value = "";
         });
+        $("#usernameError").hide();
     });
 });
 
@@ -32,23 +32,23 @@ function addUser(userId) {
             userId: userId,
         },
     }).done(function getUserData (userData) {
-        console.log(userData);
-        $("#usernameInput").val(userData.username);
-        $("#userIdInput").val(userData.userId);
-        $("#nameInput").val(userData.name);
-        $("#Prepaid"). prop("checked", userData.prepaidAllowed);
-        $("#prepaid_balance").val(userData.balance);
-        $("#Credit").prop("checked",userData.creditAllowed);
-        $("#credit_account").val(userData.creditPaymentBankAccountNumber);
+            $("#usernameInput").val(userData.username);
+            $("#usernameError").hide();
+            $("#userIdInput").val(userData.userId);
+            $("#nameInput").val(userData.name);
+            $("#Prepaid").prop("checked", userData.prepaidAllowed);
+            $("#prepaid_balance").val(userData.balance);
+            $("#Credit").prop("checked", userData.creditAllowed);
+            $("#credit_account").val(userData.creditPaymentBankAccountNumber);
 
-        // to check radio boxes
-        if(userData.roles === "ROLE_CUSTOMER") {
-            $("#customer").prop("checked",true);
-        } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER") {
-            $("#bartender").prop("checked",true);
-        } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER") {
-            $("#barmanager").prop("checked",true);
-        }
+            // to check radio boxes
+            if (userData.roles === "ROLE_CUSTOMER") {
+                $("#customer").prop("checked", true);
+            } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER") {
+                $("#bartender").prop("checked", true);
+            } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER") {
+                $("#barmanager").prop("checked", true);
+            }
     });
 }
 function addUserByUsername(username) {
@@ -59,22 +59,22 @@ function addUserByUsername(username) {
             username: username,
         },
     }).done(function getUserData (userData) {
-        console.log(userData);
         $("#usernameInput").val(userData.username);
+        $("#usernameError").hide();
         $("#userIdInput").val(userData.userId);
         $("#nameInput").val(userData.name);
-        $("#Prepaid"). prop("checked", userData.prepaidAllowed);
+        $("#Prepaid").prop("checked", userData.prepaidAllowed);
         $("#prepaid_balance").val(userData.balance);
-        $("#Credit").prop("checked",userData.creditAllowed);
+        $("#Credit").prop("checked", userData.creditAllowed);
         $("#credit_account").val(userData.creditPaymentBankAccountNumber);
 
         // to check radio boxes
-        if(userData.roles === "ROLE_CUSTOMER") {
-            $("#customer").prop("checked",true);
+        if (userData.roles === "ROLE_CUSTOMER") {
+            $("#customer").prop("checked", true);
         } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER") {
-            $("#bartender").prop("checked",true);
+            $("#bartender").prop("checked", true);
         } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER") {
-            $("#barmanager").prop("checked",true);
+            $("#barmanager").prop("checked", true);
         }
     });
 }
@@ -82,5 +82,37 @@ function deleteUser() {
    var userId = $("#userIdInput").val();
     console.log($("#userIdInput").val());
     window.location.href = "/user/delete/" + userId;
+}
+
+function openModalNewUser() {
+    $('#maintainUserModal').modal('show');
+    $("#usernameInput").val("");
+    $("#usernameError").hide();
+    $("#password").val("");
+    $("#userIdInput").val("");
+    $("#nameInput").val("");
+    $("#customer").prop("checked",false);
+    $("#bartender").prop("checked",false);
+    $("#barmanager").prop("checked",false);
+    $("#Prepaid").prop("checked", false);
+    $("#prepaid_balance").val("");
+    $("#Credit").prop("checked", false);
+    $("#credit_account").val("");
+}
+
+function checkIfUserNameExists() {
+    username1 = $("#usernameInput").val();
+    console.log(username1);
+    $.ajax({
+        type: "GET",
+        url: "/user/byUsername/" + username1,
+        data: {
+            username: username1,
+        },
+    }).done(function getUserData (userData) {
+        if (userData.username === username1) {
+            $("#usernameError").show();
+        }
+    });
 }
 

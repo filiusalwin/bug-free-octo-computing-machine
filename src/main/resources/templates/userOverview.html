@@ -19,7 +19,8 @@
                     </datalist>
                     <input class="form-control mx-3 mb-3" placeholder="Search User" list="userList"  id="searchUser" autocomplete="off" required th:attr="onclick=|addUserByUsername(${user.getUsername()})|">
             </div>
-            <button class="btn btn-secondary" th:attr="onclick=|addUser(${user.getUserId()})|" data-toggle="modal" data-target="#maintainUserModal">New User</button>
+            <button class="btn btn-secondary" onclick="openModalNewUser()" data-toggle="modal" data-target="#maintainUserModal">New User</button>
+            <br>
             <br>
             <div class="row">
                 <div class="col-12">
@@ -66,13 +67,14 @@
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon1">Username</span>
-                                <input type="text" id="usernameInput" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" th:field="*{username}">
+                                <input type="text" id="usernameInput" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" th:field="*{username}" onfocusout="checkIfUserNameExists()">
                             </div>
+                            <span id="usernameError" class="help-inline">This username already exists</span>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon2">Password</span>
-                                <input type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2" th:field="*{password}">
+                                <input id=""password type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2" th:field="*{password}">
                             </div>
                         </div>
                         <div class="input-group mb-3">
