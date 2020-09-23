@@ -10,9 +10,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class BacchuxUserDetails implements UserDetails {
+
     private String username;
 
     private String password;
+
+    private String pin;
 
     private boolean active;
 
@@ -21,6 +24,7 @@ public class BacchuxUserDetails implements UserDetails {
     public BacchuxUserDetails(User user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
+        this.pin = (String) user.getPin();
         this.active = user.isActive();
         this.authorities = Arrays.stream(user.getRoles().split(","))
                     .map(SimpleGrantedAuthority::new)
