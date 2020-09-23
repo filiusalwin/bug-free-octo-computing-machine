@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="fragments/header :: headFragment" />
+    <title>Profile Overview</title>
+</head>
+<body>
+<nav th:replace="fragments/navbar :: navbar" />
+<div class="container">
+    <h1>"Good morning/afternoon/evening," Welcome "username"!</h1>
+    <div class="row">
+        <div class="col">
+            This page is for changing your password and your pin.
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/header :: scriptFragment" />
+</body>
+</html>
