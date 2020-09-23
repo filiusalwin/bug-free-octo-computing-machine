@@ -10,29 +10,32 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
+@RequestMapping("/profile")
 @Controller
 public class ProfileController {
+
     @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/profile")
+    @GetMapping("")
     protected String changeProfile() {
         return "profileOverview";
     }
 
-    @GetMapping("/profile/password")
+    @GetMapping("/password")
     protected String changePassword() {
         return "changePassword";
     }
 
-    @PostMapping("/profile/password")
+    @PostMapping("/password")
     protected String doChangePassword(Model model, @RequestParam("currentPassword") String currentPassword,
                                       @RequestParam("newPassword") String newPassword) {
         Optional<User> user = getCurrentUser();
@@ -63,9 +66,8 @@ public class ProfileController {
         return userRepository.findByUsername(username);
     }
 
-    @GetMapping("/profile/pin")
+    @GetMapping("/pin")
     protected String changePin() {
         return "changePin";
     }
-
 }

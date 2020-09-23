@@ -12,11 +12,13 @@ public class User implements Comparable<User> {
     @Column(unique = true)
     private String username;
 
+    private String name;
+
     private String password;
 
     private Boolean passwordNeedsChange = false;
 
-    private String name;
+    private String pin;
 
     private boolean active = true;
 
@@ -130,6 +132,14 @@ public class User implements Comparable<User> {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public CharSequence getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
     }
 
     @Override

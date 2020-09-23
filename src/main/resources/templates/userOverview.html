@@ -33,10 +33,13 @@
 
     <h1>Create new user / Update for user: <span th:text="${user.name}"/></h1>
     <form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
-        <p><input type="hidden" th:field="*{userId}"  /></p>
+        <p th:if="${user.userId != null}"><input type="hidden" th:field="*{userId}"  /></p>
         <p>Username: <input type="text" th:field="*{username}" required />
             <span style="color:Tomato;" th:text="${error}"> </span></p>
         <p>Password: <input type="password" th:field="*{password}" /></p>
+        <p th:if="${user.userId != null}">Pin code: <input type="password" th:field="*{pin}" name="*{pin}"
+        onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,''),
+        alert('only numbers')" id="password" value="" placeholder="Pincode is only number"></p>
         <p>Full Name: <input type="text" th:field="*{name}" required/></p>
         <p>Roles:
             <input type="radio" th:field="*{roles}" id="customer" th:name="*{roles}" th:value="ROLE_CUSTOMER">

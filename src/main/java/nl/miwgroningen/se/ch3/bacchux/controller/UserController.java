@@ -71,6 +71,7 @@ public class UserController {
             return "userOverview";
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPin(passwordEncoder.encode(user.getPin()));
             try {
                 userRepository.save(user);
             } catch (DataIntegrityViolationException exception) {
