@@ -28,9 +28,7 @@ public class UserController {
         model.addAttribute("allUsers", userRepository.findAll());
         // to check Radio button "Customer"
         User user = new User();
-        user.setRoles("ROLE_CUSTOMER");
         model.addAttribute("user", user);
-        user.setUserId(user.getUserId());
         return "userOverview";
     }
 
@@ -41,8 +39,6 @@ public class UserController {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             model.addAttribute(user.get());
-            model.addAttribute("user", user.get());
-            model.addAttribute("userId", userId);
         } else {
             model.addAttribute(new User());
         }
@@ -58,7 +54,6 @@ public class UserController {
             model.addAttribute(user.get());
         } else {
             model.addAttribute(new User());
-
         }
         return "userOverview";
     }

@@ -31,6 +31,26 @@ public class UserRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @GetMapping("/{userId}")
+    User one(@PathVariable Integer userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (!userOptional.isPresent()) {
+            return new User();
+        }
+        User user = userOptional.get();
+        return user;
+    }
+
+    @GetMapping("/byUsername/{username}")
+    User oneUsername(@PathVariable String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (!userOptional.isPresent()) {
+            return new User();
+        }
+        User user = userOptional.get();
+        return user;
+    }
+
     @GetMapping("/username/{username}")
     protected UserDTO getUserByUsername(@PathVariable("username") final String username) {
         Optional<User> user = userRepository.findByUsername(username);
