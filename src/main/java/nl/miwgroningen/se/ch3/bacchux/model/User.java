@@ -30,7 +30,6 @@ public class User implements Comparable<User> {
 
     private boolean prepaidAllowed = true;
 
-    // if null, prepaid is not yet enabled
     private Integer balance;
 
     public String getDisplayRoles(){

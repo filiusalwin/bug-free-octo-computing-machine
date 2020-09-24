@@ -88,4 +88,58 @@ function formatCurrency(input, blur) {
   input[0].setSelectionRange(caret_pos, caret_pos);
 }
 
+function formatCurrencyString(input_val) {
+    input_val = input_val / 100;
+    input_val = input_val.toString();
 
+   // original length
+     var original_len = input_val.length;
+
+     var decimal_pos = input_val.indexOf(".");
+     var comma_pos = input_val.indexOf(",");
+     if (decimal_pos == -1) {
+       decimal_pos = comma_pos;
+     }
+
+     // check for decimal
+     if (decimal_pos >= 0) {
+
+       // get position of first decimal
+       // this prevents multiple decimals from
+       // being entered
+
+       // split number by decimal point
+       var left_side = input_val.substring(0, decimal_pos);
+       var right_side = input_val.substring(decimal_pos);
+
+       // add commas to left side of number
+       left_side = formatNumber(left_side);
+
+       // validate right side
+       right_side = formatNumber(right_side);
+
+       // On blur make sure 2 numbers after decimal
+       if (blur === "blur") {
+         right_side += "00";
+       }
+
+       // Limit decimal to only 2 digits
+       right_side = right_side.substring(0, 2);
+
+       // join number by .
+       input_val = "€" + left_side + "." + right_side;
+
+     } else {
+       // no decimal entered
+       // add commas to number
+       // remove all non-digits
+       input_val = formatNumber(input_val);
+       input_val = "€" + input_val;
+
+       // final formatting
+       if (blur === "blur") {
+         input_val += ".00";
+       }
+     }
+   return input_val;
+}
