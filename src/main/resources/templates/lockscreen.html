@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'
+      xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta http-equiv='content-type' content='text/html;charset=utf-8' />
+    <title>Lockout</title>
+    <link type='text/css' rel='stylesheet' href='css/lockout.css' />
+</head>
+<body>
+<div class='main'>
+    <form th:action="@{/loginpin}" method="post">
+        <div th:if="${param.error}">
+            <div class="alert alert-danger">
+                Invalid pincode.
+            </div>
+        </div>
+    </form>
+    <form id='form'>
+        <label for='un'>USERNAME</label><input id='un' name='un' type='text' value='' />
+        <label for='pw'>PINCODE</label><input id='pw' name='pw' type='password' value='' />
+        <input id='sub' type='submit' class="btn btn-lg btn-secondary btn-block " value='Login' />
+    </form>
+</div>
+<script type='text/js' src='lockout.js'></script>
+</body>
+</html>

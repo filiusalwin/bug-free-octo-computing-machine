@@ -58,6 +58,11 @@ public class LoginController {
         }
     }
 
+    @GetMapping("/lockout")
+    public String lockout() {
+        return "lockscreen";
+    }
+
     public Optional<User> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!(principal instanceof UserDetails)) {
