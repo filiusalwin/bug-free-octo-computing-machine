@@ -3,7 +3,7 @@ var currentBalance;
 // Run once DOM is loaded
 $(document).ready(function() {
     $("#payment").hide();
-    $("#customer").hide();
+    $("#prepaid").hide();
     $("#categoryList > button:first-child").trigger("click");
 
     $(document).on('change', 'input', function(){
@@ -22,31 +22,28 @@ function getUserFromSearch() {
 
     for (option of options){
        if (option.value == username) {
-           $("#customer").show();
            getCustomerByUsernameAnd(username, chooseCustomer);
            return;
        }
     }
     // if not matching any username
     $("#searchUser").val("");
-    $("#customer").hide();
+    $("#prepaid").hide();
 }
 
 // select a customer and show info
 function chooseCustomer(data) {
     if ($.isEmptyObject(data)) {
         $("#searchUser").val("");
-        $("#customer, #payPrepaidButton").hide();
+        $("#prepaid, #payPrepaidButton").hide();
         return;
     }
     currentBalance = data.balance;
     updateCurrentBalance();
-    $("#customer").show();
-    console.log(data);
     if (data.prepaidAllowed) {
-        $("#payPrepaidButton").show();
+        $("#prepaid").show();
     } else {
-        $("#payPrepaidButton").hide();
+        $("#prepaid").hide();
     }
 }
 
