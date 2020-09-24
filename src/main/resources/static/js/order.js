@@ -1,19 +1,45 @@
+var currentBalance;
+
 // Run once DOM is loaded
 
 
 // get user from searchUser input
 function getUserFromSearch() {
     var options = $('#userList')[0].options;
-    for (var i=0; i < options.length; i++){
-       if (options[i].value == $("#searchUser").val()) {
+    var username = $("#searchUser").val();
+
+    for (option of options){
+       if (option.value == username) {
            $("#customer").show();
-           $("#ShowInfoUser").html(options[i].label);
+           chooseCustomer(username);
            return;
        }
     }
     // if not matching any username
     $("#searchUser").val("");
     $("#customer").hide();
+}
+
+// select a customer and show info
+function chooseCustomer(username) {
+    $.ajax({
+        type: "GET",
+        url: "/user/username/" + username,
+    }).done(function(data) {
+        if ($.isEmptyObject(data)) {
+            $("#searchUser").val("");
+            $("#customer").hide();
+            return;
+        }
+        currentBalance = data.balance;
+        updateCurrentBalance();
+    });
+
+    $("#customer").show();
+}
+
+function updateCurrentBalance() {
+    $("#currentBalance").text("Balance: " + formatCurrencyString(currentBalance));
 }
 
 // formats number as currency
@@ -181,18 +207,6 @@ function loadCustomer(username, fullname) {
     getUserFromSearch();
 }
 
-// show balance etc for selected user
-function showInfoSelectedUser() {
-    var username = $("#searchUser").val();
-    if (username == "") {
-        document.getElementById("errorBox").innerHTML = "Select a user first!";
-        return;
-    }
-    var url2 = "/order/user/info/" + username;
-    window.open(url2, "popUpWindow",
-        'height=500, width=600, left=50, top=50, resizable=yes, scrollbars=yes, toolbar=yes, menubar=no, location=no, directories=no, status=yes');
-}
-
 // perform topup of user
 function doTopUp() {
     var username = $("#searchUser").val();
@@ -210,7 +224,9 @@ function doTopUp() {
         },
         statusCode: {
             200: function() {
-                alert("Topup complete.");
+                currentBalance += amount;
+                updateCurrentBalance();
+                $("#topUpAmount").val("");
             },
             440: function() {
                 alert("User not found");
