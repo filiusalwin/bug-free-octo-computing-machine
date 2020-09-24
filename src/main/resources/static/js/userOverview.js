@@ -47,11 +47,13 @@ function checkCorrectRadioBox(userData) {
 }
 
 function fillOutForm(userData) {
+    document.getElementById("userForm").action = "/user/save";
+    $("#exampleModalLabel").html("Maintain " + userData.username);
     $("#usernameInput").val(userData.username);
     $("#usernameError").hide();
     $("#userIdInput").val(userData.userId);
     $("#nameInput").val(userData.name);
-    $("#password").val(userData.password);
+    $("#password_pincode").hide();
     $("#Prepaid").prop("checked", userData.prepaidAllowed);
     $("#prepaid_balance").val(userData.balance);
     $("#Credit").prop("checked", userData.creditAllowed);
@@ -87,6 +89,8 @@ function openModalNewUser() {
     $("#usernameInput").val("");
     $("#usernameError").hide();
     $("#password").val("");
+    $("#password").attr("required", "");
+    $("#pin").attr("required", "");
     $("#userIdInput").val("");
     $("#nameInput").val("");
     $("#customer").prop("checked",true);
@@ -110,6 +114,8 @@ function checkIfUserNameExists() {
         }).done(function getUserData(userData) {
             if (userData.username === username1) {
                 $("#usernameError").show();
+            } else {
+                $("#usernameError").hide();
             }
         });
     }
