@@ -23,7 +23,7 @@ function getUserFromSearch() {
     for (option of options){
        if (option.value == username) {
            $("#customer").show();
-           chooseCustomer(username);
+           getCustomerByUsernameAnd(username, chooseCustomer);
            return;
        }
     }
@@ -33,21 +33,30 @@ function getUserFromSearch() {
 }
 
 // select a customer and show info
-function chooseCustomer(username) {
+function chooseCustomer(data) {
+    if ($.isEmptyObject(data)) {
+        $("#searchUser").val("");
+        $("#customer, #payPrepaidButton").hide();
+        return;
+    }
+    currentBalance = data.balance;
+    updateCurrentBalance();
+    $("#customer").show();
+    console.log(data);
+    if (data.prepaidAllowed) {
+        $("#payPrepaidButton").show();
+    } else {
+        $("#payPrepaidButton").hide();
+    }
+}
+
+function getCustomerByUsernameAnd(username, callback) {
     $.ajax({
         type: "GET",
         url: "/user/username/" + username,
     }).done(function(data) {
-        if ($.isEmptyObject(data)) {
-            $("#searchUser").val("");
-            $("#customer").hide();
-            return;
-        }
-        currentBalance = data.balance;
-        updateCurrentBalance();
+        callback(data);
     });
-
-    $("#customer").show();
 }
 
 function updateCurrentBalance() {

@@ -60,7 +60,7 @@
                 <hr>
                 <div id="payment">
                     <h2>Payment</h2>
-                    <div id="quickPaymentButtons" class="mb-2">
+                    <div id="quickPayment" class="mb-2">
                         <button class="btn btn-secondary" id="cashPayButton" onclick="doCashPayment()">
                             Direct Payment
                         </button>
@@ -74,7 +74,7 @@
                 </datalist>
                 <input class="form-control mb-2" placeholder="Select Customer" list="userList"  id="searchUser" autocomplete="off" required>
                 <div id="customer">
-                    <div class="form-inline">
+                    <div class="form-inline mb-2">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="currentBalance">Balance: ...</span>
@@ -85,6 +85,11 @@
                                 <button class="btn btn-secondary" onclick="doTopUp();" >Top-Up</button>
                             </div>
                         </div>
+                    </div>
+                    <div class="mb-2" id="prepaidPayment">
+                        <button class="btn btn-secondary" id="payPrepaidButton" onclick="doPrepaidPayment()">
+                            Prepaid Payment
+                        </button>
                     </div>
                 </div>
             </div>
