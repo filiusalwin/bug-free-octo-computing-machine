@@ -89,6 +89,7 @@ public class UserController {
         }
         Optional<User> user1 = userRepository.findById(user.getUserId());
         user.setPassword(user1.get().getPassword());
+        user.setBalance(user1.get().getBalance());
         userRepository.save(user);
         return "redirect:/user/";
     }
