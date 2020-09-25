@@ -1,3 +1,4 @@
+/*
 var doc, bod, htm, C, E, T; // for use on other loads
 addEventListener('load', function(){
 
@@ -32,4 +33,4 @@ addEventListener('load', function(){
         if(ev.keyCode === 13)sub.click();
     });
 
-});
+});*/

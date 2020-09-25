@@ -67,14 +67,15 @@ public class LoginController {
     }
 
     @PostMapping("/lockout")
-    protected String lockoutPin(Model model, @RequestParam("pw") String currentPin) {
+    protected String lockoutPin(Model model, @RequestParam("pin") String currentPin) {
         Optional<User> user = getCurrentUser();
         if (user == null || user.isEmpty()) {
             return "redirect:/login";
         }
         if (!passwordEncoder.matches(currentPin, (String) user.get().getPin())) {
             model.addAttribute("error", "Wrong pin code.");
-            return "lockscreen";
+
+            return "redirect:/lockout?error";
         }
         return "redirect:/order/";
     }
