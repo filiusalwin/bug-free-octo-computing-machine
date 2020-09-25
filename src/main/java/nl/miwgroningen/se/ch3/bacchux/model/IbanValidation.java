@@ -9,8 +9,10 @@ public class IbanValidation {
     private static final int IBAN_SIZE = 18;
     private static final BigInteger IBAN_MODULUS = new BigInteger("97");
 
+    private String iban = "NL02 RABO 0306 6480 59";
 
-    //Check if the total IBAN length is 18. If not IBAN is invalid.
+
+//Check if the total IBAN length is 18. If not IBAN is invalid.
 
     private boolean ibanLengthCorrect(String iban) {
 
@@ -65,6 +67,14 @@ public class IbanValidation {
         BigInteger modulusIban = bigIntegerIban.mod(IBAN_MODULUS);
 
         return modulusIban.equals(BigInteger.ONE);
+    }
+
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
     }
 
 }
