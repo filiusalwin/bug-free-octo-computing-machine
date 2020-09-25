@@ -76,7 +76,7 @@ public class LoginController {
             model.addAttribute("error", "Wrong pin code.");
             return "lockscreen";
         }
-        return "/order";
+        return "redirect:/order/";
     }
 
     public Optional<User> getCurrentUser() {

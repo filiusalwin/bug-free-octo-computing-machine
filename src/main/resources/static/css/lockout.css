@@ -2,10 +2,10 @@ html,body{
     background:grey; padding:0; margin:0;
 }
 .main{
-    width:350px; background:gray; margin: auto ; padding:100px;
+    width:200px; background:gray; margin: auto ; padding:50px;
 }
 #form{
-    float: left; width:350px; background:darkgray; padding:60px;
+    float: left; width:200px; background:darkgray; padding:60px;
 }
 #form>label,#form>input{
     display:block;

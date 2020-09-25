@@ -12,14 +12,14 @@ public class UserTest {
 
         product.setPrice(100000);
         assertThat(product.euroPrice())
-                .isEqualTo("€1000.00");
+                .isEqualTo("€1000,00");
 
         product.setPrice(0);
         assertThat(product.euroPrice())
-                .isEqualTo("€0.00");
+                .isEqualTo("€0,00");
 
         product.setPrice(1234);
         assertThat(product.euroPrice())
-                .isEqualTo("€12.34");
+                .isEqualTo("€12,34");
     }
 }
