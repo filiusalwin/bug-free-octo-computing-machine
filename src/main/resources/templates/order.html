@@ -60,20 +60,21 @@
                 <hr>
                 <div id="payment">
                     <h2>Payment</h2>
-                    <div id="quickPayment" class="mb-2">
-                        <button class="btn btn-secondary" id="cashPayButton" onclick="doCashPayment()">
-                            Direct Payment
-                        </button>
-                        <button class="btn btn-secondary" id="addPrepaidButton" onclick="addPrepaidCustomer()">
-                            Add Customer
-                        </button>
-                    </div>
+                    <button class="btn btn-secondary mb-2" id="cashPayButton" onclick="doCashPayment()">
+                        Direct Payment
+                    </button>
+                    <button class="btn btn-secondary mb-2" id="addPrepaidButton" onclick="addPrepaidCustomer()">
+                        New Prepaid Customer
+                    </button>
+                    <button class="btn btn-secondary mb-2" id="payPrepaidButton" onclick="doPrepaidPayment()">
+                        Prepaid Payment
+                    </button>
                 </div>
                 <datalist th:field="${user.userId}" id="userList">
                     <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
                 </datalist>
                 <input class="form-control mb-2" placeholder="Select Customer" list="userList"  id="searchUser" autocomplete="off" required>
-                <div id="prepaid">
+                <div id="topup">
                     <div class="form-inline mb-2">
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -85,11 +86,6 @@
                                 <button class="btn btn-secondary" onclick="doTopUp();" >Top-Up</button>
                             </div>
                         </div>
-                    </div>
-                    <div class="mb-2" id="prepaidPayment">
-                        <button class="btn btn-secondary" id="payPrepaidButton" onclick="doPrepaidPayment()">
-                            Prepaid Payment
-                        </button>
                     </div>
                 </div>
             </div>

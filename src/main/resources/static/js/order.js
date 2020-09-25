@@ -1,82 +1,90 @@
-var currentBalance;
+// ---- global variables ---- \\
+var currentBalance = 0;
 
-// Run once DOM is loaded
+
+// ---- On document load --- \\
 $(document).ready(function() {
-    $("#payment").hide();
-    $("#prepaid").hide();
+    hideUserStuff();
+    showPrepaidStuff(false);
+    hidePayment();
     $("#categoryList > button:first-child").trigger("click");
 
-    $(document).on('change', 'input', function(){
-        getUserFromSearch();
-    });
-
+    // event listeners
+    $("#searchUser").change(getUserFromSearch);
     $("#searchUser").click(function() {
-        this.value = "";
+        hideUserStuff();
     });
 });
 
-// get user from searchUser input
-function getUserFromSearch() {
-    var options = $('#userList')[0].options;
-    var username = $("#searchUser").val();
 
-    for (option of options){
-       if (option.value == username) {
-           getCustomerByUsernameAnd(username, chooseCustomer);
-           return;
-       }
+// ---- Show and Hide --- \\
+function showPrepaidStuff(hasPrepaid) {
+    if (hasPrepaid) {
+        $("#topup, #payPrepaidButton").show();
+        $("#cashPayButton").hide();
+    } else {
+       $("#topup, #payPrepaidButton").hide();
+       $("#cashPayButton").show();
     }
-    // if not matching any username
-    $("#searchUser").val("");
-    $("#prepaid").hide();
 }
 
-// select a customer and show info
+function hideUserStuff() {
+    $("#searchUser").val("");
+    $("#addPrepaidButton").show();
+    showPrepaidStuff(false);
+}
+
+function showUserStuff() {
+    $("#addPrepaidButton").hide();
+}
+
+function showPayment() {
+    $("#payment").show();
+}
+
+function hidePayment() {
+    $("#payment").hide();
+}
+
+
+// ---- User Selection --- \\
+function getUserFromSearch() {
+    var username = $("#searchUser").val();
+    getCustomerByUsernameAnd(username, chooseCustomer);
+}
+
 function chooseCustomer(data) {
     if ($.isEmptyObject(data)) {
-        $("#searchUser").val("");
-        $("#prepaid, #payPrepaidButton").hide();
+        hideUserStuff();
         return;
     }
     currentBalance = data.balance;
     updateCurrentBalance();
-    if (data.prepaidAllowed) {
-        $("#prepaid").show();
-    } else {
-        $("#prepaid").hide();
-    }
+    showUserStuff();
+    showPrepaidStuff(data.prepaidAllowed);
 }
 
 function getCustomerByUsernameAnd(username, callback) {
     $.ajax({
         type: "GET",
         url: "/user/username/" + username,
+        statusCode: {
+            404: function() {return {};}
+        }
     }).done(function(data) {
         callback(data);
     });
 }
 
-function updateCurrentBalance() {
-    $("#currentBalance").text("Balance: " + formatCurrencyString(currentBalance));
-}
 
-// formats number as currency
-const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'EUR',
-    minimumFractionDigits: 2
-})
-
-// helper for updateBill()
+// ---- Update Bill ---- \\
 function updateProductList(products) {
     var productBox = document.getElementById("billProductList");
     productBox.innerHTML = "";
 
     for (product of products) {
         var newitem = document.createElement("li");
-        newitem.classList.add("list-group-item");
-        newitem.classList.add("list-group-item-action");
-        newitem.classList.add("d-flex");
+        newitem.classList.add("list-group-item", "list-group-item-action", "d-flex");
 
         var amount = document.createElement("div");
         amount.innerHTML = product.amount;
@@ -102,45 +110,32 @@ function updateProductList(products) {
     }
 }
 
-// helper for updateBill()
 function updateTotalPrice(priceInCents) {
-
-    // format number as currency
     var formatted = formatter.format(priceInCents / 100);
-
-    // put formatted string in <span id="totalPrice"> tag
     document.getElementById("totalPrice").innerHTML = formatted;
 }
 
-// updates the displayed Bill with items, counts and total Price
 function updateBill() {
-    // get all tags in the productList
-    var productList = document.getElementById("productList");
-    var products = productList.getElementsByClassName("productListItem");
+    var products = document.querySelectorAll("#productList > .productListItem");
 
-    // prepare totalprice, productnames and counts
     var total = 0;
     var productsInBill = [];
 
-    // go through each list tag
     for (let product of products) {
-        // Get the value of the <input type="hidden" /> tag for each product
         var countBox = product.getElementsByClassName("productCountBox")[0];
         var count = parseInt(countBox.value);
 
-        // get product name and price, added as attributes via thymeleaf
         var productName = product.getAttribute("productName");
         var price = parseInt(product.getAttribute("productPrice"));
 
         var productId = parseInt(product.getAttribute("productId"));
 
-        // add to total, and if more than 0, add to list of products and counts
         total += count * price;
         if (count != 0) {
             productsInBill.push({
-                id: productId,
-                amount: count,
-                name: productName,
+                id:       productId,
+                amount:   count,
+                name:     productName,
                 subtotal: price * count
             });
         }
@@ -150,13 +145,14 @@ function updateBill() {
     updateProductList(productsInBill);
 
     if (total == 0) {
-        $("#payment").hide();
+        hidePayment();
     } else {
-        $("#payment").show();
+        showPayment();
     }
 }
 
-// increase product count by 1
+
+// ---- Product Selection ---- \\
 function addProduct(id) {
     var field = document.getElementById("productCount" + id);
     field.value = parseInt(field.value) + 1;
@@ -164,7 +160,6 @@ function addProduct(id) {
     updateBill();
 }
 
-// decrease product count by 1
 function removeProduct(id) {
     var field = document.getElementById("productCount" + id);
     var value = field.value;
@@ -200,7 +195,8 @@ function selectCategory(id) {
     }
 }
 
-// Perform direct payment
+
+// ---- Payment ---- \\
 function doCashPayment() {
     var price = document.getElementById("totalPrice").innerHTML;
     if (confirm("The total is " + price + ".")) {
@@ -208,13 +204,13 @@ function doCashPayment() {
     }
 }
 
-// Open popup window for new prepaid customer
+
+// ---- New Customer ---- \\
 function addPrepaidCustomer() {
     window.open("/order/new/prepaid", "popUpWindow",
          'height=500, width=600, left=50, top=50, resizable=yes, scrollbars=yes, toolbar=yes, menubar=no, location=no, directories=no, status=yes');
 }
 
-// get customer from popup window
 function loadCustomer(username, fullname) {
     var newOpt = document.createElement("option");
     newOpt.value = username;
@@ -225,7 +221,18 @@ function loadCustomer(username, fullname) {
     getUserFromSearch();
 }
 
-// perform topup of user
+
+// --- Prepaid --- \\
+function updateCurrentBalance() {
+    $("#currentBalance").text("Balance: " + formatCurrencyString(currentBalance));
+}
+
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: 2
+})
+
 function doTopUp() {
     var username = $("#searchUser").val();
     var amount = Number($("#topUpAmount").val().replace(/[^0-9]+/g, ""));
@@ -246,7 +253,7 @@ function doTopUp() {
                 updateCurrentBalance();
                 $("#topUpAmount").val("");
             },
-            440: function() {
+            404: function() {
                 alert("User not found");
             }
         }
