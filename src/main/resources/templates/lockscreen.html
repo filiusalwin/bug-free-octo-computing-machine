@@ -8,6 +8,7 @@
 </head>
 <body>
 <div class='main'>
+    <h1>Please enter your pincode to unlock.</h1>
     <form th:action="@{/lockout}" method="post">
         <div th:if="${param.error}">
             <div class="alert alert-danger">
@@ -15,10 +16,10 @@
             </div>
         </div>
         <div id='form' >
-            <label sec:authentication="name"> Username </label>
+            <label id="name" sec:authentication="name"> Username </label>
             <br>
-            <label for='pin'>PINCODE</label><input id='pin' name='pin' type='password'  />
-            <input id='sub' type='submit' class="btn btn-lg btn-secondary btn-block " value='Login' />
+            <label for='pin'>PINCODE</label><input id='pin' name='pin' type='password'/>
+            <input id='sub' type='submit' class="btn btn-lg btn-secondary btn-block " value='Let me in.' />
         </div>
     </form>
 </div>
