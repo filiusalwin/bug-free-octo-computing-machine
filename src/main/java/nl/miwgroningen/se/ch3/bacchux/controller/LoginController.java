@@ -7,7 +7,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,6 +64,19 @@ public class LoginController {
     @GetMapping("/lockout")
     public String lockout() {
         return "lockscreen";
+    }
+
+    @PostMapping("/lockout")
+    protected String lockoutPin(Model model, @RequestParam("pw") String currentPin) {
+        Optional<User> user = getCurrentUser();
+        if (user == null || user.isEmpty()) {
+            return "redirect:/login";
+        }
+        if (!passwordEncoder.matches(currentPin, (String) user.get().getPin())) {
+            model.addAttribute("error", "Wrong pin code.");
+            return "lockscreen";
+        }
+        return "/order";
     }
 
     public Optional<User> getCurrentUser() {

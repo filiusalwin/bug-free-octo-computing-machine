@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class='main'>
-    <form th:action="@{/loginpin}" method="post">
+    <form th:action="@{/lockout}" method="post">
         <div th:if="${param.error}">
             <div class="alert alert-danger">
                 Invalid pincode.
@@ -21,6 +21,6 @@
         <input id='sub' type='submit' class="btn btn-lg btn-secondary btn-block " value='Login' />
     </form>
 </div>
-<script type='text/js' src='lockout.js'></script>
+<!--<script type='text/js' src='lockout.js'></script>-->
 </body>
 </html>
