@@ -7,53 +7,61 @@
 </head>
 <body>
     <nav th:replace="fragments/navbar :: navbar" />
-
-    <h1>Overview of existing categories</h1>
-    <table>
-        <tr>
-            <th>Category name</th>
-        </tr>
-        <tr th:each="category: ${allCategories}">
-            <td><a th:href="@{/catalog/product/{categoryId}(categoryId=${category.categoryId})}">
-                <span th:text="${category.name}"></span></a></td>
-            <td><a class="button" th:href="@{/catalog/update/{categoryId}(categoryId=${category.categoryId})}">Update</a></td>
-            <td><a th:href="@{/catalog/delete/{categoryId}(categoryId=${category.categoryId})}">Delete</a></td>
-            <td><a th:href="@{/catalog/product/{categoryId}(categoryId=${category.categoryId})}">Select Category for Product</a></td>
-        </tr>
-    </table>
-
-<br>
-
-<h1>Create new category / Update for category <span th:text="${category.name}"/> </h1>
-    <form action="#" th:action="@{/catalog/add}" th:object="${category}" method="post">
-        <p><input type="hidden" th:field="*{categoryId}"  /></p>
-        <p>Category name: <input type="text" th:field="*{name}" required />
-            <span style="color:Tomato;" th:text="${error}"> </span>
-        </p>
-        <p><input name="action" type="submit" value="Save" />
-        <input type="reset" value="Reset"></p>
-    </form>
-
-<br>
-
-    <h1> Products of category <span th:text="${category.name}"/></h1>
-    <p th:if="${category.categoryId != null}">
-        <a class="button" th:href="@{/catalog/product/{categoryId}/add(categoryId=${category.categoryId})}">
-            Add new product
-        </a>
-    </p>
-    <table>
-       <tr>
-           <th>Product name</th>
-           <th>Product price</th>
-       </tr>
-        <tr th:each="product: ${category.getProducts()}">
-            <td><a th:href="@{/catalog/product/update/{productId}(productId=${product.productId})}">
-                <span th:text="${product.name}"></span></a></td>
-            <td th:text="${product.price}"/>
-            <td><a th:href="@{/catalog/product/delete/{productId}(productId=${product.productId})}" class="button">Delete</a></td>
-       </tr>
-    </table>
+    <div class="container">
+        <h1>Catalog overview</h1>
+            <div class="row">
+                <div class="col-2 border-right">
+                    <h2 class ="border-bottom">
+                        Category
+                    </h2>
+                    <div class="list-group list-group-flush" id="categoryList">
+                        <button class="list-group-item list-group-item-action categoryButton" th:each="category: ${allCategories}"
+                                th:id="${'category' + category.getCategoryId()}"
+                                th:attr="categoryName=|${category.getName()}|, onclick=|selectCategory(${category.getCategoryId()})|">
+                            <span th:text="${category.name}"/>
+                        </button>
+                        <a class="btn btn-secondary">Update </a>
+                        <a class="btn btn-secondary">Delete </a>
+                    </div>
+                </div>
+                <div class="col-5 border-right">
+                    <h2 class="border-bottom">
+                        Products
+                            <a th:if="${category.categoryId != null}" class="btn btn-secondary"
+                               th:href="@{/catalog/product/{categoryId}/add(categoryId=${category.categoryId})}">
+                                New Product
+                            </a>
+                    </h2>
+                    <div class="list-group list-group-flush" id="productList">
+                        <table>
+                            <tr>
+                                <th>Product name</th>
+                                <th>Product price</th>
+                            </tr>
+                            <tr th:each="product: ${category.getProducts()}">
+                                <td><a th:href="@{/catalog/product/update/{productId}(productId=${product.productId})}">
+                                    <span th:text="${product.name}"></span></a></td>
+                                <td th:text="${product.price}"/>
+                                <td><a th:href="@{/catalog/product/delete/{productId}(productId=${product.productId})}" class="button">Delete</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <h2 class ="border-bottom">
+                        Create/Update
+                    </h2>
+                    <form action="#" th:action="@{/catalog/add}" th:object="${category}" method="post">
+                        <p><input type="hidden" th:field="*{categoryId}"  /></p>
+                        <p>Category name: <input type="text" th:field="*{name}" required />
+                            <span style="color:Tomato;" th:text="${error}"> </span>
+                        </p>
+                        <p><input name="action" type="submit" value="Save" />
+                            <input type="reset" value="Reset"></p>
+                    </form>
+                </div>
+            </div>
+    </div>
     <div th:replace="fragments/footer :: footer"/>
     <div th:replace="fragments/header :: scriptFragment" />
 </body>
