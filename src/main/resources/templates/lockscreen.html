@@ -3,25 +3,25 @@
       xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta http-equiv='content-type' content='text/html;charset=utf-8' />
-    <title>Lockout</title>
+    <title>Lockscreen</title>
     <link type='text/css' rel='stylesheet' href='css/lockout.css' />
 </head>
-<body>
+<body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 <div class='main'>
-    <h1>Please enter your pincode to unlock.</h1>
+    <h1>The current user is <label id="name" sec:authentication="name"></label></h1>
     <form th:action="@{/lockout}" method="post">
-        <div th:if="${param.error}">
-            <div class="alert alert-danger">
-                Invalid pincode.
-            </div>
-        </div>
         <div id='form' >
-            <label id="name" sec:authentication="name"> Username </label>
-            <br>
-            <label for='pin'>PINCODE</label><input id='pin' name='pin' type='password'/>
-            <input id='sub' type='submit' class="btn btn-lg btn-secondary btn-block " value='Let me in.' />
+            <h2>Click once to lock. Enter your pincode to log in again.</h2>
+            <label for='pin'></label><input id='pin' name='pin' type='password' maxlength="4" placeholder="My pincode" />
+            <input id='sub' type='submit' class="btn btn-lg btn-secondary btn-block " value='Lock / Unlock' required />
+        </div>
+        <div th:if="${param.error}">
+            <div style="color:red" class="error">
+                The program is now on locked.
+            </div>
         </div>
     </form>
 </div>
+<script type="text/javascript" th:src="@{/js/lockout.js}" ></script>
 </body>
 </html>

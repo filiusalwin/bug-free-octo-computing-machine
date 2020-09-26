@@ -72,12 +72,11 @@ public class LoginController {
         if (user == null || user.isEmpty()) {
             return "redirect:/login";
         }
-        if (!passwordEncoder.matches(currentPin, (String) user.get().getPin())) {
+        if (passwordEncoder.matches(currentPin, (String) user.get().getPin())) {
             model.addAttribute("error", "Wrong pin code.");
-
-            return "redirect:/lockout?error";
+            return "redirect:/order/";
         }
-        return "redirect:/order/";
+        return "redirect:/lockout?error" ;
     }
 
     public Optional<User> getCurrentUser() {
