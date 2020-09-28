@@ -13,7 +13,6 @@
             <div class="row">
                 <div class="col-10">
                 <h2>User Search</h2>
-                    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
                 </div>
                     <datalist th:field="${user.userId}" id="userList">
                         <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
@@ -26,6 +25,8 @@
             <div class="row">
                 <div class="col-12">
                     <h2>User Overview</h2>
+                    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+                    <div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
                     <table class="table table-striped m">
                         <thead>
                         <tr>
