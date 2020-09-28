@@ -71,11 +71,11 @@ public class UserController {
         IbanValidation ibanValidation = new IbanValidation();
         if (!ibanValidation.validateIban(user.getCreditPaymentBankAccountNumber())) {
             redirAttrs.addFlashAttribute
-                    ("error", "The bank account number is not correct. New user not added");
-
+                    ("error", "The bank account number is not correct. New user not added.");
             model.addAttribute("allUsers", userRepository.findAll());
             return "redirect:/user/";
         }
+        redirAttrs.addFlashAttribute("success", "New user added.");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setPin(passwordEncoder.encode(user.getPin()));
         try {
@@ -104,6 +104,7 @@ public class UserController {
             model.addAttribute("allUsers", userRepository.findAll());
             return "redirect:/user/";
         }
+        redirAttrs.addFlashAttribute("success", "User updated.");
         Optional<User> user1 = userRepository.findById(user.getUserId());
         user.setPassword(user1.get().getPassword());
         user.setBalance(user1.get().getBalance());
