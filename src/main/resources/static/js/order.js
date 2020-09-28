@@ -1,5 +1,6 @@
 // ---- global variables ---- \\
 var currentBalance = 0;
+var totalPrice = 0;
 
 
 // ---- On document load --- \\
@@ -7,6 +8,7 @@ $(document).ready(function() {
     hideUserStuff();
     showPrepaidStuff(false);
     hidePayment();
+    $("#paymentError, #paymentSuccess").hide();
     $("#categoryList > button:first-child").trigger("click");
 
     // event listeners
@@ -69,7 +71,7 @@ function getCustomerByUsernameAnd(username, callback) {
         type: "GET",
         url: "/user/username/" + username,
         statusCode: {
-            404: function() {return {};}
+            404: function() {return;}
         }
     }).done(function(data) {
         callback(data);
@@ -118,7 +120,7 @@ function updateTotalPrice(priceInCents) {
 function updateBill() {
     var products = document.querySelectorAll("#productList > .productListItem");
 
-    var total = 0;
+    totalPrice = 0;
     var productsInBill = [];
 
     for (let product of products) {
@@ -130,7 +132,7 @@ function updateBill() {
 
         var productId = parseInt(product.getAttribute("productId"));
 
-        total += count * price;
+        totalPrice += count * price;
         if (count != 0) {
             productsInBill.push({
                 id:       productId,
@@ -141,10 +143,10 @@ function updateBill() {
         }
     }
 
-    updateTotalPrice(total);
+    updateTotalPrice(totalPrice);
     updateProductList(productsInBill);
 
-    if (total == 0) {
+    if (totalPrice == 0) {
         hidePayment();
     } else {
         showPayment();
@@ -198,10 +200,34 @@ function selectCategory(id) {
 
 // ---- Payment ---- \\
 function doCashPayment() {
+    $("#paymentError").hide();
     var price = document.getElementById("totalPrice").innerHTML;
     if (confirm("The total is " + price + ".")) {
-        location.reload();
+        successAndReload();
     }
+}
+
+function doPrepaidPayment() {
+    $("#paymentError").hide();
+    $.ajax({
+        type: "POST",
+        url: "/payment/prepaid/",
+        data: {
+            username: $("#searchUser").val(),
+            amount: totalPrice,
+        },
+        success: successAndReload,
+        error: function(jqXHR, textStatus, errorThrown) {
+            $("#paymentError").text("Payment error: " + jqXHR.responseText);
+            $("#paymentError").show();
+        }
+    });
+}
+
+function successAndReload() {
+    $("#paymentError").hide();
+    $("#paymentSuccess").show();
+    setTimeout(function() {location.reload();}, 1000);
 }
 
 
@@ -220,7 +246,6 @@ function loadCustomer(username, fullname) {
     $("#searchUser").val(username);
     getUserFromSearch();
 }
-
 
 // --- Prepaid --- \\
 function updateCurrentBalance() {
