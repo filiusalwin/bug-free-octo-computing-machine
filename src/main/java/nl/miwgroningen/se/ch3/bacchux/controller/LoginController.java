@@ -24,6 +24,7 @@ public class LoginController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+
     @GetMapping({"", "/"})
     protected String landingPage() {
         Optional<User> user = getCurrentUser();
@@ -50,15 +51,17 @@ public class LoginController {
 
     public void checkForFirstUser() {
         List<User> allUsers = userRepository.findAll();
-        if (allUsers.size() == 0) {
-            User newUser = new User();
-            newUser.setUsername("admin");
-            newUser.setPassword(passwordEncoder.encode("admin"));
-            newUser.setPin(passwordEncoder.encode("1234"));
-            newUser.setRoles("ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER");
-            newUser.setPasswordNeedsChange(true);
-            userRepository.save(newUser);
+        if (allUsers.size() != 0) {
+            return;
         }
+        User newUser = new User();
+        newUser.setUsername("admin");
+        newUser.setName("admin");
+        newUser.setPassword(passwordEncoder.encode("admin"));
+        newUser.setPin(passwordEncoder.encode("1234"));
+        newUser.setRoles("ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER");
+        newUser.setPasswordNeedsChange(true);
+        userRepository.save(newUser);
     }
 
     @GetMapping("/lockout")
