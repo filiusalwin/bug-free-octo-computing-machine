@@ -71,14 +71,14 @@ public class ProfileController {
                                       @RequestParam("newPassword") String newPassword, RedirectAttributes redirectAttributes) {
         Optional<User> user = userRepository.findById(userId);
         if (user == null || user.isEmpty()) {
-            return "redirect:/login";
+            redirectAttributes.addFlashAttribute("error", "Something went wrong, it looks like this user doesn't exist. You are redirect to the userpage");
+            return "redirect:/user";
         }
         user.get().setPassword(passwordEncoder.encode(newPassword));
         user.get().setPasswordNeedsChange(false);
         userRepository.save(user.get());
         model.addAttribute(user.get());
         redirectAttributes.addFlashAttribute("success", "Password changed successfully.");
-        model.addAttribute("success", "Password changed successfully.");
         return "resetPassword";
     }
 
