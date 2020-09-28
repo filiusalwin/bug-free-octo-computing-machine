@@ -31,6 +31,15 @@ public class UserRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @GetMapping("/username/{username}")
+    protected UserDTO getUserByUsername(@PathVariable("username") final String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isEmpty()) {
+            return null;
+        }
+        return new UserDTO(user.get());
+    }
+
     @GetMapping("/{userId}")
     User one(@PathVariable Integer userId) {
         Optional<User> userOptional = userRepository.findById(userId);
@@ -49,14 +58,5 @@ public class UserRestController {
         }
         User user = userOptional.get();
         return user;
-    }
-
-    @GetMapping("/username/{username}")
-    protected UserDTO getUserByUsername(@PathVariable("username") final String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        if (user.isEmpty()) {
-            return null;
-        }
-        return new UserDTO(user.get());
     }
 }
