@@ -1,6 +1,7 @@
 package nl.miwgroningen.se.ch3.bacchux.controller;
 
 
+import nl.miwgroningen.se.ch3.bacchux.model.IbanValidation;
 import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -62,19 +64,26 @@ public class UserController {
     @PostMapping ("/add")
     protected String saveNewUser( Model model,
                                        @ModelAttribute("user") User user,
-                                       BindingResult result) {
+                                       BindingResult result, RedirectAttributes redirAttrs) {
         if (result.hasErrors()) {
             return "userOverview";
-        } else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setPin(passwordEncoder.encode(user.getPin()));
-            try {
-                userRepository.save(user);
-            } catch (DataIntegrityViolationException exception) {
-                model.addAttribute("allUsers", userRepository.findAll());
-                model.addAttribute("error", "This username already exists!");
-                return "userOverview";
-            }
+        }
+        IbanValidation ibanValidation = new IbanValidation();
+        if (!ibanValidation.validateIban(user.getCreditPaymentBankAccountNumber())) {
+            redirAttrs.addFlashAttribute
+                    ("error", "The bank account number is not correct. New user not added");
+
+            model.addAttribute("allUsers", userRepository.findAll());
+            return "redirect:/user/";
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPin(passwordEncoder.encode(user.getPin()));
+        try {
+            userRepository.save(user);
+        } catch (DataIntegrityViolationException exception) {
+            model.addAttribute("allUsers", userRepository.findAll());
+            model.addAttribute("error", "This username already exists!");
+            return "userOverview";
         }
         return "redirect:/user/";
     }
@@ -83,9 +92,17 @@ public class UserController {
     @PostMapping ("/save")
     protected String updateUser( Model model,
                                        @ModelAttribute("user") User user,
-                                       BindingResult result) {
+                                       BindingResult result, RedirectAttributes redirAttrs) {
         if (result.hasErrors()) {
             return "userOverview";
+        }
+        IbanValidation ibanValidation = new IbanValidation();
+        if (!ibanValidation.validateIban(user.getCreditPaymentBankAccountNumber())) {
+            redirAttrs.addFlashAttribute
+                    ("error", "The bank account number is not correct. User not updated");
+
+            model.addAttribute("allUsers", userRepository.findAll());
+            return "redirect:/user/";
         }
         Optional<User> user1 = userRepository.findById(user.getUserId());
         user.setPassword(user1.get().getPassword());

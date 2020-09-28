@@ -101,3 +101,6 @@ function checkIfUserNameExists() {
     }
 }
 
+function ibanValidation() {
+
+}
