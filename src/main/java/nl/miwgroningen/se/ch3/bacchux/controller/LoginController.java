@@ -31,6 +31,7 @@ public class LoginController {
         if (user == null || user.isEmpty()) {
             return "redirect:/login";
         }
+        user.get().setRoles(user.get().getOriginalRoles());
         Boolean passwordNeedsChange = user.get().getPasswordNeedsChange();
         if (passwordNeedsChange != null && passwordNeedsChange) {
             return "redirect:/profile/password";
@@ -65,7 +66,16 @@ public class LoginController {
     }
 
     @GetMapping("/lockout")
-    public String lockout() {
+    public String lockout(Model model) {
+        Optional<User> user = getCurrentUser();
+        if (user == null || user.isEmpty()) {
+            return "redirect:/login";
+        }
+        if (!user.get().getRoles().equals("ROLE_CUSTOMER")){
+            user.get().setOriginalRoles(user.get().getRoles());
+            user.get().setRoles("ROLE_CUSTOMER");
+            userRepository.save(user.get());
+        }
         return "lockscreen";
     }
 
@@ -76,10 +86,11 @@ public class LoginController {
             return "redirect:/login";
         }
         if (passwordEncoder.matches(currentPin, (String) user.get().getPin())) {
-            model.addAttribute("error", "Wrong pin code.");
+            user.get().setRoles(user.get().getOriginalRoles());
+            userRepository.save(user.get());
             return "redirect:/order/";
         }
-        return "redirect:/lockout?error" ;
+            return "redirect:/lockout?error" ;
     }
 
     public Optional<User> getCurrentUser() {
@@ -90,4 +101,5 @@ public class LoginController {
         String username = ((UserDetails) principal).getUsername();
         return userRepository.findByUsername(username);
     }
+
 }

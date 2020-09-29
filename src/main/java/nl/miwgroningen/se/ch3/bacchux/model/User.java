@@ -24,6 +24,8 @@ public class User implements Comparable<User> {
 
     private String roles;
 
+    public String originalRoles ;
+
     private boolean creditAllowed = false;
 
     private String creditPaymentBankAccountNumber;
@@ -139,6 +141,14 @@ public class User implements Comparable<User> {
 
     public void setPin(String pin) {
         this.pin = pin;
+    }
+
+    public String getOriginalRoles() {
+        return originalRoles;
+    }
+
+    public void setOriginalRoles(String originalRoles) {
+        this.originalRoles = originalRoles;
     }
 
     @Override
