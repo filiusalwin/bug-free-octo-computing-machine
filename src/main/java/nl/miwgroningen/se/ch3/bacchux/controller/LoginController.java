@@ -69,4 +69,6 @@ public class LoginController {
         String username = ((UserDetails) principal).getUsername();
         return userRepository.findByUsername(username);
     }
+
+
 }

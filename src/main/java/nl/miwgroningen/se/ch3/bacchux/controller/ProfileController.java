@@ -8,10 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -55,6 +53,37 @@ public class ProfileController {
         userRepository.save(user.get());
         model.addAttribute("success", "Password changed successfully.");
         return "changePassword";
+    }
+
+    @GetMapping("/passwordreset/{userId}")
+    protected String loadResetPassword(Model model, @PathVariable("userId") final Integer userId, RedirectAttributes redirectAttributes) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user == null || user.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Something went wrong. You are redirect to the userpage.");
+            return "redirect:/user";
+        }
+        model.addAttribute(user.get());
+        return "resetPassword";
+    }
+
+    @PostMapping("/passwordreset/reset/{userId}")
+    protected String doResetPassword(Model model, @PathVariable("userId") final Integer userId,
+                                      @RequestParam("newPassword") String newPassword, RedirectAttributes redirectAttributes) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Something went wrong. You are redirect to the userpage.");
+            return "redirect:/user";
+        }
+        if (user.get().getPassword() == newPassword) {
+            redirectAttributes.addFlashAttribute("error", "Something went wrong. You are redirect to the userpage.");
+            return "redirect:/resetPassword";
+        }
+        user.get().setPassword(passwordEncoder.encode(newPassword));
+        user.get().setPasswordNeedsChange(true);
+        userRepository.save(user.get());
+        model.addAttribute(user.get());
+        redirectAttributes.addFlashAttribute("success", "Password changed successfully.");
+        return "redirect:/user";
     }
 
     public Optional<User> getCurrentUser() {
