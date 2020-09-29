@@ -1,5 +1,6 @@
 package nl.miwgroningen.se.ch3.bacchux.controller;
 
+import nl.miwgroningen.se.ch3.bacchux.model.IbanValidation;
 import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.model.UserDTO;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
@@ -59,4 +60,11 @@ public class UserRestController {
         User user = userOptional.get();
         return user;
     }
+
+    @GetMapping("/ibanValid/")
+    boolean ibanValid(@RequestParam String iban) {
+        IbanValidation ibanValidation = new IbanValidation();
+        return ibanValidation.validateIban(iban);
+    }
+
 }

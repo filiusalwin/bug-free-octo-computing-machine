@@ -8,7 +8,7 @@ $(document).ready(function() {
     $("#searchUser").click(function() {
         this.value = "";
     });
-    $("#usernameError").hide();
+    $("#usernameError, #ibanError").hide();
 });
 
 function getUserFromSearch() {
@@ -101,6 +101,23 @@ function checkIfUserNameExists() {
     }
 }
 
-function ibanValidation() {
 
+function ibanValidation() {
+    var iban = $("#credit_account").val();
+    $.ajax({
+        type: "GET",
+        url: "/user/ibanValid/",
+        data: {
+            iban: iban,
+        },
+    }).done(function(ibanData) {
+
+        console.log(ibanData);
+
+        if (!ibanData) {
+            $("#ibanError").show();
+        } else {
+            $("#ibanError").hide();
+        }
+    });
 }

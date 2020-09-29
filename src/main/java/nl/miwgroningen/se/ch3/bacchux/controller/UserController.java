@@ -69,10 +69,10 @@ public class UserController {
             return "userOverview";
         }
         IbanValidation ibanValidation = new IbanValidation();
-        if (!ibanValidation.validateIban(user.getCreditPaymentBankAccountNumber())) {
+        if (!ibanValidation.validateIban(user.getCreditPaymentBankAccountNumber())
+                && !user.getCreditPaymentBankAccountNumber().isEmpty()) {
             redirAttrs.addFlashAttribute
                     ("error", "The bank account number is not correct. New user not added.");
-            model.addAttribute("allUsers", userRepository.findAll());
             return "redirect:/user/";
         }
         redirAttrs.addFlashAttribute("success", "New user added.");
