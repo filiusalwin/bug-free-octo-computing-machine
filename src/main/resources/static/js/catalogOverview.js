@@ -1,0 +1,29 @@
+function openModalNewCategory() {
+
+}
+
+function openModalNewProduct() {
+
+}
+
+var newCategory;
+
+//TODO this method is not correct yet
+function checkIfCategoryNameExists() {
+    if(newCategory === true) {
+        categoryName1 = $("#categoryNameInput").val();
+        $.ajax({
+            type: "GET",
+            url: "/user/byUsername/" + categoryName1,
+            data: {
+                name: categoryName1,
+            },
+        }).done(function getCategoryData(categoryData) {
+            if (categoryData.name === categoryName1) {
+                $("#categoryNameError").show();
+            } else {
+                $("#categoryNameError").hide();
+            }
+        });
+    }
+}

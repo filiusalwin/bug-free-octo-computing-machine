@@ -12,7 +12,8 @@
             <div class="row">
                 <div class="col-2 border-right">
                     <h2 class ="border-bottom">
-                        Category
+                        Categories
+                        <button class="btn btn-secondary" onclick="openModalNewCategory()" data-toggle="modal" data-target="#maintainCategoryModal">New Category</button>
                     </h2>
                     <div class="list-group list-group-flush" id="categoryList">
                         <button class="list-group-item list-group-item-action categoryButton" th:each="category: ${allCategories}"
@@ -20,18 +21,18 @@
                                 th:attr="categoryName=|${category.getName()}|, onclick=|selectCategory(${category.getCategoryId()})|">
                             <span th:text="${category.name}"/>
                         </button>
-                        <a class="btn btn-secondary">Update </a>
-                        <a class="btn btn-secondary">Delete </a>
                     </div>
                 </div>
                 <div class="col-5 border-right">
                     <h2 class="border-bottom">
                         Products
-                            <a th:if="${category.categoryId != null}" class="btn btn-secondary"
+                        <button class="btn btn-secondary" onclick="openModalNewProduct()" data-toggle="modal" data-target="#maintainProductModal">New Product</button>
+                        <!--<a th:if="${category.categoryId != null}" class="btn btn-secondary"
                                th:href="@{/catalog/product/{categoryId}/add(categoryId=${category.categoryId})}">
                                 New Product
-                            </a>
+                            </a>-->
                     </h2>
+                    <button class="btn btn-secondary" onclick="openModalNewProduct()" data-toggle="modal" data-target="#maintainProductModal">New Product</button>
                     <div class="list-group list-group-flush" id="productList">
                         <table>
                             <tr>
@@ -47,21 +48,62 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-5">
-                    <h2 class ="border-bottom">
-                        Create/Update
-                    </h2>
-                    <form action="#" th:action="@{/catalog/add}" th:object="${category}" method="post">
-                        <p><input type="hidden" th:field="*{categoryId}"  /></p>
-                        <p>Category name: <input type="text" th:field="*{name}" required />
-                            <span style="color:Tomato;" th:text="${error}"> </span>
-                        </p>
-                        <p><input name="action" type="submit" value="Save" />
-                            <input type="reset" value="Reset"></p>
-                    </form>
-                </div>
             </div>
     </div>
+    </div>
+
+    <div class="modal fade" id="maintainCategoryModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelCategory" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabelCategory">New Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetNewUser()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="categoryForm" action="#" th:action="@{/catalog/add}" th:object="${category}" method="post">
+<!--                        <p><input type="hidden" id="categoryIdInput" th:field="*{categoryId}"  /></p>-->
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="width: 100px;" id="basic-addon1">Name</span>
+                            </div>
+                            <input type="text" id="categoryNameInput" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" th:field="*{name}" onfocusout="checkIfCategoryNameExists()" required>
+                            <span id="categoryNameError" class="help">This category already exists.</span>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" form="categoryForm" name="action" type="submit" value="Save" >Save</button>
+                    <button class="btn btn-secondary" form="categoryForm" name="action" type="reset" value="Reset">Reset</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="maintainProductModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelProduct" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabelProduct">New Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetNewUser()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="productForm" action="#" th:action="@{/user/add}" th:object="${user}" method="post">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" form="productForm" name="action" type="submit" value="Save" >Save</button>
+                    <button class="btn btn-secondary" form="productForm" name="action" type="reset" value="Reset">Reset</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div th:replace="fragments/footer :: footer"/>
     <div th:replace="fragments/header :: scriptFragment" />
 </body>
