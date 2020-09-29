@@ -33,7 +33,7 @@ public class PrepaidRestController {
         return new ResponseEntity<>("Transaction successful", HttpStatus.OK);
     }
 
-    private boolean userCanPay(User user, Integer amount) {
+    public boolean userCanPay(User user, Integer amount) {
         return amount <= user.getBalance();
     }
 }
