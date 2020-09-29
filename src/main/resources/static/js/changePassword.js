@@ -22,6 +22,11 @@ $(document).ready(function() {
 function submitResetPassword(event) {
     event.preventDefault();
     $("#hintBox").hide();
+    if ($("#newPassword").val() === "" || $("#newPassword2").val() === "") {
+        $("#hintBox").html("Please fill out both fields");
+        $("#hintBox").show();
+        return;
+    }
     if ($("#newPassword").val() != $("#newPassword2").val()) {
         $("#hintBox").html("Passwords do not match");
         $("#hintBox").show();
@@ -29,3 +34,5 @@ function submitResetPassword(event) {
     }
     $("#resetPasswordForm").submit();
 }
+
+

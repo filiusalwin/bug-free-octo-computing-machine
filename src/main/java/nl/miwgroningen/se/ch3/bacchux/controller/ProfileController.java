@@ -59,7 +59,7 @@ public class ProfileController {
     protected String loadResetPassword(Model model, @PathVariable("userId") final Integer userId, RedirectAttributes redirectAttributes) {
         Optional<User> user = userRepository.findById(userId);
         if (user == null || user.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "Something went wrong, it looks like this user doesn't exist. You are redirect to the userpage");
+            redirectAttributes.addFlashAttribute("error", "Something went wrong. You are redirect to the userpage.");
             return "redirect:/user";
         }
         model.addAttribute(user.get());
@@ -70,16 +70,20 @@ public class ProfileController {
     protected String doResetPassword(Model model, @PathVariable("userId") final Integer userId,
                                       @RequestParam("newPassword") String newPassword, RedirectAttributes redirectAttributes) {
         Optional<User> user = userRepository.findById(userId);
-        if (user == null || user.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "Something went wrong, it looks like this user doesn't exist. You are redirect to the userpage");
+        if (user.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Something went wrong. You are redirect to the userpage.");
             return "redirect:/user";
         }
+        if (user.get().getPassword() == newPassword) {
+            redirectAttributes.addFlashAttribute("error", "Something went wrong. You are redirect to the userpage.");
+            return "redirect:/resetPassword";
+        }
         user.get().setPassword(passwordEncoder.encode(newPassword));
-        user.get().setPasswordNeedsChange(false);
+        user.get().setPasswordNeedsChange(true);
         userRepository.save(user.get());
         model.addAttribute(user.get());
         redirectAttributes.addFlashAttribute("success", "Password changed successfully.");
-        return "resetPassword";
+        return "redirect:/user";
     }
 
     public Optional<User> getCurrentUser() {
