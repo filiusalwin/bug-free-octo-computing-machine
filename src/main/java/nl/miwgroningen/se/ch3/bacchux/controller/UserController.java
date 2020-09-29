@@ -28,9 +28,7 @@ public class UserController {
         model.addAttribute("allUsers", userRepository.findAll());
         // to check Radio button "Customer"
         User user = new User();
-        user.setRoles("ROLE_CUSTOMER");
         model.addAttribute("user", user);
-        user.setUserId(user.getUserId());
         return "userOverview";
     }
 
@@ -41,8 +39,6 @@ public class UserController {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             model.addAttribute(user.get());
-            model.addAttribute("user", user.get());
-            model.addAttribute("userId", userId);
         } else {
             model.addAttribute(new User());
         }
@@ -58,13 +54,13 @@ public class UserController {
             model.addAttribute(user.get());
         } else {
             model.addAttribute(new User());
-
         }
         return "userOverview";
     }
 
+    // to add/save a new user
     @PostMapping ("/add")
-    protected String saveOrUpdateUser( Model model,
+    protected String saveNewUser( Model model,
                                        @ModelAttribute("user") User user,
                                        BindingResult result) {
         if (result.hasErrors()) {
@@ -80,6 +76,21 @@ public class UserController {
                 return "userOverview";
             }
         }
+        return "redirect:/user/";
+    }
+
+    //to update a user without changing password
+    @PostMapping ("/save")
+    protected String updateUser( Model model,
+                                       @ModelAttribute("user") User user,
+                                       BindingResult result) {
+        if (result.hasErrors()) {
+            return "userOverview";
+        }
+        Optional<User> user1 = userRepository.findById(user.getUserId());
+        user.setPassword(user1.get().getPassword());
+        user.setBalance(user1.get().getBalance());
+        userRepository.save(user);
         return "redirect:/user/";
     }
 
