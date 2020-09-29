@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    $("#categoryList > button:first-child").trigger("click");
     setTimeout(function() {
         $(".alert").alert('close');
     }, 2000);
@@ -11,6 +10,7 @@ $(document).ready(function() {
     $("#searchUser").click(function() {
         this.value = "";
     });
+
     $("#usernameError").hide();
 });
 
@@ -107,6 +107,5 @@ function checkIfUserNameExists() {
 function resetPassword() {
     userId = $("#userIdInput").val();
     window.location.assign("/profile/passwordreset/" + userId);
-
 }
 
