@@ -1,16 +1,14 @@
-$(document).ready(function(){
-    $(document).ready(function() {
-        $("#categoryList > button:first-child").trigger("click");
+$(document).ready(function() {
+    $("#categoryList > button:first-child").trigger("click");
 
-        $(document).on('change', 'input', function(){
-            getUserFromSearch();
-        });
-
-        $("#searchUser").click(function() {
-            this.value = "";
-        });
-        $("#usernameError").hide();
+    $(document).on('change', 'input', function(){
+        getUserFromSearch();
     });
+
+    $("#searchUser").click(function() {
+        this.value = "";
+    });
+    $("#usernameError").hide();
 });
 
 function getUserFromSearch() {
@@ -24,18 +22,6 @@ function getUserFromSearch() {
     }
 }
 
-function addUser(userId) {
-    $.ajax({
-        type: "GET",
-        url: "/user/" + userId,
-        data: {
-            userId: userId,
-        },
-    }).done(function getUserData (userData) {
-            fillOutForm(userData);
-            checkCorrectRadioBox(userData);
-    });
-}
 function checkCorrectRadioBox(userData) {
     if (userData.roles === "ROLE_CUSTOMER") {
         $("#customer").prop("checked", true);
@@ -46,27 +32,30 @@ function checkCorrectRadioBox(userData) {
     }
 }
 
-function fillOutForm(userData) {
-    $("#usernameInput").val(userData.username);
-    $("#usernameError").hide();
-    $("#userIdInput").val(userData.userId);
-    $("#nameInput").val(userData.name);
-    $("#password").val(userData.password);
-    $("#Prepaid").prop("checked", userData.prepaidAllowed);
-    $("#prepaid_balance").val(userData.balance);
-    $("#Credit").prop("checked", userData.creditAllowed);
-    $("#credit_account").val(userData.creditPaymentBankAccountNumber);
+function fillOutForm(data) {
+    document.getElementById("userForm").action = "/user/save";
+    $("#modalLabel").html("Edit " + data.username);
+    $("#usernameInput").val(data.username);
+    $("#usernameError,#password_pincode").hide();
+    $("#Prepaid-Choice-Label").show();
+    $("#Prepaid-Choice-Label").html("The prepaid balance: " + data.balance);
+    $("#userIdInput").val(data.userId);
+    $("#nameInput").val(data.name);
+    $("#Prepaid").prop("checked", data.prepaidAllowed);
+    $("#prepaid_balance").val(data.balance);
+    $("#Credit").prop("checked", data.creditAllowed);
+    $("#credit_account").val(data.creditPaymentBankAccountNumber);
 }
 function addUserByUsername(username) {
     $.ajax({
         type: "GET",
-        url: "/user/byUsername/" + username,
+        url: "/user/username/" + username,
         data: {
             username: username,
         },
-    }).done(function getUserData (userData) {
-        fillOutForm(userData);
-        checkCorrectRadioBox(userData);
+    }).done(function (data) {
+        fillOutForm(data);
+        checkCorrectRadioBox(data);
     });
 }
 function deleteUser() {
@@ -84,18 +73,13 @@ function resetNewUser() {
 function openModalNewUser() {
     newUser = true;
     $('#maintainUserModal').modal('show');
-    $("#usernameInput").val("");
-    $("#usernameError").hide();
-    $("#password").val("");
-    $("#userIdInput").val("");
-    $("#nameInput").val("");
+    $("#modalLabel").html("New User");
+    $("#usernameInput, #password, #userIdInput, #nameInput, #credit_account").val("");
+    $("#usernameError, #Prepaid-Choice-Label").hide();
+    $("#password_pincode").show();
+    $("#password, #pin").attr("required", "");
     $("#customer").prop("checked",true);
-    $("#bartender").prop("checked",false);
-    $("#barmanager").prop("checked",false);
-    $("#Prepaid").prop("checked", false);
-    $("#prepaid_balance").val("");
-    $("#Credit").prop("checked", false);
-    $("#credit_account").val("");
+    $("#bartender, #barmanager, #Prepaid, #Credit").prop("checked",false);
 }
 
 function checkIfUserNameExists() {
@@ -110,6 +94,8 @@ function checkIfUserNameExists() {
         }).done(function getUserData(userData) {
             if (userData.username === username1) {
                 $("#usernameError").show();
+            } else {
+                $("#usernameError").hide();
             }
         });
     }
