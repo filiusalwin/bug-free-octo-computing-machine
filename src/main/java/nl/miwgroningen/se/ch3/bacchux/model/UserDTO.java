@@ -16,6 +16,7 @@ public class UserDTO {
         prepaidAllowed = user.isPrepaidAllowed();
         creditAllowed = user.isCreditAllowed();
         balance = user.getBalance();
+        creditPaymentBankAccountNumber = user.getCreditPaymentBankAccountNumber();
     }
 
     private Integer userId;
@@ -33,6 +34,16 @@ public class UserDTO {
     private boolean creditAllowed;
 
     private Integer balance;
+
+    private String creditPaymentBankAccountNumber;
+
+    public String getCreditPaymentBankAccountNumber() {
+        return creditPaymentBankAccountNumber;
+    }
+
+    public void setCreditPaymentBankAccountNumber(String creditPaymentBankAccountNumber) {
+        this.creditPaymentBankAccountNumber = creditPaymentBankAccountNumber;
+    }
 
     public Integer getUserId() {
         return userId;
