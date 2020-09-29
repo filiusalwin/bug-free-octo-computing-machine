@@ -24,6 +24,10 @@ public class PrepaidRestController {
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
         User user = userOpt.get();
+        if (!user.isPrepaidAllowed()) {
+            String message = String.format("User '%s' does not have prepaid privileges", username);
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
         if (!userCanPay(user, amount)) {
             String message = String.format("Max payment: €%.2f", (double) user.getBalance() / 100);
             return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
