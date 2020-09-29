@@ -1,5 +1,8 @@
 $(document).ready(function() {
     $("#categoryList > button:first-child").trigger("click");
+    setTimeout(function() {
+        $(".alert").alert('close');
+    }, 2000);
 
     $(document).on('change', 'input', function(){
         getUserFromSearch();
