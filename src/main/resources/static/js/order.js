@@ -226,8 +226,12 @@ function doPrepaidPayment() {
 
 function successAndReload() {
     $("#paymentError").hide();
+    currentBalance -= totalPrice;
+    updateCurrentBalance();
+    const message = "Payment successful. Remaining balance: " + formatCurrencyString(currentBalance);
+    $("#paymentSuccess").text(message);
     $("#paymentSuccess").show();
-    setTimeout(function() {location.reload();}, 1000);
+    setTimeout(function() {location.reload();}, 3000);
 }
 
 

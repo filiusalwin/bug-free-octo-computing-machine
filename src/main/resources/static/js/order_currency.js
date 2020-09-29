@@ -125,6 +125,9 @@ function formatCurrencyString(input_val) {
 
        // Limit decimal to only 2 digits
        right_side = right_side.substring(0, 2);
+       if (right_side.length == 1) {
+           right_side += "0";
+       }
 
        // join number by .
        input_val = "€" + left_side + "." + right_side;
