@@ -1,7 +1,7 @@
 $(document).ready(function() {
     setTimeout(function() {
         $(".alert").alert('close');
-    }, 2000);
+    }, 5000);
 
     $(document).on('change', 'input', function(){
         getUserFromSearch();
@@ -118,9 +118,6 @@ function ibanValidation() {
             iban: iban,
         },
     }).done(function(ibanData) {
-
-        console.log(ibanData);
-
         if (!ibanData && iban) {
             $("#ibanError").show();
             $("#saveButton").prop("disabled", true);
@@ -128,7 +125,6 @@ function ibanValidation() {
             $("#ibanError").hide();
             $("#saveButton").prop("disabled", false);
         }
-
 
     });
 }
