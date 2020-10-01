@@ -10,7 +10,7 @@
     <div class="container">
         <h1>Catalog overview</h1>
             <div class="row">
-                <div class="col-2 border-right">
+                <div class="col-4 border-right">
                     <h2 class ="border-bottom">
                         Categories
                         <button class="btn btn-secondary" onclick="openModalNewCategory()" data-toggle="modal" data-target="#maintainCategoryModal">New Category</button>
@@ -32,7 +32,6 @@
                                 New Product
                             </a>-->
                     </h2>
-                    <button class="btn btn-secondary" onclick="openModalNewProduct()" data-toggle="modal" data-target="#maintainProductModal">New Product</button>
                     <div class="list-group list-group-flush" id="productList">
                         <table>
                             <tr>
@@ -57,13 +56,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalLabelCategory">New Category</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetNewUser()">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetNewCategory()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form id="categoryForm" action="#" th:action="@{/catalog/add}" th:object="${category}" method="post">
-<!--                        <p><input type="hidden" id="categoryIdInput" th:field="*{categoryId}"  /></p>-->
+                        <p><input type="hidden" id="categoryIdInput" th:field="*{categoryId}"  /></p>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon1">Name</span>

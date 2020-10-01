@@ -1,12 +1,18 @@
-function openModalNewCategory() {
 
+
+var newCategory;
+
+function openModalNewCategory() {
+    newCategory = true;
+    $('#maintainCategoryModal').modal('show');
+    $("#modalLabel").html("New Category");
 }
 
 function openModalNewProduct() {
 
 }
 
-var newCategory;
+
 
 //TODO this method is not correct yet
 function checkIfCategoryNameExists() {
@@ -25,5 +31,9 @@ function checkIfCategoryNameExists() {
                 $("#categoryNameError").hide();
             }
         });
+    }
+
+    function resetNewCategory() {
+        newCategory = false;
     }
 }
