@@ -8,16 +8,12 @@
 <body>
     <nav th:replace="fragments/navbar :: navbar" />
     <h1></h1>
-    <div class="alert alert-danger" id="errorAlert"  role="alert" th:text="${error}" th:if="${error}">
-    </div>
-    <div class="alert alert-primary" id="succesAlert" role="alert" th:text="${success}" th:if="${success}">
-    </div>
     <div class="container">
         <div class="col">
             <div class="row">
                 <div class="col-10">
                 <h2>User Search</h2>
-                    </div>
+                </div>
                     <datalist th:field="${user.userId}" id="userList">
                         <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
                     </datalist>
@@ -29,6 +25,8 @@
             <div class="row">
                 <div class="col-12">
                     <h2>User Overview</h2>
+                    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+                    <div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
                     <table class="table table-striped m">
                         <thead>
                         <tr>
@@ -133,14 +131,15 @@
                         <div class="input-group mb-3">
                             <div class="form-check" >
                                 <label id="Credit-Choice-Label" for="credit_account">What is your bank account number?</label>
-                                <input type="text" id="credit_account" name="credit_account"  th:field="*{creditPaymentBankAccountNumber}">
+                                <input type="text" id="credit_account" name="credit_account" onkeyup="ibanValidation()"  th:field="*{creditPaymentBankAccountNumber}">
+                                <span id="ibanError" class="help">This iban is not valid.</span>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button onclick="resetPassword()" id="resetPassword" class="btn btn-primary mr-auto">Reset Password</button>
-                    <button class="btn btn-secondary" form="userForm" name="action" type="submit" value="Save" >Save</button>
+                    <button class="btn btn-secondary" id="saveButton" form="userForm" name="action" type="submit" value="Save" >Save</button>
                     <button class="btn btn-secondary" form="userForm" name="action" type="reset" value="Reset">Reset</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
