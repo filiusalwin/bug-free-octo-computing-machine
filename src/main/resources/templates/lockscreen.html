@@ -12,7 +12,7 @@
     <form th:action="@{/lockout}" method="post">
         <div id='form' >
             <h2>Click once to lock. Enter your pincode to log in again.</h2>
-            <label for='pin'></label><input id='pin' name='pin' type='password' maxlength="4" placeholder="My pincode" />
+            <input id='pin' name='pin' type='password' placeholder="My pincode" />
             <input id='sub' type='submit' class="btn btn-lg btn-secondary btn-block " value='Lock / Unlock' required />
         </div>
         <div th:if="${param.error}">

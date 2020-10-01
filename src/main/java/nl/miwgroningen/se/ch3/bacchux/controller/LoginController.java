@@ -24,14 +24,12 @@ public class LoginController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-
     @GetMapping({"", "/"})
     protected String landingPage() {
         Optional<User> user = getCurrentUser();
         if (user == null || user.isEmpty()) {
             return "redirect:/login";
         }
-        user.get().setRoles(user.get().getOriginalRoles());
         Boolean passwordNeedsChange = user.get().getPasswordNeedsChange();
         if (passwordNeedsChange != null && passwordNeedsChange) {
             return "redirect:/profile/password";
@@ -66,28 +64,21 @@ public class LoginController {
     }
 
     @GetMapping("/lockout")
-    public String lockout(Model model) {
+    public String lockout() {
         Optional<User> user = getCurrentUser();
-        if (user == null || user.isEmpty()) {
+        if (user.isEmpty()) {
             return "redirect:/login";
-        }
-        if (!user.get().getRoles().equals("ROLE_CUSTOMER")){
-            user.get().setOriginalRoles(user.get().getRoles());
-            user.get().setRoles("ROLE_CUSTOMER");
-            userRepository.save(user.get());
         }
         return "lockscreen";
     }
 
     @PostMapping("/lockout")
-    protected String lockoutPin(Model model, @RequestParam("pin") String currentPin) {
+    protected String lockoutPin(@RequestParam("pin") String currentPin) {
         Optional<User> user = getCurrentUser();
-        if (user == null || user.isEmpty()) {
+        if (user.isEmpty()) {
             return "redirect:/login";
         }
         if (passwordEncoder.matches(currentPin, (String) user.get().getPin())) {
-            user.get().setRoles(user.get().getOriginalRoles());
-            userRepository.save(user.get());
             return "redirect:/order/";
         }
             return "redirect:/lockout?error" ;
