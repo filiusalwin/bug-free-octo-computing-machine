@@ -90,6 +90,12 @@ public class UserController {
         Optional<User> user1 = userRepository.findById(user.getUserId());
         user.setPassword(user1.get().getPassword());
         user.setBalance(user1.get().getBalance());
+        Optional<User> userByUsername = userRepository.findByUsername(user.getUsername());
+        if (!userByUsername.isEmpty() && userByUsername.get().getUserId() != user.getUserId()) {
+            model.addAttribute("error", "This username is taken by another user.");
+            model.addAttribute("allUsers", userRepository.findAll());
+            return "userOverview";
+        }
         userRepository.save(user);
         return "redirect:/user/";
     }
