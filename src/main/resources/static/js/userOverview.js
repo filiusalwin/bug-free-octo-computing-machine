@@ -121,10 +121,14 @@ function ibanValidation() {
 
         console.log(ibanData);
 
-        if (!ibanData) {
+        if (!ibanData && iban) {
             $("#ibanError").show();
+            $("#saveButton").prop("disabled", true);
         } else {
             $("#ibanError").hide();
+            $("#saveButton").prop("disabled", false);
         }
+
+
     });
 }
