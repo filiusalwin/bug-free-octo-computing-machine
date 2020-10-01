@@ -109,20 +109,6 @@ function checkIfUserNameExists() {
     });
 }
 
-
-// ---- Direct Links ---- \\
-function deleteUser() {
-   var userId = $("#userIdInput").val();
-    console.log($("#userIdInput").val());
-    window.location.href = "/user/delete/" + userId;
-}
-
-function resetPassword() {
-    userId = $("#userIdInput").val();
-    window.location.assign("/profile/passwordreset/" + userId);
-}
-
-
 function ibanValidation() {
     var iban = $("#credit_account").val();
     $.ajax({
@@ -141,4 +127,17 @@ function ibanValidation() {
         }
 
     });
+}
+
+
+// ---- Direct Links ---- \\
+function deleteUser() {
+   var userId = $("#userIdInput").val();
+    console.log($("#userIdInput").val());
+    window.location.href = "/user/delete/" + userId;
+}
+
+function resetPassword() {
+    userId = $("#userIdInput").val();
+    window.location.assign("/profile/passwordreset/" + userId);
 }
