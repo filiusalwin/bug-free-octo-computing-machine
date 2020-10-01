@@ -1,5 +1,7 @@
 $(document).ready(function() {
-    $("#categoryList > button:first-child").trigger("click");
+    setTimeout(function() {
+        $(".alert").alert('close');
+    }, 2000);
 
     $(document).on('change', 'input', function(){
         getUserFromSearch();
@@ -8,6 +10,7 @@ $(document).ready(function() {
     $("#searchUser").click(function() {
         this.value = "";
     });
+
     $("#usernameError").hide();
 });
 
@@ -37,7 +40,7 @@ function fillOutForm(data) {
     $("#modalLabel").html("Edit " + data.username);
     $("#usernameInput").val(data.username);
     $("#usernameError,#password_pincode").hide();
-    $("#Prepaid-Choice-Label").show();
+    $("#Prepaid-Choice-Label, #resetPassword").show();
     $("#Prepaid-Choice-Label").html("The prepaid balance: " + data.balance);
     $("#userIdInput").val(data.userId);
     $("#nameInput").val(data.name);
@@ -75,7 +78,7 @@ function openModalNewUser() {
     $('#maintainUserModal').modal('show');
     $("#modalLabel").html("New User");
     $("#usernameInput, #password, #userIdInput, #nameInput, #credit_account").val("");
-    $("#usernameError, #Prepaid-Choice-Label").hide();
+    $("#usernameError, #Prepaid-Choice-Label, #resetPassword").hide();
     $("#password_pincode").show();
     $("#password, #pin").attr("required", "");
     $("#customer").prop("checked",true);
@@ -99,5 +102,10 @@ function checkIfUserNameExists() {
             }
         });
     }
+}
+
+function resetPassword() {
+    userId = $("#userIdInput").val();
+    window.location.assign("/profile/passwordreset/" + userId);
 }
 
