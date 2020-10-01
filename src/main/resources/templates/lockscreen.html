@@ -6,22 +6,24 @@
     <title>Lockscreen</title>
     <link type='text/css' rel='stylesheet' href='css/lockout.css' />
 </head>
-<body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
-<div class='main'>
+<body class='main' onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
+<div>
     <h1>The current user is <label id="name" sec:authentication="name"></label></h1>
     <form th:action="@{/lockout}" method="post">
         <div id='form' >
-            <h2>Click once to lock. Enter your pincode to log in again.</h2>
             <input id='pin' name='pin' type='password' placeholder="My pincode" />
-            <input id='sub' type='submit' class="btn btn-lg btn-secondary btn-block " value='Lock / Unlock' required />
+            <button id="lock" class="btn btn-lg btn-secondary btn-block " onclick="lockscreen()">Lock </button>
+            <input id='sub' type='submit' class="btn btn-lg btn-secondary btn-block " value='Unlock' required />
         </div>
         <div th:if="${param.error}">
             <div style="color:red" class="error">
-                The program is now on locked.
+                The program is now locked.
             </div>
         </div>
     </form>
 </div>
+<button id="cancel" class="btn btn-lg btn-secondary btn-block " onclick="goBack()">Back </button>
+<div th:replace="fragments/header :: scriptFragment" />
 <script type="text/javascript" th:src="@{/js/lockout.js}" ></script>
 </body>
 </html>
