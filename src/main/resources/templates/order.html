@@ -7,10 +7,12 @@
 <body>
     <nav th:replace="fragments/navbar :: navbar" />
     <input hidden th:field="${user.userId}" id="User">
-    <div class="container">
-        <h1>Place Order</h1>
-        <div class="row">
-            <div class="col-2 border-right">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <h1>Place Order</h1>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col border-right bigColumn">
                 <h2 class="border-bottom">
                     Categories
                 </h2>
@@ -22,7 +24,7 @@
                     </button>
                 </div>
             </div>
-            <div class="col-5 border-right">
+            <div class="col border-right bigColumn" >
                 <h2 class="border-bottom">
                     Products
                 </h2>
@@ -41,7 +43,7 @@
                     </button>
                 </div>
             </div>
-            <div class="col-5">
+            <div class="col bigColumn" >
                 <div id="bill">
                     <h2>
                         Bill
@@ -58,24 +60,27 @@
                 <hr>
                 <div id="payment">
                     <h2>Payment</h2>
-                    <div id="quickPaymentButtons" class="mb-2">
-                        <button class="btn btn-secondary" id="cashPayButton" onclick="doCashPayment()">
-                            Direct Payment
-                        </button>
-                        <button class="btn btn-secondary" id="addPrepaidButton" onclick="addPrepaidCustomer()">
-                            Add Customer
-                        </button>
-                    </div>
+                    <div id="paymentError" class="alert alert-danger"></div>
+                    <div id="paymentSuccess" class="alert alert-success">Payment successful.</div>
+                    <button class="btn btn-secondary mb-2" id="cashPayButton" onclick="doCashPayment()">
+                        Direct Payment
+                    </button>
+                    <button class="btn btn-secondary mb-2" id="addPrepaidButton" onclick="addPrepaidCustomer()">
+                        New Prepaid Customer
+                    </button>
+                    <button class="btn btn-secondary mb-2" id="payPrepaidButton" onclick="doPrepaidPayment()">
+                        Prepaid Payment
+                    </button>
                 </div>
                 <datalist th:field="${user.userId}" id="userList">
                     <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
                 </datalist>
                 <input class="form-control mb-2" placeholder="Select Customer" list="userList"  id="searchUser" autocomplete="off" required>
-                <div id="customer">
-                    <div class="form-inline">
+                <div id="topup">
+                    <div class="form-inline mb-2">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="currentBalance"></span>
+                                <span class="input-group-text" id="currentBalance">Balance: ...</span>
                             </div>
                             <input type="text" class="form-control" id="topUpAmount" placeholder="Top-Up Amount"
                                    data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"/>
