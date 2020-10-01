@@ -1,4 +1,4 @@
-package nl.miwgroningen.se.ch3.bacchux;
+package nl.miwgroningen.se.ch3.bacchux.model;
 
 import nl.miwgroningen.se.ch3.bacchux.model.IbanValidation;
 import nl.miwgroningen.se.ch3.bacchux.model.Product;

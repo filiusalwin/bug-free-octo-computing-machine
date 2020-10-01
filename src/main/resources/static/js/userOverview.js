@@ -1,7 +1,7 @@
 $(document).ready(function() {
     setTimeout(function() {
         $(".alert").alert('close');
-    }, 2000);
+    }, 5000);
 
     $(document).on('change', 'input', function(){
         getUserFromSearch();
@@ -10,8 +10,7 @@ $(document).ready(function() {
     $("#searchUser").click(function() {
         this.value = "";
     });
-
-    $("#usernameError").hide();
+    $("#usernameError, #ibanError").hide();
 });
 
 function getUserFromSearch() {
@@ -109,3 +108,23 @@ function resetPassword() {
     window.location.assign("/profile/passwordreset/" + userId);
 }
 
+
+function ibanValidation() {
+    var iban = $("#credit_account").val();
+    $.ajax({
+        type: "GET",
+        url: "/user/ibanValid/",
+        data: {
+            iban: iban,
+        },
+    }).done(function(ibanData) {
+        if (!ibanData && iban) {
+            $("#ibanError").show();
+            $("#saveButton").prop("disabled", true);
+        } else {
+            $("#ibanError").hide();
+            $("#saveButton").prop("disabled", false);
+        }
+
+    });
+}
