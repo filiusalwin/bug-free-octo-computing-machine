@@ -23,13 +23,7 @@ public class CategoryController {
     protected String showCategoryForm(Model model) {
         List<Category> allCategories = categoryRepository.findAll();
         model.addAttribute("allCategories", allCategories);
-        Category category;
-        if (allCategories.isEmpty()) {
-             category = new Category();
-        } else {
-             category = allCategories.get(0);
-        }
-        model.addAttribute("category", category);
+        model.addAttribute("category", new Category());
         return "catalogOverview";
     }
 

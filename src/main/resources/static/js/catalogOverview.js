@@ -1,6 +1,7 @@
 
 
 var newCategory;
+var newProduct;
 
 function openModalNewCategory() {
     newCategory = true;
@@ -9,31 +10,35 @@ function openModalNewCategory() {
 }
 
 function openModalNewProduct() {
-
+    newProduct = true;
 }
 
 
 
 //TODO this method is not correct yet
 function checkIfCategoryNameExists() {
-    if(newCategory === true) {
-        categoryName1 = $("#categoryNameInput").val();
-        $.ajax({
-            type: "GET",
-            url: "/user/byUsername/" + categoryName1,
-            data: {
-                name: categoryName1,
-            },
-        }).done(function getCategoryData(categoryData) {
-            if (categoryData.name === categoryName1) {
-                $("#categoryNameError").show();
-            } else {
-                $("#categoryNameError").hide();
-            }
-        });
-    }
+    var originalCategoryName = $("#originalCategoryName").val();
+    categoryName = $("#categoryNameInput").val();
+    $.ajax({
+        type: "GET",
+        url: "/catalog/byCategoryName/" + categoryName,
+        data: {
+            categoryName: categoryName,
+        },
+    }).done(function getCategoryData(categoryData) {
+        if (categoryData.categoryName === categoryData && categoryData.categoryName !== originalCategoryName) {
+            $("#categoryNameError").show();
+        } else {
+            $("#categoryNameError").hide();
+        }
+    });
+
 
     function resetNewCategory() {
         newCategory = false;
+    }
+
+    function resetNewProduct() {
+        newProduct = false;
     }
 }

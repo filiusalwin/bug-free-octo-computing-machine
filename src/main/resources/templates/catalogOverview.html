@@ -62,7 +62,9 @@
                 </div>
                 <div class="modal-body">
                     <form id="categoryForm" action="#" th:action="@{/catalog/add}" th:object="${category}" method="post">
+<!--
                         <p><input type="hidden" id="categoryIdInput" th:field="*{categoryId}"  /></p>
+-->
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon1">Name</span>
@@ -86,12 +88,27 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalLabelProduct">New Product</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetNewUser()">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetNewProduct()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="productForm" action="#" th:action="@{/user/add}" th:object="${user}" method="post">
+                    <form id="productForm" action="#" th:action="@{catalog/product/{categoryId}/add}" th:object="${product}" method="post">
+<!--
+                        <p><input type="hidden" id="productIdInput" th:field="*{productId}"  /></p>
+-->
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="width: 100px;." id="basic-addon2">Name</span>
+                            </div>
+                            <input type="text" id="productNameInput" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" th:field="*{name}" onfocusout="checkIfProductNameExists()" required>
+
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="width: 100px;" id="basic-addon3">Price</span>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -105,5 +122,6 @@
 
     <div th:replace="fragments/footer :: footer"/>
     <div th:replace="fragments/header :: scriptFragment" />
+    <script src="/js/catalogOverview.js"></script>
 </body>
 </html>
