@@ -7,7 +7,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +23,6 @@ public class LoginController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
-
 
     @GetMapping({"", "/"})
     protected String landingPage() {
@@ -61,6 +63,27 @@ public class LoginController {
         userRepository.save(newUser);
     }
 
+    @GetMapping("/lockout")
+    public String lockout() {
+        Optional<User> user = getCurrentUser();
+        if (user.isEmpty()) {
+            return "redirect:/login";
+        }
+        return "lockscreen";
+    }
+
+    @PostMapping("/lockout")
+    protected String lockoutPin(@RequestParam("pin") String currentPin) {
+        Optional<User> user = getCurrentUser();
+        if (user.isEmpty()) {
+            return "redirect:/login";
+        }
+        if (passwordEncoder.matches(currentPin, (String) user.get().getPin())) {
+            return "redirect:/order/";
+        }
+            return "redirect:/lockout?error" ;
+    }
+
     public Optional<User> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!(principal instanceof UserDetails)) {
@@ -69,6 +92,5 @@ public class LoginController {
         String username = ((UserDetails) principal).getUsername();
         return userRepository.findByUsername(username);
     }
-
 
 }
