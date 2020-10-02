@@ -1,3 +1,8 @@
+// ---- Globals ---- \\
+var newUser;
+
+
+// ---- Onload ---- \\
 $(document).ready(function() {
     setTimeout(function() {
         $(".alert").alert('close');
@@ -13,6 +18,8 @@ $(document).ready(function() {
     $("#usernameError, #ibanError").hide();
 });
 
+
+// ---- User Search ---- \\
 function getUserFromSearch() {
     var options = $('#userList')[0].options;
     for (var i=0; i < options.length; i++){
@@ -24,6 +31,8 @@ function getUserFromSearch() {
     }
 }
 
+
+// ---- Modal ---- \\
 function checkCorrectRadioBox(userData) {
     if (userData.roles === "ROLE_CUSTOMER") {
         $("#customer").prop("checked", true);
@@ -35,9 +44,9 @@ function checkCorrectRadioBox(userData) {
 }
 
 function fillOutForm(data) {
-    document.getElementById("userForm").action = "/user/save";
+    $("#userForm").attr("action", "/user/save");
     $("#modalLabel").html("Edit " + data.username);
-    $("#usernameInput").val(data.username);
+    $("#usernameInput, #originalUsername").val(data.username);
     $("#usernameError,#password_pincode").hide();
     $("#Prepaid-Choice-Label, #resetPassword").show();
     $("#Prepaid-Choice-Label").html("The prepaid balance: " + data.balance);
@@ -48,6 +57,7 @@ function fillOutForm(data) {
     $("#Credit").prop("checked", data.creditAllowed);
     $("#credit_account").val(data.creditPaymentBankAccountNumber);
 }
+
 function addUserByUsername(username) {
     $.ajax({
         type: "GET",
@@ -60,13 +70,6 @@ function addUserByUsername(username) {
         checkCorrectRadioBox(data);
     });
 }
-function deleteUser() {
-   var userId = $("#userIdInput").val();
-    console.log($("#userIdInput").val());
-    window.location.href = "/user/delete/" + userId;
-}
-// see checkIfUsernameexists()
-var newUser;
 
 function resetNewUser() {
     newUser = false;
@@ -74,6 +77,8 @@ function resetNewUser() {
 
 function openModalNewUser() {
     newUser = true;
+    $("#originalUsername").val("");
+    $("#userForm").attr("action", "/user/add");
     $('#maintainUserModal').modal('show');
     $("#modalLabel").html("New User");
     $("#usernameInput, #password, #userIdInput, #nameInput, #credit_account").val("");
@@ -84,30 +89,25 @@ function openModalNewUser() {
     $("#bartender, #barmanager, #Prepaid, #Credit").prop("checked",false);
 }
 
+
+// ---- Modal Checks ---- \\
 function checkIfUserNameExists() {
-    if(newUser === true) {
-        username1 = $("#usernameInput").val();
-        $.ajax({
-            type: "GET",
-            url: "/user/byUsername/" + username1,
-            data: {
-                username: username1,
-            },
-        }).done(function getUserData(userData) {
-            if (userData.username === username1) {
-                $("#usernameError").show();
-            } else {
-                $("#usernameError").hide();
-            }
-        });
-    }
+    var originalUsername = $("#originalUsername").val();
+    username = $("#usernameInput").val();
+    $.ajax({
+        type: "GET",
+        url: "/user/byUsername/" + username,
+        data: {
+            username: username,
+        },
+    }).done(function getUserData(userData) {
+        if (userData.username === username && userData.username !== originalUsername) {
+            $("#usernameError").show();
+        } else {
+            $("#usernameError").hide();
+        }
+    });
 }
-
-function resetPassword() {
-    userId = $("#userIdInput").val();
-    window.location.assign("/profile/passwordreset/" + userId);
-}
-
 
 function ibanValidation() {
     var iban = $("#credit_account").val();
@@ -127,4 +127,17 @@ function ibanValidation() {
         }
 
     });
+}
+
+
+// ---- Direct Links ---- \\
+function deleteUser() {
+   var userId = $("#userIdInput").val();
+    console.log($("#userIdInput").val());
+    window.location.href = "/user/delete/" + userId;
+}
+
+function resetPassword() {
+    userId = $("#userIdInput").val();
+    window.location.assign("/profile/passwordreset/" + userId);
 }

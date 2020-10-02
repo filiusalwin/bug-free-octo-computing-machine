@@ -46,6 +46,10 @@ public class BacchuxUserDetails implements UserDetails {
         return username;
     }
 
+    public String getPin() {
+        return pin;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -65,4 +69,5 @@ public class BacchuxUserDetails implements UserDetails {
     public boolean isEnabled() {
         return active;
     }
+
 }
