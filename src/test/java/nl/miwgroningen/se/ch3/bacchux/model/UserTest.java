@@ -1,10 +1,8 @@
 package nl.miwgroningen.se.ch3.bacchux.model;
 
-import nl.miwgroningen.se.ch3.bacchux.model.IbanValidation;
-import nl.miwgroningen.se.ch3.bacchux.model.Product;
-import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.as;
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserTest {
@@ -14,15 +12,15 @@ public class UserTest {
 
         product.setPrice(100000);
         assertThat(product.euroPrice())
-                .isEqualTo("€1000,00");
+                .isEqualTo("€1000.00");
 
         product.setPrice(0);
         assertThat(product.euroPrice())
-                .isEqualTo("€0,00");
+                .isEqualTo("€0.00");
 
         product.setPrice(1234);
         assertThat(product.euroPrice())
-                .isEqualTo("€12,34");
+                .isEqualTo("€12.34");
     }
 
     @Test

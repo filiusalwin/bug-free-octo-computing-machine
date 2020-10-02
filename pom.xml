@@ -81,6 +81,17 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.2</version>
+				<configuration>
+<!--					To separate from the integration test-->
+					<!--<includes>
+						<include>nl/miwgroningen/se/ch3/bacchux/model/**</include>
+					</includes>-->
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>
