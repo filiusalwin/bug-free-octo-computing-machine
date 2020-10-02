@@ -1,10 +1,8 @@
 package nl.miwgroningen.se.ch3.bacchux.model;
 
-import nl.miwgroningen.se.ch3.bacchux.model.IbanValidation;
-import nl.miwgroningen.se.ch3.bacchux.model.Product;
-import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.as;
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserTest {
