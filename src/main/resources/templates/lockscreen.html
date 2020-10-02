@@ -6,9 +6,9 @@
     <title>Lockscreen</title>
     <link type='text/css' rel='stylesheet' href='css/lockout.css' />
 </head>
-<body class='main' onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
+<body class='main'>
 <div>
-    <h1>The current user is <label id="name" sec:authentication="name"></label></h1>
+    <h1>Welcome to BacchUx, <label id="name" sec:authentication="name"></label>!</h1>
     <form th:action="@{/lockout}" method="post">
         <div id='form' >
             <input id='pin' name='pin' type='password' placeholder="My pincode" />
