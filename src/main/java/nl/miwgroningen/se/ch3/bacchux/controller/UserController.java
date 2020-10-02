@@ -111,6 +111,7 @@ public class UserController {
         }
         user.setPassword(user1.get().getPassword());
         user.setBalance(user1.get().getBalance());
+        user.setPin(user1.get().getPin());
         Optional<User> userByUsername = userRepository.findByUsername(user.getUsername());
         if (userByUsername.isPresent() && userByUsername.get().getUserId() != user.getUserId()) {
             model.addAttribute("error", "This username is taken by another user.");

@@ -133,7 +133,7 @@ public class User implements Comparable<User> {
         this.active = active;
     }
 
-    public CharSequence getPin() {
+    public String getPin() {
         return pin;
     }
 
