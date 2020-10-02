@@ -93,21 +93,29 @@ public class UserController {
     protected String updateUser( Model model,
                                        @ModelAttribute("user") User user,
                                        BindingResult result, RedirectAttributes redirAttrs) {
+        model.addAttribute("allUsers", userRepository.findAll());
         if (result.hasErrors()) {
             return "userOverview";
         }
         IbanValidation ibanValidation = new IbanValidation();
-        if (!ibanValidation.validateIban(user.getCreditPaymentBankAccountNumber())) {
-            redirAttrs.addFlashAttribute
-                    ("error", "The bank account number is not correct. User not updated");
-
-            model.addAttribute("allUsers", userRepository.findAll());
+        if (!user.getCreditPaymentBankAccountNumber().equals("")
+                && !ibanValidation.validateIban(user.getCreditPaymentBankAccountNumber())) {
+            redirAttrs.addFlashAttribute("error", "The bank account number is not correct. User not updated");
             return "redirect:/user/";
         }
         redirAttrs.addFlashAttribute("success", "User updated.");
         Optional<User> user1 = userRepository.findById(user.getUserId());
+        if (user1.isEmpty()) {
+            model.addAttribute("error", "User not found, cannot be updated.");
+            return "userOverview";
+        }
         user.setPassword(user1.get().getPassword());
         user.setBalance(user1.get().getBalance());
+        Optional<User> userByUsername = userRepository.findByUsername(user.getUsername());
+        if (userByUsername.isPresent() && userByUsername.get().getUserId() != user.getUserId()) {
+            model.addAttribute("error", "This username is taken by another user.");
+            return "userOverview";
+        }
         userRepository.save(user);
         return "redirect:/user/";
     }
