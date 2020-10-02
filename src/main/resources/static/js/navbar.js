@@ -1,28 +1,20 @@
-$(document).ready(function() {
-
-    timeout = setTimeout(lockScreen, 10000);
-
-    $(window).click(function() {
-        console.log("click")
-        resetTimeout();
-    })
-    $(window).keyup(function() {
-        console.log("key")
-        resetTimeout();
-    })
-    $(window).mousemove(function() {
-        console.log("mouse")
-       resetTimeout(timeout);
-    })
-});
-// 5 min is 18000000 ms
 var timeout;
+const TIMEOUT_LENGTH = 3000000;
+$(document).ready(function() {
+    if (window.location.href.includes("lockout")) {
+        return;
+    }
+    resetTimeout();
+    $(window).click(resetTimeout);
+    $(window).keyup(resetTimeout);
+    $(window).mousemove(resetTimeout);
+});
 
-function lockScreen() {
-    window.location.assign("/lockout?error");
+function goToLockScreen() {
+    window.location.assign("/lockout");
 }
 
 function resetTimeout(){
     clearTimeout(timeout);
-    timeout = setTimeout(lockScreen, 18000000);
+    timeout = setTimeout(goToLockScreen, TIMEOUT_LENGTH);
 }
