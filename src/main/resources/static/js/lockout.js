@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    // In load - no back
+    noBack();
+
     // the screen is not locked
     if (lockUrl === false) {
         $("#sub").hide();
