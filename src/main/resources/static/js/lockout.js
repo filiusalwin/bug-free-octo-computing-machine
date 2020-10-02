@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    // In load - no back
+    noBack();
     // the screen is locked
     if (window.location.href.indexOf("lockout?error") > -1) {
         $("#sub").show();
@@ -10,10 +12,7 @@ $(document).ready(function() {
     }
 });
 
-var lockUrl = false;
-
 function lockscreen() {
-    lockUrl = true;
     window.location.assign("/lockout?error");
 }
 
