@@ -11,7 +11,7 @@
 <div class="container">
 
     <div class="starter-template">
-        <h1>403 - Access is denied</h1>
+        <h1>Access is denied</h1>
         <div th:inline="text">Hello '[[${#httpServletRequest.remoteUser}]]',
             you do not have permission to access this page.
             Please choose another option or contact the bar manager.</div>
@@ -20,7 +20,6 @@
     <div class="container">
         <a class="navbar-brand" th:href="@{/order}">Go back to Order</a>
     </div>
-
 
 </div>
 <div th:replace="fragments/footer :: footer"/>
