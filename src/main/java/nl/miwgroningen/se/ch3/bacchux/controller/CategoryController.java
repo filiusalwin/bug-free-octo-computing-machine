@@ -1,6 +1,7 @@
 package nl.miwgroningen.se.ch3.bacchux.controller;
 
 import nl.miwgroningen.se.ch3.bacchux.model.Category;
+import nl.miwgroningen.se.ch3.bacchux.model.Product;
 import nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,10 +21,11 @@ public class CategoryController {
     CategoryRepository categoryRepository;
 
     @GetMapping("")
-    protected String showCategoryForm(Model model) {
+    protected String showCatalog(Model model) {
         List<Category> allCategories = categoryRepository.findAll();
         model.addAttribute("allCategories", allCategories);
         model.addAttribute("category", new Category());
+        model.addAttribute("product", new Product());
         return "catalogOverview";
     }
 

@@ -33,6 +33,30 @@ function checkIfCategoryNameExists() {
         }
     });
 
+    function selectCategory(id) {
+        var highlightClass = "list-group-item-dark"
+
+        // unhighlight all buttons
+        $(".categoryButton").removeClass(highlightClass);
+
+        // highlight button
+        $("#category" + id).addClass(highlightClass);
+
+        // get all product tags in the productList
+        var productList = document.getElementById("productList");
+        var products = productList.getElementsByClassName("productListItem");
+
+        // show or hide each element.
+        for (let product of products) {
+            if (product.getAttribute("category") == id) {
+                product.style.display = "block";
+                product.classList.add("list-group-item", "d-flex");
+            } else {
+                product.style.display = "none";
+                product.classList.remove("list-group-item", "d-flex");
+            }
+        }
+    }
 
     function resetNewCategory() {
         newCategory = false;

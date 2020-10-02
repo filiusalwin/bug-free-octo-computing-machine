@@ -8,8 +8,10 @@
 <body>
     <nav th:replace="fragments/navbar :: navbar" />
     <div class="container">
-        <h1>Catalog overview</h1>
-            <div class="row">
+        <div class="row justify-content-center">
+            <h1>Catalog Overview</h1>
+        </div>
+        <div class="row">
                 <div class="col-4 border-right">
                     <h2 class ="border-bottom">
                         Categories
@@ -93,7 +95,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="productForm" action="#" th:action="@{catalog/product/{categoryId}/add}" th:object="${product}" method="post">
+                    <form id="productForm" action="#" th:action="@{catalog/product/{categoryId}/add(categoryId=${category.categoryId})}"
+                          th:object="${product}" method="post">
 <!--
                         <p><input type="hidden" id="productIdInput" th:field="*{productId}"  /></p>
 -->
@@ -101,13 +104,17 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;." id="basic-addon2">Name</span>
                             </div>
-                            <input type="text" id="productNameInput" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" th:field="*{name}" onfocusout="checkIfProductNameExists()" required>
-
+                            <input type="text" id="productNameInput" class="form-control" placeholder="Name"
+                                   aria-label="Name" aria-describedby="basic-addon1" th:field="*{name}"
+                                   onfocusout="checkIfProductNameExists()" required>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon3">Price</span>
                             </div>
+                            <input type="text" id="productPriceInput" class="form-control" placeholder="Price"
+                                   aria-label="Price" aria-describedby="basic-addon1" th:field="*{price}"
+                                   onfocusout="checkIfPriceIsNumber()" required>
                         </div>
                     </form>
                 </div>
