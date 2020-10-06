@@ -83,12 +83,25 @@ function openModalNewUser() {
     $("#modalLabel").html("New User");
     $("#usernameInput, #password, #userIdInput, #nameInput, #credit_account").val("");
     $("#usernameError, #Prepaid-Choice-Label, #resetPassword").hide();
-    $("#password_pincode").show();
-    $("#password, #pin").attr("required", "");
-    $("#customer").prop("checked",true);
     $("#bartender, #barmanager, #Prepaid, #Credit").prop("checked",false);
-}
+    $("#customer").prop("checked",true);
+    $("#password_pincode").hide();
+    $("#password").attr("");
+    $("#pin").attr("");
+    $('input[type=radio][name=roles]').change(function() {
+        if (this.value === 'ROLE_CUSTOMER') {
+            $("#password_pincode").hide();
+            $("#password").attr("");
+            $("#pin").attr("");
+        }
+        else {
+            $("#password_pincode").show();
+            $("#password").attr("required");
+            $("#pin").attr("required");
+        }
+    });
 
+}
 
 // ---- Modal Checks ---- \\
 function checkIfUserNameExists() {
