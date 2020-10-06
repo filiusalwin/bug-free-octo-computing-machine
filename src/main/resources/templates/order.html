@@ -58,47 +58,67 @@
                     </h3>
                 </div>
                 <hr>
-                <div class="payment">
-                    <h2>Payment</h2>
-                    <div id="paymentError" class="alert alert-danger"></div>
-                    <div id="paymentSuccess" class="alert alert-success">Payment successful.</div>
-                    <button class="btn btn-dark mb-2" id="cashPayButton" onclick="doCashPayment()">
-                        Direct Payment
+                <div id="paymentButtons">
+                    <button class="btn btn-dark m-1 font-xl" id="cashPayButton" onclick="doCashPayment()">
+                        Direct<br>Payment
                     </button>
+                    <button class="btn btn-primary m-1 font-xl" id="selectCustomerButton" data-toggle="modal" data-target="#customerModal">
+                        Select<br>Customer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="customerModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modalLabel">Payment</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
                     <button class="btn btn-secondary mb-2" id="addPrepaidButton" onclick="addPrepaidCustomer()">
                         + New Prepaid Customer
                     </button>
-                </div>
-                <datalist th:field="${user.userId}" id="userList">
-                    <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
-                </datalist>
-                <input class="form-control mb-2" placeholder="Select Customer" list="userList"  id="searchUser" autocomplete="off" required>
-                <div id="prepaid">
-                    <hr>
-                    <div class="form-inline mb-2">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="currentBalance">Balance: ...</span>
-                            </div>
-                            <input type="text" class="form-control" id="topUpAmount" placeholder="Top-Up Amount"
-                                   data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"/>
-                            <div class="input-group-append" >
-                                <button class="btn btn-secondary" onclick="doTopUp();" >Top-Up</button>
+
+                    <datalist th:field="${user.userId}" id="userList">
+                        <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
+                    </datalist>
+                    <input class="form-control mb-2" placeholder="Select Customer" list="userList"  id="searchUser" autocomplete="off" required>
+                    <div id="prepaid">
+                        <hr>
+                        <h5>Prepaid</h5>
+                        <div class="form mb-2">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="currentBalance">Balance: ...</span>
+                                </div>
+                                <input type="text" class="form-control" id="topUpAmount" placeholder="Top-Up Amount"
+                                       data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"/>
+                                <div class="input-group-append" >
+                                    <button class="btn btn-secondary" onclick="doTopUp();" >Top-Up</button>
+                                </div>
                             </div>
                         </div>
+                        <button class="btn btn-dark mb-2 payment w-100" id="payPrepaidButton" onclick="doPrepaidPayment()">
+                            &#8627; Prepaid Payment
+                        </button>
                     </div>
-                    <button class="btn btn-dark mb-2 payment w-100" id="payPrepaidButton" onclick="doPrepaidPayment()">
-                        &#8627; Prepaid Payment
-                    </button>
+                    <div id="credit">
+                        <hr>
+                        <div id="currentCredit" class="badge badge-secondary mb-2 w-100">
+                            <p id="currentCreditText" class="p-1 m-1 font-lg no-bold">Credit total: ...</p>
+                        </div>
+                        <button class="btn btn-dark mb-2 payment w-100" id="payCreditButton" onclick="doCreditPayment()">
+                            &#8627; Credit Payment
+                        </button>
+                    </div>
                 </div>
-                <div id="credit">
-                    <hr>
-                    <div id="currentCredit" class="badge badge-secondary mb-2 w-100">
-                        <p id="currentCreditText" class="p-1 m-1 largeFont">Credit total: ...</p>
-                    </div>
-                    <button class="btn btn-dark mb-2 payment w-100" id="payCreditButton" onclick="doCreditPayment()">
-                        &#8627; Credit Payment
-                    </button>
+                <div id="paymentError" class="alert alert-danger"></div>
+                <div id="paymentSuccess" class="alert alert-success">
+                    Payment successful.
                 </div>
             </div>
         </div>

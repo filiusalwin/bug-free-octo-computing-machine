@@ -23,10 +23,7 @@ $(document).ready(function() {
 
 // ---- Show and Hide --- \\
 function showPaymentStuff(hasPrepaid, hasCredit) {
-    $("#prepaid, #credit, #cashPayButton, #addPrepaidButton").hide();
-    if (!hasPrepaid && !hasCredit) {
-        $("#cashPayButton, #addPrepaidButton").show();
-    }
+    $("#prepaid, #credit").hide();
     if (hasPrepaid) {
         $("#prepaid").show();
     }
@@ -60,6 +57,7 @@ function getUserFromSearch() {
 }
 
 function chooseCustomer(data) {
+    paymentError();
     if ($.isEmptyObject(data)) {
         clearUser();
         return;
@@ -69,6 +67,9 @@ function chooseCustomer(data) {
     updateCurrentBalance();
     updateCurrentCredit();
     showUserStuff();
+    if (!data.prepaidAllowed && !data.creditAllowed) {
+        paymentError("This user has no payment privileges.");
+    }
     showPaymentStuff(data.prepaidAllowed, data.creditAllowed);
 }
 
