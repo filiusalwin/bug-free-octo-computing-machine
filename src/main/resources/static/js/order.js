@@ -37,10 +37,6 @@ function clearUser() {
     showPaymentStuff(false, false);
 }
 
-function showUserStuff() {
-
-}
-
 function showPayment() {
     $(".payment").show();
 }
@@ -66,7 +62,6 @@ function chooseCustomer(data) {
     currentCredit = data.currentCredit;
     updateCurrentBalance();
     updateCurrentCredit();
-    showUserStuff();
     if (!data.prepaidAllowed && !data.creditAllowed) {
         paymentError("This user has no payment privileges.");
     }
