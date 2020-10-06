@@ -12,45 +12,49 @@
             <h1>Catalog Overview</h1>
         </div>
         <div class="row">
-                <div class="col-4 border-right">
-                    <h2 class ="border-bottom">
-                        Categories
-                        <button class="btn btn-secondary" onclick="openModalNewCategory()" data-toggle="modal" data-target="#maintainCategoryModal">New Category</button>
-                    </h2>
-                    <div class="list-group list-group-flush" id="categoryList">
-                        <button class="list-group-item list-group-item-action categoryButton" th:each="category: ${allCategories}"
-                                th:id="${'category' + category.getCategoryId()}"
-                                th:attr="categoryName=|${category.getName()}|, onclick=|selectCategory(${category.getCategoryId()})|">
-                            <span th:text="${category.name}"/>
-                        </button>
-                    </div>
-                </div>
-                <div class="col-5 border-right">
-                    <h2 class="border-bottom">
-                        Products
-                        <button class="btn btn-secondary" onclick="openModalNewProduct()" data-toggle="modal" data-target="#maintainProductModal">New Product</button>
-                        <!--<a th:if="${category.categoryId != null}" class="btn btn-secondary"
-                               th:href="@{/catalog/product/{categoryId}/add(categoryId=${category.categoryId})}">
-                                New Product
-                            </a>-->
-                    </h2>
-                    <div class="list-group list-group-flush" id="productList">
-                        <table>
-                            <tr>
-                                <th>Product name</th>
-                                <th>Product price</th>
-                            </tr>
-                            <tr th:each="product: ${category.getProducts()}">
-                                <td><a th:href="@{/catalog/product/update/{productId}(productId=${product.productId})}">
-                                    <span th:text="${product.name}"></span></a></td>
-                                <td th:text="${product.price}"/>
-                                <td><a th:href="@{/catalog/product/delete/{productId}(productId=${product.productId})}" class="button">Delete</a></td>
-                            </tr>
-                        </table>
+            <div class="col-4 border-right">
+                <h2 class ="border-bottom">
+                    Categories
+                </h2>
+                <div class="list-group list-group-flush" id="categoryList">
+                    <button class="list-group-item list-group-item-action categoryButton" th:each="category: ${allCategories}"
+                            th:id="${'category' + category.getCategoryId()}"
+                            th:attr="categoryName=|${category.getName()}|, onclick=|selectCategory(${category.getCategoryId()})|"
+                            th:attrappend="ondblclick=|addCategoryByCategoryName('${category.name}')|"
+                             >
+                        <span th:text="${category.name}"/>
+                    </button>
+                    <div>
+                        <button class="btn btn-secondary" onclick="openModalNewCategory()" data-toggle="modal"
+                                data-target="#maintainCategoryModal">New Category</button>
                     </div>
                 </div>
             </div>
-    </div>
+            <div class="col bigColumn" >
+                <h2 class="border-bottom">
+                    Products
+                </h2>
+                <div class="list-group list-group-flush" id="productList">
+                    <button class="list-group-item list-group-item-action d-flex productListItem"
+                            th:each="product: ${allProducts}"
+                            th:id="${'product' + product.getProductId()}"
+                            th:attr="productPrice=|${product.getPrice()}|,
+                         productName=|${product.getName()}|,
+                         category=|${product.getCategory().getCategoryId()}|,
+                         onclick=|addProduct(${product.getProductId()})|,
+                         productId=|${product.productId}|" >
+                        <div th:text="${product.name}" />
+                        <div th:text="${product.euroPrice()}" class="ml-auto" />
+                        <input type="hidden" value="0" class="productCountBox" th:id="${'productCount' + product.getProductId()}" />
+                    </button>
+                    <div>
+                        <button class="btn btn-secondary" onclick="openModalNewProduct()" data-toggle="modal"
+                                data-target="#maintainProductModal">New Product</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
     </div>
 
     <div class="modal fade" id="maintainCategoryModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelCategory" aria-hidden="true">
