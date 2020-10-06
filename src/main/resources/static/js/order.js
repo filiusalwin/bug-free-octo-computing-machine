@@ -130,6 +130,8 @@ function updateTotalPrice(priceInCents) {
     document.getElementById("totalPrice").innerHTML = formatted;
 }
 
+var logProductsInBill = [];
+
 function updateBill() {
     var products = document.querySelectorAll("#productList > .productListItem");
 
@@ -155,9 +157,11 @@ function updateBill() {
             });
         }
     }
+    console.log(productsInBill);
 
     updateTotalPrice(totalPrice);
     updateProductList(productsInBill);
+    logProductsInBill += productsInBill;
 
     if (totalPrice == 0) {
         hidePayment();
@@ -239,10 +243,40 @@ function reloadAfter(duration) {
 function doCashPayment() {
     paymentError();
     var price = document.getElementById("totalPrice").innerHTML;
+    doCashPaymentLog();
     if (confirm("The total is " + price + ".")) {
         paymentSuccess("Payment successful. Price: " + price);
         reloadAfter(3000);
     }
+}
+
+// ---- Direct Payment Logging ---- \\
+function doCashPaymentLog() {
+    $("#paymentError").hide();
+    var billDetails = "";
+    var paymentDetails = "Amount: " + totalPrice + ", Bill: " + billDetails;
+
+    for (i = 0; i < logProductsInBill.length; i++) {
+        billDetails += logProductsInBill[i] + ",";
+    }
+    console.log(logProductsInBill);
+    console.log(billDetails);
+    console.log(paymentDetails);
+
+    $.ajax({
+        type: "POST",
+        url: "/log/directPayment/",
+        data: {
+            username: $("#searchUser").val(),
+            paymentDetails: paymentDetails
+        },
+        success: successAndReload,
+        error: function(jqXHR, textStatus, errorThrown) {
+            $("#paymentError").text("Logging error: " + jqXHR.responseText);
+            $("#paymentError").show();
+        }
+    });
+
 }
 
 function doPrepaidPayment() {
