@@ -143,6 +143,6 @@ public class User implements Comparable<User> {
 
     @Override
     public int compareTo(User user) {
-        return username.compareTo(user.getUsername());
+        return name.compareTo(user.getName());
     }
 }

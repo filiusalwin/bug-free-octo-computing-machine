@@ -76,6 +76,12 @@
                             <input type="text" id="usernameInput" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" th:field="*{username}" onfocusout="checkIfUserNameExists()" required>
                             <span id="usernameError" class="help">This username already exists.</span>
                         </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend" >
+                                <span class="input-group-text" style="width: 100px;" id="basic-addon4">Name</span>
+                            </div>
+                            <input type="text" id="nameInput" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon4" th:field="*{name}" required>
+                        </div>
                         <div id="password_pincode">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -90,12 +96,6 @@
                                 <input id="pin" type="password" class="form-control" name="*{pin}" placeholder="Pincode" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,''),
                                     alert('only numbers')" aria-label="Pincode" aria-describedby="basic-addon3" th:field="*{pin}">
                             </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend" >
-                                <span class="input-group-text" style="width: 100px;" id="basic-addon4">Name</span>
-                            </div>
-                            <input type="text" id="nameInput" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon4" th:field="*{name}" required>
                         </div>
                         <div class="input-group mb-3">
                             <div class="form-check form-check-inline">
