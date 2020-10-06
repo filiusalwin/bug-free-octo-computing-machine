@@ -59,7 +59,7 @@
                 </div>
                 <hr>
                 <div id="paymentButtons" class="d-flex justify-content-around">
-                    <button class="btn btn-dark p-3 font-xl" id="cashPayButton" onclick="doCashPayment()">
+                    <button class="btn btn-dark p-3 font-xl" id="cashPayButton" onclick="doCashPayment()" data-toggle="modal" data-target="#customerModal">
                         Direct<br>Payment
                     </button>
                     <button class="btn btn-primary p-3 font-xl" id="selectCustomerButton" data-toggle="modal" data-target="#customerModal">
@@ -78,8 +78,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <div id="paymentError" class="alert alert-danger modal-body m-3"></div>
+                <div id="paymentSuccess" class="alert alert-success modal-body m-3">
+                    Payment successful.
+                </div>
                 <div class="modal-body">
-                    <button class="btn btn-secondary mb-2" id="addPrepaidButton" onclick="addPrepaidCustomer()">
+                    <button class="btn btn-dark mb-2" id="addPrepaidButton" onclick="addPrepaidCustomer()">
                         + New Prepaid Customer
                     </button>
 
@@ -115,10 +119,6 @@
                             &#8627; Credit Payment
                         </button>
                     </div>
-                </div>
-                <div id="paymentError" class="alert alert-danger"></div>
-                <div id="paymentSuccess" class="alert alert-success">
-                    Payment successful.
                 </div>
             </div>
         </div>
