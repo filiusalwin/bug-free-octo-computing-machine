@@ -1,5 +1,5 @@
 var timeout;
-const TIMEOUT_LENGTH = 3000000;
+const TIMEOUT_LENGTH = 300000 ; // 5 minutes then the app will go to lock screen
 $(document).ready(function() {
     if (window.location.href.includes("lockout")) {
         return;
