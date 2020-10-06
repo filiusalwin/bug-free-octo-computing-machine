@@ -1,8 +1,8 @@
 const LOCKSCREEN_COUNTDOWN = 5000; // 5 second then the app will be automatic locked
-const lOG_OUT_COUNTDOWN = 7200000; // 2 hours then the app wil log out
+const LOG_OUT_COUNTDOWN = 7200000; // 2 hours (7200000 ms) then the app wil log out
 
 $(document).ready(function() {
-    // In load - no back
+    // On load - no back
     noBack();
 
     // the screen is locked
@@ -10,7 +10,7 @@ $(document).ready(function() {
         $("#sub").show();
         $("#lock").hide();
         $("#cancel").hide();
-        setTimeout(logout, lOG_OUT_COUNTDOWN);
+        setTimeout(logout, LOG_OUT_COUNTDOWN);
     } else {
         $("#sub").hide();
         setTimeout(lockscreen, LOCKSCREEN_COUNTDOWN);
