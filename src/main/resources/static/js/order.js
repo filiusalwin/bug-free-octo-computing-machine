@@ -232,35 +232,26 @@ function reloadAfter(duration) {
 
 function doCashPayment() {
     disablePayments(true);
+    doCashPaymentLog();
     paymentError();
     var price = document.getElementById("totalPrice").innerHTML;
     paymentSuccess("Payment successful. Price: " + price);
     reloadAfter(3000);
     disablePayments(false);
-    doCashPaymentLog();
+
 }
 
 // ---- Direct Payment Logging ---- \\
 function doCashPaymentLog() {
     $("#paymentError").hide();
-    var billDetails = "";
-    var paymentDetails = "Amount: " + totalPrice + ", Bill: " + billDetails;
-
-    for (i = 0; i < logProductsInBill.length; i++) {
-        billDetails += logProductsInBill[i] + ",";
-    }
-    console.log(logProductsInBill);
-    console.log(billDetails);
-    console.log(paymentDetails);
-
     $.ajax({
         type: "POST",
         url: "/log/directPayment/",
         data: {
             username: $("#searchUser").val(),
-            paymentDetails: paymentDetails
+            totalAmount: totalPrice,
+            paymentDetails: JSON.stringify(productsInBill)
         },
-        success: successAndReload,
         error: function(jqXHR, textStatus, errorThrown) {
             $("#paymentError").text("Logging error: " + jqXHR.responseText);
             $("#paymentError").show();
@@ -294,7 +285,7 @@ function doCreditPayment() {
         type: "POST",
         url: "/payment/credit/",
         data: {
-            username: $("#searchUser").val(),
+            username: $("#loggedUser").val(),
             amount: totalPrice,
             order: JSON.stringify(productsInBill),
         },

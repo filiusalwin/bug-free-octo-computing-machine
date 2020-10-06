@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,11 +13,13 @@ public class LogDetail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer logId;
 
-    private LocalDateTime localDateTime;
+    private LocalDateTime timestamp;
 
     private String servingUser;
 
-    private String directPaymentDetails;
+    private Integer totalAmount;
+
+    private String paymentDetails;
 
     public Integer getLogId() {
         return logId;
@@ -28,12 +29,20 @@ public class LogDetail {
         this.logId = logId;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public Integer getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setTotalAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime localDateTime) {
+        this.timestamp = localDateTime;
     }
 
     public String getServingUser() {
@@ -44,11 +53,11 @@ public class LogDetail {
         this.servingUser = servingUser;
     }
 
-    public String getDirectPaymentDetails() {
-        return directPaymentDetails;
+    public String getPaymentDetails() {
+        return paymentDetails;
     }
 
-    public void setDirectPaymentDetails(String directPaymentDetails) {
-        this.directPaymentDetails = directPaymentDetails;
+    public void setPaymentDetails(String directPaymentDetails) {
+        this.paymentDetails = directPaymentDetails;
     }
 }
