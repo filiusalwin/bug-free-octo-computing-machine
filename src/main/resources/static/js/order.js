@@ -2,7 +2,7 @@
 var currentBalance = 0;
 var currentCredit = 0;
 var totalPrice = 0;
-var order;
+var productsInBill;
 
 
 // ---- On document load --- \\
@@ -45,6 +45,10 @@ function hidePayment() {
     $(".payment").hide();
 }
 
+function disablePayments(value) {
+    $("#payCreditButton, #payPrepaidButton, #cashPayButton").attr("disabled", value);
+}
+
 
 // ---- User Selection --- \\
 function getUserFromSearch() {
@@ -85,7 +89,6 @@ function getCustomerByUsernameAnd(username, callback) {
 function updateProductList(products) {
     var productBox = document.getElementById("billProductList");
     productBox.innerHTML = "";
-    order = [];
 
     for (product of products) {
         var newitem = document.createElement("li");
@@ -112,11 +115,6 @@ function updateProductList(products) {
         newitem.addEventListener("click", removeFunctionMaker(product.id));
 
         productBox.append(newitem);
-        order.push({
-            product: name,
-            amount: amount,
-            subtotal: subtotal
-        });
     }
 }
 
@@ -125,13 +123,11 @@ function updateTotalPrice(priceInCents) {
     document.getElementById("totalPrice").innerHTML = formatted;
 }
 
-var logProductsInBill = [];
-
 function updateBill() {
     var products = document.querySelectorAll("#productList > .productListItem");
 
     totalPrice = 0;
-    var productsInBill = [];
+    productsInBill = [];
 
     for (let product of products) {
         var countBox = product.getElementsByClassName("productCountBox")[0];
@@ -148,15 +144,14 @@ function updateBill() {
                 id:       productId,
                 amount:   count,
                 name:     productName,
+                price:    price,
                 subtotal: price * count
             });
         }
     }
-    console.log(productsInBill);
 
     updateTotalPrice(totalPrice);
     updateProductList(productsInBill);
-    logProductsInBill += productsInBill;
 
     if (totalPrice == 0) {
         hidePayment();
@@ -236,13 +231,13 @@ function reloadAfter(duration) {
 }
 
 function doCashPayment() {
+    disablePayments(true);
     paymentError();
     var price = document.getElementById("totalPrice").innerHTML;
+    paymentSuccess("Payment successful. Price: " + price);
+    reloadAfter(3000);
+    disablePayments(false);
     doCashPaymentLog();
-    if (confirm("The total is " + price + ".")) {
-        paymentSuccess("Payment successful. Price: " + price);
-        reloadAfter(3000);
-    }
 }
 
 // ---- Direct Payment Logging ---- \\
@@ -275,6 +270,7 @@ function doCashPaymentLog() {
 }
 
 function doPrepaidPayment() {
+    disablePayments(true);
     paymentError();
     $.ajax({
         type: "POST",
@@ -286,11 +282,13 @@ function doPrepaidPayment() {
         success: prepaidSuccessAndReload,
         error: function(jqXHR, textStatus, errorThrown) {
             paymentError("Payment error: " + jqXHR.responseText);
+            disablePayments(false);
         }
     });
 }
 
 function doCreditPayment() {
+    disablePayments(true);
     paymentError();
     $.ajax({
         type: "POST",
@@ -298,11 +296,12 @@ function doCreditPayment() {
         data: {
             username: $("#searchUser").val(),
             amount: totalPrice,
-            order: JSON.stringify(order),
+            order: JSON.stringify(productsInBill),
         },
         success: creditSuccessAndReload,
         error: function(jqXHR, textStatus, errorThrown) {
             paymentError("Payment error: " + jqXHR.responseText);
+            disablePayments(false);
         }
     });
 }

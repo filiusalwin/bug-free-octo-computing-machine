@@ -18,6 +18,8 @@ public class CreditPayment {
 
     private Integer amount;
     private boolean paid;
+
+    @Column(length = 1023)
     private String orderJson;
 
     public CreditPayment(){};
