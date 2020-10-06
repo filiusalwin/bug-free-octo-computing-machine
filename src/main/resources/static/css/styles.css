@@ -1,3 +1,6 @@
 .bigColumn {
     flex: 0 0 400px;
 }
+#bill {
+    font-family: "Courier New", Courier, monospace;
+}
