@@ -58,25 +58,23 @@
                     </h3>
                 </div>
                 <hr>
-                <div id="payment">
+                <div class="payment">
                     <h2>Payment</h2>
                     <div id="paymentError" class="alert alert-danger"></div>
                     <div id="paymentSuccess" class="alert alert-success">Payment successful.</div>
-                    <button class="btn btn-secondary mb-2" id="cashPayButton" onclick="doCashPayment()">
+                    <button class="btn btn-dark mb-2" id="cashPayButton" onclick="doCashPayment()">
                         Direct Payment
                     </button>
                     <button class="btn btn-secondary mb-2" id="addPrepaidButton" onclick="addPrepaidCustomer()">
-                        New Prepaid Customer
-                    </button>
-                    <button class="btn btn-secondary mb-2" id="payPrepaidButton" onclick="doPrepaidPayment()">
-                        Prepaid Payment
+                        + New Prepaid Customer
                     </button>
                 </div>
                 <datalist th:field="${user.userId}" id="userList">
                     <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
                 </datalist>
                 <input class="form-control mb-2" placeholder="Select Customer" list="userList"  id="searchUser" autocomplete="off" required>
-                <div id="topup">
+                <div id="prepaid">
+                    <hr>
                     <div class="form-inline mb-2">
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -89,6 +87,18 @@
                             </div>
                         </div>
                     </div>
+                    <button class="btn btn-dark mb-2 payment w-100" id="payPrepaidButton" onclick="doPrepaidPayment()">
+                        &#8627; Prepaid Payment
+                    </button>
+                </div>
+                <div id="credit">
+                    <hr>
+                    <div id="currentCredit" class="badge badge-secondary mb-2 w-100">
+                        <p id="currentCreditText" class="p-1 m-1 largeFont">Credit total: ...</p>
+                    </div>
+                    <button class="btn btn-dark mb-2 payment w-100" id="payCreditButton" onclick="doCreditPayment()">
+                        &#8627; Credit Payment
+                    </button>
                 </div>
             </div>
         </div>

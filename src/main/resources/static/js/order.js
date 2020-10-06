@@ -1,51 +1,55 @@
 // ---- global variables ---- \\
 var currentBalance = 0;
+var currentCredit = 0;
 var totalPrice = 0;
+var order;
 
 
 // ---- On document load --- \\
 $(document).ready(function() {
-    hideUserStuff();
-    showPrepaidStuff(false);
+    showPaymentStuff(false, false);
     hidePayment();
-    $("#paymentError, #paymentSuccess").hide();
+    paymentError();
+    paymentSuccess();
     $("#categoryList > button:first-child").trigger("click");
 
     // event listeners
     $("#searchUser").change(getUserFromSearch);
     $("#searchUser").click(function() {
-        hideUserStuff();
+        clearUser();
     });
 });
 
 
 // ---- Show and Hide --- \\
-function showPrepaidStuff(hasPrepaid) {
+function showPaymentStuff(hasPrepaid, hasCredit) {
+    $("#prepaid, #credit, #cashPayButton, #addPrepaidButton").hide();
+    if (!hasPrepaid && !hasCredit) {
+        $("#cashPayButton, #addPrepaidButton").show();
+    }
     if (hasPrepaid) {
-        $("#topup, #payPrepaidButton").show();
-        $("#cashPayButton").hide();
-    } else {
-       $("#topup, #payPrepaidButton").hide();
-       $("#cashPayButton").show();
+        $("#prepaid").show();
+    }
+    if (hasCredit) {
+        $("#credit").show();
     }
 }
 
-function hideUserStuff() {
+function clearUser() {
     $("#searchUser").val("");
-    $("#addPrepaidButton").show();
-    showPrepaidStuff(false);
+    showPaymentStuff(false, false);
 }
 
 function showUserStuff() {
-    $("#addPrepaidButton").hide();
+
 }
 
 function showPayment() {
-    $("#payment").show();
+    $(".payment").show();
 }
 
 function hidePayment() {
-    $("#payment").hide();
+    $(".payment").hide();
 }
 
 
@@ -57,13 +61,15 @@ function getUserFromSearch() {
 
 function chooseCustomer(data) {
     if ($.isEmptyObject(data)) {
-        hideUserStuff();
+        clearUser();
         return;
     }
     currentBalance = data.balance;
+    currentCredit = data.currentCredit;
     updateCurrentBalance();
+    updateCurrentCredit();
     showUserStuff();
-    showPrepaidStuff(data.prepaidAllowed);
+    showPaymentStuff(data.prepaidAllowed, data.creditAllowed);
 }
 
 function getCustomerByUsernameAnd(username, callback) {
@@ -83,6 +89,7 @@ function getCustomerByUsernameAnd(username, callback) {
 function updateProductList(products) {
     var productBox = document.getElementById("billProductList");
     productBox.innerHTML = "";
+    order = [];
 
     for (product of products) {
         var newitem = document.createElement("li");
@@ -109,6 +116,11 @@ function updateProductList(products) {
         newitem.addEventListener("click", removeFunctionMaker(product.id));
 
         productBox.append(newitem);
+        order.push({
+            product: name,
+            amount: amount,
+            subtotal: subtotal
+        });
     }
 }
 
@@ -199,16 +211,41 @@ function selectCategory(id) {
 
 
 // ---- Payment ---- \\
+function paymentError(message) {
+    var error = $("#paymentError");
+    if (!message) {
+        error.hide();
+        return;
+    }
+    error.text(message);
+    error.show();
+}
+
+function paymentSuccess(message) {
+    var success = $("#paymentSuccess");
+    if (!message) {
+        success.hide();
+        return;
+    }
+    success.text(message);
+    success.show();
+}
+
+function reloadAfter(duration) {
+    setTimeout(_ => {location.reload();}, duration);
+}
+
 function doCashPayment() {
-    $("#paymentError").hide();
+    paymentError();
     var price = document.getElementById("totalPrice").innerHTML;
     if (confirm("The total is " + price + ".")) {
-        successAndReload();
+        paymentSuccess("Payment successful. Price: " + price);
+        reloadAfter(3000);
     }
 }
 
 function doPrepaidPayment() {
-    $("#paymentError").hide();
+    paymentError();
     $.ajax({
         type: "POST",
         url: "/payment/prepaid/",
@@ -216,22 +253,46 @@ function doPrepaidPayment() {
             username: $("#searchUser").val(),
             amount: totalPrice,
         },
-        success: successAndReload,
+        success: prepaidSuccessAndReload,
         error: function(jqXHR, textStatus, errorThrown) {
-            $("#paymentError").text("Payment error: " + jqXHR.responseText);
-            $("#paymentError").show();
+            paymentError("Payment error: " + jqXHR.responseText);
         }
     });
 }
 
-function successAndReload() {
-    $("#paymentError").hide();
+function doCreditPayment() {
+    paymentError();
+    $.ajax({
+        type: "POST",
+        url: "/payment/credit/",
+        data: {
+            username: $("#searchUser").val(),
+            amount: totalPrice,
+            order: JSON.stringify(order),
+        },
+        success: creditSuccessAndReload,
+        error: function(jqXHR, textStatus, errorThrown) {
+            paymentError("Payment error: " + jqXHR.responseText);
+        }
+    });
+}
+
+function prepaidSuccessAndReload() {
+    paymentError();
     currentBalance -= totalPrice;
     updateCurrentBalance();
     const message = "Payment successful. Remaining balance: " + formatCurrencyString(currentBalance);
-    $("#paymentSuccess").text(message);
-    $("#paymentSuccess").show();
-    setTimeout(function() {location.reload();}, 3000);
+    paymentSuccess(message);
+    reloadAfter(3000);
+}
+
+function creditSuccessAndReload() {
+    paymentError();
+    currentCredit += totalPrice;
+    updateCurrentCredit();
+    const message = "Payment successful. Credit total: " + formatCurrencyString(currentCredit);
+    paymentSuccess(message);
+    reloadAfter(3000);
 }
 
 
@@ -289,3 +350,8 @@ function doTopUp() {
     });
 }
 
+// ---- Credit ---- \\
+function updateCurrentCredit() {
+    var message = "Current credit total: " + formatCurrencyString(currentCredit);
+    $("#currentCreditText").text(message);
+}
