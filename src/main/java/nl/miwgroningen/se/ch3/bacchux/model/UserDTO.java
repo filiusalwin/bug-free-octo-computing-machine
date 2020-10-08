@@ -17,6 +17,7 @@ public class UserDTO {
         creditAllowed = user.isCreditAllowed();
         balance = user.getBalance();
         creditPaymentBankAccountNumber = user.getCreditPaymentBankAccountNumber();
+        currentCredit = user.getCreditTotal();
     }
 
     private Integer userId;
@@ -36,6 +37,16 @@ public class UserDTO {
     private Integer balance;
 
     private String creditPaymentBankAccountNumber;
+
+    private Integer currentCredit;
+
+    public Integer getCurrentCredit() {
+        return currentCredit;
+    }
+
+    public void setCurrentCredit(Integer currentCredit) {
+        this.currentCredit = currentCredit;
+    }
 
     public String getCreditPaymentBankAccountNumber() {
         return creditPaymentBankAccountNumber;
