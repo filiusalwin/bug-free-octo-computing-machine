@@ -11,18 +11,16 @@
         <div class="row justify-content-center">
             <h1>Catalog Overview</h1>
         </div>
-        <div class="alert alert-info" role="alert">
-            Double click item to edit
+        <div class="d-flex justify-content-center">
+            <p class="text-muted small">Double click to edit</p>
         </div>
-        <div class="text-secondary">Double click item to edit</div>
-        <br>
         <div class="row justify-content-center">
             <div class="col-4 border-right">
                 <div class="d-flex border-bottom">
                     <h2>
                         Categories
                     </h2>
-                    <button class="btn btn-secondary ml-auto" onclick="openModalNewCategory()" data-toggle="modal"
+                    <button class="btn btn-secondary ml-auto font-xl" onclick="openModalNewCategory()" data-toggle="modal"
                             data-target="#maintainCategoryModal">+</button>
                 </div>
                 <div class="list-group list-group-flush" id="categoryList">
@@ -30,8 +28,7 @@
                             th:each="category: ${allCategories}"
                             th:id="${'category' + category.getCategoryId()}"
                             th:attr="categoryName=${category.getName()}, onclick=|selectCategory(${category.getCategoryId()})|,
-                            ondblclick=|addCategoryByCategoryName('${category.name}')|"
-                             >
+                            ondblclick=|addCategoryByCategoryName('${category.name}')|">
                         <span th:text="${category.name}"/>
                     </button>
                 </div>
@@ -41,7 +38,7 @@
                     <h2>
                         Products
                     </h2>
-                    <button class="btn btn-secondary ml-auto" onclick="openModalNewProduct()" data-toggle="modal"
+                    <button class="btn btn-secondary ml-auto font-xl" onclick="openModalNewProduct()" data-toggle="modal"
                             data-target="#maintainProductModal">+</button>
                 </div>
                 <div class="list-group list-group-flush" id="productList">
