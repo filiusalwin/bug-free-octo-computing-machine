@@ -14,6 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
+
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -42,20 +45,37 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                //.antMatchers("/user/**", "/catalog/**").hasRole("BARMANAGER")
-               // .antMatchers("/order/**").hasRole("BARTENDER")
-               // .antMatchers("/css/**", "/js/**").permitAll()
-               // .anyRequest().authenticated()
-                .and()
+                    .antMatchers("/user/**", "/catalog/**").hasRole("BARMANAGER")
+                    .antMatchers("/order/**").hasRole("BARTENDER")
+                    .antMatchers("/css/**", "/js/**").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
                 .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/")
-                .permitAll()
-                .and()
+                    .loginPage("/login")
+                    .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/")
+                    .permitAll()
+                    .and()
                 .logout()
-                .permitAll()
-                .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+                    .permitAll()
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
+                    .and()
+                .exceptionHandling()
+                    .accessDeniedHandler(accessDeniedHandler);
     }
+
+    @Configuration
+    public class MyHttpSessionListener implements HttpSessionListener {
+        @Override
+        public void sessionCreated(HttpSessionEvent event) {
+            event.getSession().setMaxInactiveInterval(120 * 60); // 2 hours
+        }
+
+        @Override
+        public void sessionDestroyed(HttpSessionEvent event) {
+            // session destroyed
+        }
+    }
+
 }
