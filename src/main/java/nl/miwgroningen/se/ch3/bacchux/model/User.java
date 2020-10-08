@@ -167,6 +167,6 @@ public class User implements Comparable<User> {
 
     @Override
     public int compareTo(User user) {
-        return name.compareTo(user.getName());
+        return name.toLowerCase().compareTo(user.getName().toLowerCase());
     }
 }
