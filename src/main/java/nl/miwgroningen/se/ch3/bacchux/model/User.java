@@ -1,6 +1,7 @@
 package nl.miwgroningen.se.ch3.bacchux.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User implements Comparable<User> {
@@ -11,6 +12,11 @@ public class User implements Comparable<User> {
 
     @Column(unique = true)
     private String username;
+
+    @OneToMany (cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "user")
+    private List<CreditPayment> creditPayments;
 
     private String name;
 
@@ -32,6 +38,16 @@ public class User implements Comparable<User> {
 
     private Integer balance;
 
+    public Integer getCreditTotal() {
+        int total = 0;
+        for (CreditPayment payment : creditPayments) {
+            if (!payment.isPaid()) {
+                total += payment.getAmount();
+            }
+        }
+        return total;
+    }
+
     public String getDisplayRoles(){
         if (roles == null) {
             return "";
@@ -40,6 +56,14 @@ public class User implements Comparable<User> {
                 .replace("ROLE_BARTENDER", "Bartender")
                 .replace("ROLE_CUSTOMER", "Customer")
                 .replace(",", ", ");
+    }
+
+    public List<CreditPayment> getCreditPayments() {
+        return creditPayments;
+    }
+
+    public void setCreditPayments(List<CreditPayment> creditPayments) {
+        this.creditPayments = creditPayments;
     }
 
     public Integer getUserId() {

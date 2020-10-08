@@ -69,15 +69,19 @@ public class UserController {
             return "userOverview";
         }
         IbanValidation ibanValidation = new IbanValidation();
-        if (!ibanValidation.validateIban(user.getCreditPaymentBankAccountNumber())
-                && !user.getCreditPaymentBankAccountNumber().isEmpty()) {
+        if (user.getCreditPaymentBankAccountNumber() != null
+                && !user.getCreditPaymentBankAccountNumber().isBlank()
+                && !ibanValidation.validateIban(user.getCreditPaymentBankAccountNumber())) {
             redirAttrs.addFlashAttribute
                     ("error", "The bank account number is not correct. New user not added.");
             return "redirect:/user/";
         }
         redirAttrs.addFlashAttribute("success", "New user added.");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setPin(passwordEncoder.encode(user.getPin()));
+        if (user.getPin() != null
+                && !user.getPin().isBlank()) {
+            user.setPin(passwordEncoder.encode(user.getPin()));
+        }
         try {
             userRepository.save(user);
         } catch (DataIntegrityViolationException exception) {
