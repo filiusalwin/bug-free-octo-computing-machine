@@ -76,12 +76,7 @@ public class UserController {
                     ("error", "The bank account number is not correct. New user not added.");
             return "redirect:/user/";
         }
-        redirAttrs.addFlashAttribute("success", "New user added.");
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (user.getPin() != null
-                && !user.getPin().isBlank()) {
-            user.setPin(passwordEncoder.encode(user.getPin()));
-        }
+        checkPinPass(user, redirAttrs);
         try {
             userRepository.save(user);
         } catch (DataIntegrityViolationException exception) {
@@ -89,7 +84,24 @@ public class UserController {
             model.addAttribute("error", "This username already exists!");
             return "userOverview";
         }
+        redirAttrs.addFlashAttribute("success", "New user added.");
         return "redirect:/user/";
+    }
+
+    // Only check the pin and password if the new user is not a customer
+    private void checkPinPass(User user, RedirectAttributes redirAttrs) {
+        if (user.getRoles() != "ROLE_CUSTOMER"){
+            if (user.getPin() != null && !user.getPin().isBlank() && user.getPin().length() == 4 ) {
+                user.setPin(passwordEncoder.encode(user.getPin()));
+            } else {
+                redirAttrs.addFlashAttribute("error", "There was a problem with the Pincode. New user not added.");
+            }
+            if (user.getPassword() != null && !user.getPassword().isBlank()) {
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+            } else {
+                redirAttrs.addFlashAttribute("error", "There was a problem with the Password. New user not added.");
+            }
+        }
     }
 
     //to update a user without changing password
@@ -107,7 +119,6 @@ public class UserController {
             redirAttrs.addFlashAttribute("error", "The bank account number is not correct. User not updated");
             return "redirect:/user/";
         }
-        redirAttrs.addFlashAttribute("success", "User updated.");
         Optional<User> user1 = userRepository.findById(user.getUserId());
         if (user1.isEmpty()) {
             model.addAttribute("error", "User not found, cannot be updated.");
@@ -121,6 +132,7 @@ public class UserController {
             model.addAttribute("error", "This username is taken by another user.");
             return "userOverview";
         }
+        redirAttrs.addFlashAttribute("success", "User updated.");
         userRepository.save(user);
         return "redirect:/user/";
     }

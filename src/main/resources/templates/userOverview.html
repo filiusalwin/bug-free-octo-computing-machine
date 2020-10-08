@@ -87,14 +87,18 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" style="width: 100px;" id="basic-addon2">Password</span>
                                 </div>
-                                <input id="password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2" th:field="*{password}">
-                            </div>
+                                <input id="password" type="password" class="form-control" placeholder="Password"
+                                       onKeyDown="javascript: var keycode = keyPressed(event); if(keycode==32){ return false; }"
+                                       aria-label="Password" aria-describedby="basic-addon2" th:field="*{password}">
+                               </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" style="width: 100px;" id="basic-addon3">Pincode</span>
                                 </div>
-                                <input id="pin" type="password" class="form-control" name="*{pin}" placeholder="Pincode" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,''),
-                                    alert('only numbers')" aria-label="Pincode" aria-describedby="basic-addon3" th:field="*{pin}">
+                                <input id="pin" type="password" class="form-control" name="*{pin}" placeholder="Pincode"
+                                       onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,''),
+                                    alert('Pincode must be a 4 digit number!')" aria-label="Pincode"
+                                       aria-describedby="basic-addon3" maxlength="4" minlength="4" th:field="*{pin}">
                             </div>
                         </div>
                         <div class="input-group mb-3">
