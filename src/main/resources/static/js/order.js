@@ -3,6 +3,7 @@ var currentBalance = 0;
 var currentCredit = 0;
 var totalPrice = 0;
 var productsInBill;
+var paymentType = null;
 
 
 // ---- On document load --- \\
@@ -35,7 +36,7 @@ function showPaymentStuff(hasPrepaid, hasCredit) {
 function clearUser() {
     $("#noPaymentError").hide();
     $("#searchUser").val("");
-    $("#customerInfoBox").html(null);
+    showCustomerInfo();
     showPaymentStuff(false, false);
 }
 
@@ -48,7 +49,7 @@ function hidePayment() {
 }
 
 function disablePayments(value) {
-    $("#payCreditButton, #payPrepaidButton, #cashPayButton").attr("disabled", value);
+    $("#confirmPayButton").attr("disabled", value);
 }
 
 
@@ -65,8 +66,7 @@ function chooseCustomer(data) {
         clearUser();
         return;
     }
-    var name = shortenName(data.name);
-    $("#customerInfoBox").html();
+    showCustomerInfo(data);
     currentBalance = data.balance;
     currentCredit = data.currentCredit;
     updateCurrentBalance();
@@ -77,11 +77,18 @@ function chooseCustomer(data) {
     showPaymentStuff(data.prepaidAllowed, data.creditAllowed);
 }
 
-function shortenName(name) {
-    if (name.length > 25) {
-        return name.substr(0, 25) + "…";
+function showCustomerInfo(data) {
+    if (!data) {
+        $("#customerName").text(null);
+        $("#customerInfo").text(null);
+        return;
     }
-    return name;
+    $("#customerName").text(data.name);
+    var info = "Balance "
+            + formatCurrencyString(data.balance)
+            + "<br>Credit "
+            + formatCurrencyString(data.currentCredit);
+    $("#customerInfo").html(info);
 }
 
 function getCustomerByUsernameAnd(username, callback) {
@@ -99,6 +106,7 @@ function getCustomerByUsernameAnd(username, callback) {
 
 // ---- Update Bill ---- \\
 function updateProductList(products) {
+    choosePayment();
     var productBox = document.getElementById("billProductList");
     productBox.innerHTML = "";
 
@@ -218,6 +226,29 @@ function selectCategory(id) {
 
 
 // ---- Payment ---- \\
+function choosePayment(type) {
+    paymentType = type;
+    if (!type) {
+        $("#confirmPayButton").hide();
+        return;
+    }
+    $("#confirmPayButton").show();
+}
+
+function confirmPayment() {
+    switch (paymentType) {
+        case "direct":
+            doCashPayment();
+            break;
+        case "prepaid":
+            doPrepaidPayment();
+            break;
+        case "credit":
+            doCreditPayment();
+            break;
+    }
+}
+
 function paymentError(message) {
     var error = $("#paymentError");
     if (!message) {
