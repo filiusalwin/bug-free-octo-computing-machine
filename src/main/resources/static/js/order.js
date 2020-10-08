@@ -35,7 +35,7 @@ function showPaymentStuff(hasPrepaid, hasCredit) {
 function clearUser() {
     $("#noPaymentError").hide();
     $("#searchUser").val("");
-    $("#selectCustomerButton").html("Select<br>Customer");
+    $("#customerInfoBox").html(null);
     showPaymentStuff(false, false);
 }
 
@@ -66,7 +66,7 @@ function chooseCustomer(data) {
         return;
     }
     var name = shortenName(data.name);
-    $("#selectCustomerButton").html(name);
+    $("#customerInfoBox").html();
     currentBalance = data.balance;
     currentCredit = data.currentCredit;
     updateCurrentBalance();
@@ -78,8 +78,8 @@ function chooseCustomer(data) {
 }
 
 function shortenName(name) {
-    if (name.length > 13) {
-        return name.substr(0, 13) + "…";
+    if (name.length > 25) {
+        return name.substr(0, 25) + "…";
     }
     return name;
 }
