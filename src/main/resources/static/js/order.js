@@ -275,6 +275,7 @@ function reloadAfter(duration) {
 
 function doCashPayment() {
     disablePayments(true);
+    doPaymentLog(paymentType = "direct/cash");
     paymentError();
     var price = document.getElementById("totalPrice").innerHTML;
     paymentSuccess("Payment successful. Price: " + price);
@@ -322,6 +323,7 @@ function prepaidSuccessAndReload() {
     paymentError();
     currentBalance -= totalPrice;
     updateCurrentBalance();
+    doPaymentLog(paymentType = "prepaid");
     const message = "Payment successful. Remaining balance: " + formatCurrencyString(currentBalance);
     paymentSuccess(message);
     reloadAfter(3000);
@@ -331,9 +333,30 @@ function creditSuccessAndReload() {
     paymentError();
     currentCredit += totalPrice;
     updateCurrentCredit();
+    doPaymentLog(paymentType = "credit");
     const message = "Payment successful. Credit total: " + formatCurrencyString(currentCredit);
     paymentSuccess(message);
     reloadAfter(3000);
+}
+
+
+// ---- Direct Payment Logging ---- \\
+function doPaymentLog(paymentType) {
+    $("#paymentError").hide();
+    $.ajax({
+        type: "POST",
+        url: "/log/directPayment/",
+        data: {
+            totalAmount: totalPrice,
+            customer: $("#searchUser").val(),
+            paymentType: paymentType,
+            paymentDetails: JSON.stringify(productsInBill)
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            $("#paymentError").text("Logging error: " + jqXHR.responseText);
+            $("#paymentError").show();
+        }
+    });
 }
 
 
