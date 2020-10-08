@@ -7,7 +7,7 @@ public class LogDetailDTO {
     public LogDetailDTO (LogDetail logDetail) {
         logId = logDetail.getLogId();
         timestamp = logDetail.getTimestamp();
-        servingUser = logDetail.getServingUser();
+        servingUser = logDetail.getBartender();
         totalAmount = logDetail.getTotalAmount();
         paymentDetails =logDetail.getPaymentDetails();
     }

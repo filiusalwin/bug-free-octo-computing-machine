@@ -232,7 +232,7 @@ function reloadAfter(duration) {
 
 function doCashPayment() {
     disablePayments(true);
-    doCashPaymentLog();
+    doPaymentLog(paymentType = "direct/cash");
     paymentError();
     var price = document.getElementById("totalPrice").innerHTML;
     paymentSuccess("Payment successful. Price: " + price);
@@ -242,14 +242,17 @@ function doCashPayment() {
 }
 
 // ---- Direct Payment Logging ---- \\
-function doCashPaymentLog() {
+
+
+function doPaymentLog(paymentType) {
     $("#paymentError").hide();
     $.ajax({
         type: "POST",
         url: "/log/directPayment/",
         data: {
-            username: $("#searchUser").val(),
             totalAmount: totalPrice,
+            customer: $("#searchUser").val(),
+            paymentType: paymentType,
             paymentDetails: JSON.stringify(productsInBill)
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -285,7 +288,7 @@ function doCreditPayment() {
         type: "POST",
         url: "/payment/credit/",
         data: {
-            username: $("#loggedUser").val(),
+            username: $("#searchUser").val(),
             amount: totalPrice,
             order: JSON.stringify(productsInBill),
         },
@@ -301,6 +304,7 @@ function prepaidSuccessAndReload() {
     paymentError();
     currentBalance -= totalPrice;
     updateCurrentBalance();
+    doPaymentLog(paymentType = "prepaid");
     const message = "Payment successful. Remaining balance: " + formatCurrencyString(currentBalance);
     paymentSuccess(message);
     reloadAfter(3000);
@@ -310,6 +314,7 @@ function creditSuccessAndReload() {
     paymentError();
     currentCredit += totalPrice;
     updateCurrentCredit();
+    doPaymentLog(paymentType = "credit");
     const message = "Payment successful. Credit total: " + formatCurrencyString(currentCredit);
     paymentSuccess(message);
     reloadAfter(3000);
