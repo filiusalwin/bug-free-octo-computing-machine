@@ -58,35 +58,48 @@
                     </h3>
                 </div>
                 <hr>
-                <div id="paymentButtons" class="d-flex justify-content-around">
-                    <button class="btn btn-dark p-3 font-xl" id="cashPayButton" onclick="doCashPayment()" data-toggle="modal" data-target="#customerModal">
-                        Direct<br>Payment
-                    </button>
-                    <button class="btn btn-primary p-3 font-xl" id="selectCustomerButton" data-toggle="modal" data-target="#customerModal">
-                        Select<br>Customer
-                    </button>
+                <div id="paymentError" class="alert alert-danger mb-4"></div>
+                <div id="paymentSuccess" class="alert alert-success mb-4"></div>
+                <div id="paymentButtons" class="d-flex justify-content-around mb-4">
+                    <div class="bigButton">
+                        <button class="btn btn-primary p-3 font-xl w-100 h-100 text-break" id="selectCustomerButton" data-toggle="modal" data-target="#customerModal">
+                            Select<br>Customer
+                        </button>
+                    </div>
+                    <div class="bigButton">
+                        <button class="btn btn-dark p-3 font-xl payment w-100 h-100" id="cashPayButton" ondblclick="doCashPayment()">
+                            Direct<br>Payment
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-around">
+                    <div class="bigButton">
+                        <button class="btn btn-dark p-3 font-xl payment w-100 h-100" id="payPrepaidButton" ondblclick="doPrepaidPayment()">
+                            Prepaid<br>Payment
+                        </button>
+                    </div>
+                    <div class="bigButton">
+                        <button class="btn btn-dark p-3 font-xl payment w-100 h-100" id="payCreditButton" ondblclick="doCreditPayment()">
+                            Credit<br>Payment
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="customerModal">
+    <div class="modal" id="customerModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title" id="modalLabel">Payment</h2>
+                    <h2 class="modal-title" id="modalLabel">Select Customer</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div id="paymentError" class="alert alert-danger modal-body m-3"></div>
-                <div id="paymentSuccess" class="alert alert-success modal-body m-3">
-                    Payment successful.
-                </div>
-                <div class="modal-body">
+                <div class="modal-body pre-payment">
                     <button class="btn btn-dark mb-2" id="addPrepaidButton" onclick="addPrepaidCustomer()">
                         + New Prepaid Customer
                     </button>
-
                     <datalist th:field="${user.userId}" id="userList">
                         <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
                     </datalist>
@@ -106,18 +119,16 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-dark mb-2 payment w-100" id="payPrepaidButton" onclick="doPrepaidPayment()">
-                            &#8627; Prepaid Payment
-                        </button>
                     </div>
                     <div id="credit">
                         <hr>
+                        <h5>Credit</h5>
                         <div id="currentCredit" class="badge badge-secondary mb-2 w-100">
                             <p id="currentCreditText" class="p-1 m-1 font-lg no-bold">Credit total: ...</p>
                         </div>
-                        <button class="btn btn-dark mb-2 payment w-100" id="payCreditButton" onclick="doCreditPayment()">
-                            &#8627; Credit Payment
-                        </button>
+                    </div>
+                    <div class="alert alert-danger" id="noPaymentError" style="display: none;">
+                        This user has no payment privileges.
                     </div>
                 </div>
             </div>

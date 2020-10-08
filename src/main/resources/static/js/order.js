@@ -23,26 +23,28 @@ $(document).ready(function() {
 
 // ---- Show and Hide --- \\
 function showPaymentStuff(hasPrepaid, hasCredit) {
-    $("#prepaid, #credit").hide();
+    $("#prepaid, #payPrepaidButton, #credit, #payCreditButton").hide();
     if (hasPrepaid) {
-        $("#prepaid").show();
+        $("#prepaid, #payPrepaidButton").show();
     }
     if (hasCredit) {
-        $("#credit").show();
+        $("#credit, #payCreditButton").show();
     }
 }
 
 function clearUser() {
+    $("#noPaymentError").hide();
     $("#searchUser").val("");
+    $("#selectCustomerButton").html("Select<br>Customer");
     showPaymentStuff(false, false);
 }
 
 function showPayment() {
-    $(".payment").show();
+    $(".payment").attr("disabled", false);
 }
 
 function hidePayment() {
-    $(".payment").hide();
+    $(".payment").attr("disabled", true);
 }
 
 function disablePayments(value) {
@@ -57,19 +59,29 @@ function getUserFromSearch() {
 }
 
 function chooseCustomer(data) {
+    $("#noPaymentError").hide();
     paymentError();
     if ($.isEmptyObject(data)) {
         clearUser();
         return;
     }
+    var name = shortenName(data.name);
+    $("#selectCustomerButton").html(name);
     currentBalance = data.balance;
     currentCredit = data.currentCredit;
     updateCurrentBalance();
     updateCurrentCredit();
     if (!data.prepaidAllowed && !data.creditAllowed) {
-        paymentError("This user has no payment privileges.");
+        $("#noPaymentError").show();
     }
     showPaymentStuff(data.prepaidAllowed, data.creditAllowed);
+}
+
+function shortenName(name) {
+    if (name.length > 13) {
+        return name.substr(0, 13) + "…";
+    }
+    return name;
 }
 
 function getCustomerByUsernameAnd(username, callback) {
@@ -236,7 +248,6 @@ function doCashPayment() {
     var price = document.getElementById("totalPrice").innerHTML;
     paymentSuccess("Payment successful. Price: " + price);
     reloadAfter(3000);
-    disablePayments(false);
 }
 
 function doPrepaidPayment() {
