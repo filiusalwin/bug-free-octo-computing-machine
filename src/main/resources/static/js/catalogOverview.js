@@ -14,13 +14,15 @@ function openModalNewProduct() {
 }
 
 function fillOutForm(data) {
-    $("#userForm").attr("action", "/catalog/add");
-    $("#modalLabel").html("Edit " + data.categoryName);
-    $("#categoryNameInput, #originalCategoryName").val(data.categoryName);
+    console.log("filloutform");
+    $("#categoryForm").attr("action", "/catalog/add");
+    $("#modalLabelCategory").html("Edit " + data.name);
+    $("#categoryNameInput, #originalCategoryName").val(data.name);
 }
 
 //TODO this method is not correct yet
 function addCategoryByCategoryName(categoryName) {
+    console.log(categoryName);
     $.ajax({
         type: "GET",
         url: "/catalog/byCategoryName/" + categoryName,
@@ -28,8 +30,11 @@ function addCategoryByCategoryName(categoryName) {
             categoryName: categoryName,
         },
     }).done(function (data) {
-        $('#maintainCategoryModal').show();
+        console.log(data)
+        $('#maintainCategoryModal').modal('show');
         fillOutForm(data);
+    }).fail(function (data) {
+       console.log("fail")
     });
 }
 

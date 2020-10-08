@@ -2,6 +2,7 @@ package nl.miwgroningen.se.ch3.bacchux.controller;
 
 import nl.miwgroningen.se.ch3.bacchux.model.Category;
 
+import nl.miwgroningen.se.ch3.bacchux.model.CategoryDTO;
 import nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +20,14 @@ public class CategoryRestController {
     CategoryRepository categoryRepository;
 
     @GetMapping("/byCategoryName/{categoryName}")
-    Category oneCategoryName(@PathVariable String categoryName) {
+    protected CategoryDTO oneCategoryName(@PathVariable String categoryName) {
         Optional<Category> categoryOptional = categoryRepository.findByName(categoryName);
         if (!categoryOptional.isPresent()) {
-            return new Category();
+            return null;
         }
         Category category = categoryOptional.get();
-        return category;
+        return new CategoryDTO(category);
     }
+
+
 }

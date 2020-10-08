@@ -19,8 +19,8 @@
                 <div class="list-group list-group-flush" id="categoryList">
                     <button class="list-group-item list-group-item-action categoryButton" th:each="category: ${allCategories}"
                             th:id="${'category' + category.getCategoryId()}"
-                            th:attr="categoryName=|${category.getName()}|, onclick=|selectCategory(${category.getCategoryId()})|"
-                            th:attrappend="ondblclick=|addCategoryByCategoryName('${category.name}')|"
+                            th:attr="categoryName=${category.getName()}, onclick=|selectCategory(${category.getCategoryId()})|,
+                            ondblclick=|addCategoryByCategoryName('${category.name}')|"
                              >
                         <span th:text="${category.name}"/>
                     </button>
