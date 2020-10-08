@@ -56,7 +56,7 @@ public class ProductController {
                                           BindingResult result) {
 
         if (result.hasErrors()) {
-            return "productForm";
+            return "catalogOverview";
         }
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
@@ -66,7 +66,7 @@ public class ProductController {
             } catch (DataIntegrityViolationException exception) {
                 model.addAttribute("allProducts", productRepository.findAll());
                 model.addAttribute("error", "This product already exists!");
-                return "productForm";
+                return "catalogOverview";
             }
         }
         return "redirect:/catalog/product/" + categoryId;

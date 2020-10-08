@@ -15,9 +15,13 @@ public class LogDetail {
 
     private LocalDateTime timestamp;
 
-    private String servingUser;
+    private String bartender;
+
+    private String customer;
 
     private Integer totalAmount;
+
+    private String paymentType;
 
     private String paymentDetails;
 
@@ -45,12 +49,20 @@ public class LogDetail {
         this.timestamp = localDateTime;
     }
 
-    public String getServingUser() {
-        return servingUser;
+    public String getBartender() {
+        return bartender;
     }
 
-    public void setServingUser(String servingUser) {
-        this.servingUser = servingUser;
+    public void setBartender(String servingUser) {
+        this.bartender = servingUser;
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
     }
 
     public String getPaymentDetails() {
@@ -59,5 +71,13 @@ public class LogDetail {
 
     public void setPaymentDetails(String directPaymentDetails) {
         this.paymentDetails = directPaymentDetails;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
     }
 }
