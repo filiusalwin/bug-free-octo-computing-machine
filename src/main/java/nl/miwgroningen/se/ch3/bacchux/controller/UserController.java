@@ -125,6 +125,7 @@ public class UserController {
         return "redirect:/user/";
     }
 
+
     @GetMapping("/delete/{userId}")
     protected String deleteUser(@PathVariable("userId") final Integer userId) {
         Optional<User> user = userRepository.findById(userId);

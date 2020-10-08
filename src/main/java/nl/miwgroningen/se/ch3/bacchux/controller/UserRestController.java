@@ -5,9 +5,13 @@ import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.model.UserDTO;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -28,6 +32,23 @@ public class UserRestController {
         }
         User user = userOptional.get();
         user.setBalance(user.getBalance() + amount);
+        userRepository.save(user);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PutMapping ("/newCustomer")
+    protected ResponseEntity saveNewCustomer(@RequestParam String username,
+                                     @RequestParam String name,
+                                     @RequestParam boolean prepaidOn) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (!userOptional.isEmpty()) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        User user = new User();
+        user.setUsername(username);
+        user.setName(name);
+        user.setRoles("ROLE_CUSTOMER");
+        user.setPrepaidAllowed(prepaidOn);
         userRepository.save(user);
         return new ResponseEntity(HttpStatus.OK);
     }

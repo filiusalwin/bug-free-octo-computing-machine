@@ -11,6 +11,8 @@ $(document).ready(function() {
     hidePayment();
     paymentError();
     paymentSuccess();
+    savingCustomerSuccess();
+    savingCustomerError();
     $("#categoryList > button:first-child").trigger("click");
 
     // event listeners
@@ -323,8 +325,51 @@ function creditSuccessAndReload() {
 
 // ---- New Customer ---- \\
 function addPrepaidCustomer() {
-    window.open("/order/new/prepaid", "popUpWindow",
-         'height=500, width=600, left=50, top=50, resizable=yes, scrollbars=yes, toolbar=yes, menubar=no, location=no, directories=no, status=yes');
+    $("#usernameInput, #nameInput").val("");
+    $("#newCustomerModal").modal('show');
+}
+
+function saveNewCustomer() {
+    $.ajax({
+        type: "PUT",
+        url: "/user/newCustomer/",
+        data: {
+            username: $("#usernameInput").val(),
+            name: $("#nameInput").val(),
+            prepaidOn: $("#prepaidNewCustomer").prop("checked"),
+        },
+        success: savingUserSuccess,
+        error: function(jqXHR, textStatus, errorThrown) {
+            savingCustomerError("Adding a user error: " + jqXHR.responseText);
+            disablePayments(false);
+        }
+    });
+}
+
+function savingCustomerSuccess(message) {
+    console.log(message);
+    var success = $("#savingUserSuccess");
+    if (!message) {
+        success.hide();
+        return;
+    }
+    success.text(message);
+    success.show();
+}
+function savingCustomerError(message) {
+    var error = $("#savingUserError");
+    if (!message) {
+        error.hide();
+        return;
+    }
+    error.text(message);
+    error.show();
+}
+
+function savingUserSuccess(){
+    savingCustomerError();
+    const message = "User " + $("#usernameInput").val() + " successfully added."
+    savingCustomerSuccess(message);
 }
 
 function loadCustomer(username, fullname) {
