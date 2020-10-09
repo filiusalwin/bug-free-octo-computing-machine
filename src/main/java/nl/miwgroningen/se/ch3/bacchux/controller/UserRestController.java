@@ -36,23 +36,6 @@ public class UserRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PutMapping ("/newCustomer")
-    protected ResponseEntity saveNewCustomer(@RequestParam String username,
-                                     @RequestParam String name,
-                                     @RequestParam boolean prepaidOn) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        if (!userOptional.isEmpty()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-        User user = new User();
-        user.setUsername(username);
-        user.setName(name);
-        user.setRoles("ROLE_CUSTOMER");
-        user.setPrepaidAllowed(prepaidOn);
-        userRepository.save(user);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
     @GetMapping("/username/{username}")
     protected UserDTO getUserByUsername(@PathVariable("username") final String username) {
         Optional<User> user = userRepository.findByUsername(username);

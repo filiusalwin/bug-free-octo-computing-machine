@@ -78,10 +78,16 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <div id="savingUserError" class="alert alert-danger modal-body m-3">
+                </div>
+                <div id="savingUserSuccess" class="alert alert-success modal-body m-3">
+                    Saving successful.
+                </div>
                 <div id="paymentError" class="alert alert-danger modal-body m-3"></div>
                 <div id="paymentSuccess" class="alert alert-success modal-body m-3">
                     Payment successful.
                 </div>
+
                 <div class="modal-body">
                     <button class="btn btn-dark mb-2" id="addPrepaidButton" onclick="addPrepaidCustomer()">
                         + New Prepaid Customer
@@ -156,12 +162,6 @@
                             </div>
                         </div>
                     </form>
-
-                    <div id="savingUserError" class="alert alert-danger modal-body m-3">
-                    </div>
-                    <div id="savingUserSuccess" class="alert alert-success modal-body m-3">
-                        Saving successful.
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" id="saveButton" onclick="saveNewCustomer()" >Save</button>

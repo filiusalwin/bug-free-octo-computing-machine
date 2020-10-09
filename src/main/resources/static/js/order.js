@@ -332,7 +332,7 @@ function addPrepaidCustomer() {
 function saveNewCustomer() {
     $.ajax({
         type: "PUT",
-        url: "/user/newCustomer/",
+        url: "/order/newCustomer/",
         data: {
             username: $("#usernameInput").val(),
             name: $("#nameInput").val(),
@@ -347,12 +347,14 @@ function saveNewCustomer() {
 }
 
 function savingCustomerSuccess(message) {
+    console.log(!message);
     console.log(message);
-    var success = $("#savingUserSuccess");
-    if (!message) {
+        var success = $("#savingUserSuccess");
+   /* if (!message) {
+
         success.hide();
         return;
-    }
+    }*/
     success.text(message);
     success.show();
 }
@@ -370,6 +372,7 @@ function savingUserSuccess(){
     savingCustomerError();
     const message = "User " + $("#usernameInput").val() + " successfully added."
     savingCustomerSuccess(message);
+    $("#newCustomerModal").modal('hide');
 }
 
 function loadCustomer(username, fullname) {
