@@ -82,6 +82,12 @@ function selectCategory(id) {
     }
 }
 
+function deleteCategory() {
+    var categoryId = $("#categoryIdInput").val();
+    console.log($("#categoryIdInput").val());
+    window.location.href = "/catalog/delete/" + categoryId;
+}
+
 function resetNewCategory() {
     newCategory = false;
 }
