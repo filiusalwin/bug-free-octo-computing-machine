@@ -4,3 +4,12 @@
 #bill {
     font-family: "Courier New", Courier, monospace;
 }
+.font-lg {
+    font-size: 1.2rem;
+}
+.font-xl {
+    font-size: 1.4rem;
+}
+.no-bold {
+    font-weight: normal;
+}
