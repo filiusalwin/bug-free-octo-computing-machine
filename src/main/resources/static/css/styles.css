@@ -1,15 +1,13 @@
 .bigColumn {
-    flex: 0 0 400px;
+    width: 400px;
 }
 #bill {
     font-family: "Courier New", Courier, monospace;
     height: 600px;
 }
-.lightgray {
-    background-color: lightgray;
-}
-.thick-right-border {
-    border-right-width: 3px !important;
+.graybox {
+    background-color: rgb(232,232,232);
+    border-radius: 30px;
 }
 .font-lg {
     font-size: 1.2rem;
