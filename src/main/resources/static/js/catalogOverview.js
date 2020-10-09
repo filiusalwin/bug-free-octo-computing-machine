@@ -12,7 +12,7 @@ function openModalNewCategory() {
     $("#modalLabelCategory").html("New Category");
     $("#categoryNameInput, #originalCategoryName, #categoryIdInput" ).val("");
     $('#maintainCategoryModal').modal('show');
-    $('#deleteCategory').hide;
+    $('#deleteCategory').hide();
 }
 
 function openModalNewProduct() {
