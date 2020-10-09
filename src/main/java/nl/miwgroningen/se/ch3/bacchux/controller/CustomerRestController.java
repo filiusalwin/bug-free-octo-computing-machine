@@ -40,5 +40,15 @@ public class CustomerRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @GetMapping("/byUsername/{username}")
+    User oneUsername(@PathVariable String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (!userOptional.isPresent()) {
+            return new User();
+        }
+        User user = userOptional.get();
+        return user;
+    }
+
 
 }

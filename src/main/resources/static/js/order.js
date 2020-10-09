@@ -346,17 +346,19 @@ function saveNewCustomer() {
     });
 }
 
+
 function savingCustomerSuccess(message) {
     console.log(!message);
     console.log(message);
         var success = $("#savingUserSuccess");
-   /* if (!message) {
+    if (!message) {
 
         success.hide();
         return;
-    }*/
+    }
     success.text(message);
     success.show();
+    setTimeout(success.hide(), 3000)
 }
 function savingCustomerError(message) {
     var error = $("#savingUserError");
@@ -366,6 +368,7 @@ function savingCustomerError(message) {
     }
     error.text(message);
     error.show();
+    setTimeout(error.hide(), 3000)
 }
 
 function savingUserSuccess(){
