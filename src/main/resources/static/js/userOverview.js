@@ -92,20 +92,21 @@ function openModalNewUser() {
 
 // ---- Modal Checks ---- \\
 function checkIfUserNameExists() {
-    var originalUsername = $("#originalUsername").val();
     username = $("#usernameInput").val();
     $.ajax({
         type: "GET",
-        url: "/user/byUsername/" + username,
-        data: {
-            username: username,
-        },
-    }).done(function getUserData(userData) {
-        if (userData.username === username && userData.username !== originalUsername) {
-            $("#usernameError").show();
-        } else {
-            $("#usernameError").hide();
+        url: "/order/username/" + username,
+        statusCode: {
+            404: function () {
+                return;
+            }
         }
+    }).done(function (data) {
+        if (data !== null) {
+            $("#usernameError").show();
+            return;
+        }
+        $("#usernameError").hide();
     });
 }
 

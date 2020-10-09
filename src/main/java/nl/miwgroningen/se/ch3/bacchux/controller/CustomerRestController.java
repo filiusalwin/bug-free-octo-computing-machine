@@ -40,14 +40,13 @@ public class CustomerRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/byUsername/{username}")
-    User oneUsername(@PathVariable String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        if (!userOptional.isPresent()) {
-            return new User();
+    @GetMapping("/username/{username}")
+    protected UserDTO getUserByUsername(@PathVariable("username") final String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isEmpty()) {
+            return null;
         }
-        User user = userOptional.get();
-        return user;
+        return new UserDTO(user.get());
     }
 
 

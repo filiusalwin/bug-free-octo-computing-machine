@@ -13,6 +13,7 @@ $(document).ready(function() {
     paymentSuccess();
     savingCustomerSuccess();
     savingCustomerError();
+    $("#usernameError").hide();
     $("#categoryList > button:first-child").trigger("click");
 
     // event listeners
@@ -340,6 +341,7 @@ function saveNewCustomer() {
         },
         success: savingUserSuccess,
         error: function(jqXHR, textStatus, errorThrown) {
+            console.log('fout bij opslaan')
             savingCustomerError("Adding a user error: " + jqXHR.responseText);
             disablePayments(false);
         }
@@ -350,14 +352,14 @@ function saveNewCustomer() {
 function savingCustomerSuccess(message) {
     console.log(!message);
     console.log(message);
-        var success = $("#savingUserSuccess");
+    var success = $("#savingUserSucces");
     if (!message) {
 
         success.hide();
         return;
     }
-    success.text(message);
-    success.show();
+    $("#savingUserSucces").html(message);
+    $("#savingUserSucces").show
     setTimeout(success.hide(), 3000)
 }
 function savingCustomerError(message) {
@@ -368,14 +370,35 @@ function savingCustomerError(message) {
     }
     error.text(message);
     error.show();
+    $("#newCustomerModal").modal('hide');
     setTimeout(error.hide(), 3000)
 }
 
 function savingUserSuccess(){
     savingCustomerError();
     const message = "User " + $("#usernameInput").val() + " successfully added."
-    savingCustomerSuccess(message);
     $("#newCustomerModal").modal('hide');
+    savingCustomerSuccess(message);
+
+}
+
+function checkIfUserNameExists() {
+    username = $("#usernameInput").val();
+    $.ajax({
+        type: "GET",
+        url: "/order/username/" + username,
+        statusCode: {
+            404: function() {return;}
+        }
+    }).done(function(data) {
+        console.log(data);
+        if (data !== "") {
+            $("#usernameError").show();
+            console.log("error6")
+            return;
+        }
+        $("#usernameError").hide();
+    });
 }
 
 function loadCustomer(username, fullname) {
