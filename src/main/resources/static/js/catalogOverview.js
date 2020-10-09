@@ -12,7 +12,7 @@ function openModalNewCategory() {
     $("#modalLabelCategory").html("New Category");
     $("#categoryNameInput, #originalCategoryName, #categoryIdInput" ).val("");
     $('#maintainCategoryModal').modal('show');
-
+    $('#deleteCategory').hide;
 }
 
 function openModalNewProduct() {
@@ -27,9 +27,8 @@ function fillOutForm(data) {
     $("#categoryIdInput").val(data.categoryId);
 }
 
-//TODO this method is not correct yet
 function addCategoryByCategoryName(categoryName) {
-    console.log(categoryName);
+
     $.ajax({
         type: "GET",
         url: "/catalog/byCategoryName/" + categoryName,
@@ -41,7 +40,6 @@ function addCategoryByCategoryName(categoryName) {
         $('#maintainCategoryModal').modal('show');
         fillOutForm(data);
     }).fail(function (data) {
-       console.log("fail")
     });
 }
 
