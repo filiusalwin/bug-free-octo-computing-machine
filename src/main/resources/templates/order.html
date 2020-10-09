@@ -12,24 +12,24 @@
             <h1>Place Order</h1>
         </div>
         <div class="row justify-content-center">
-            <div class="col border-right bigColumn">
-                <h2 class="border-bottom">
+            <div class="col border-right border-dark bigColumn p-3 lightgray rounded-left">
+                <h2 class="border-bottom border-dark">
                     Categories
                 </h2>
                 <div class="list-group list-group-flush" id="categoryList">
-                    <button class="list-group-item list-group-item-action categoryButton" th:each="category: ${allCategories}"
+                    <button class="list-group-item list-group-item-action categoryButton bg-light rounded" th:each="category: ${allCategories}"
                         th:id="${'category' + category.getCategoryId()}"
                         th:attr="categoryName=|${category.getName()}|, onclick=|selectCategory(${category.getCategoryId()})|">
                         <span th:text="${category.name}"/>
                     </button>
                 </div>
             </div>
-            <div class="col border-right bigColumn thick-right-border" >
-                <h2 class="border-bottom">
+            <div class="col border-right border-dark bigColumn thick-right-border p-3 lightgray" >
+                <h2 class="border-bottom border-dark">
                     Products
                 </h2>
                 <div class="list-group list-group-flush" id="productList">
-                    <button class="list-group-item list-group-item-action d-flex productListItem"
+                    <button class="list-group-item list-group-item-action list-group-item-dark rounded bg-light d-flex productListItem"
                             th:each="product: ${allProducts}"
                             th:id="${'product' + product.getProductId()}"
                             th:attr="productPrice=|${product.getPrice()}|,

@@ -4,17 +4,12 @@
 #bill {
     font-family: "Courier New", Courier, monospace;
     height: 600px;
+}
+.lightgray {
     background-color: lightgray;
 }
-#bill li {
-    background-color: whitesmoke;
-    border-radius: 5px;
-}
-#bill li:hover {
-    background-color: gainsboro;
-}
 .thick-right-border {
-    border-right: 3px solid black !important;
+    border-right-width: 3px !important;
 }
 .font-lg {
     font-size: 1.2rem;
