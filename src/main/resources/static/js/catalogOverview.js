@@ -1,5 +1,3 @@
-
-
 var newCategory;
 var newProduct;
 
