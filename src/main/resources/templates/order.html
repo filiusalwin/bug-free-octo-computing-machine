@@ -7,54 +7,58 @@
 <body>
     <nav th:replace="fragments/navbar :: navbar" />
     <input hidden th:field="${user.userId}" id="User">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
             <h1>Place Order</h1>
         </div>
         <div class="row justify-content-center">
-            <div class="col-7 graybox p-4">
-                <div class="row h-100">
-                    <div class="col border-right border-dark bigColumn p-3">
-                        <h2 class="border-bottom border-dark mt-0">
-                            Categories
-                        </h2>
-                        <div class="list-group list-group-flush" id="categoryList">
-                            <button class="list-group-item list-group-item-action categoryButton rounded" th:each="category: ${allCategories}"
-                                    th:id="${'category' + category.getCategoryId()}"
-                                    th:attr="categoryName=|${category.getName()}|, onclick=|selectCategory(${category.getCategoryId()})|">
-                                <span th:text="${category.name}"/>
-                            </button>
+            <div class="col graybox p-4 gigaColumn">
+                <div class="container h-100">
+                    <div class="row h-100">
+                        <div class="col border-right border-dark bigColumn p-3">
+                            <h2 class="border-bottom border-dark mt-0">
+                                Categories
+                            </h2>
+                            <div class="list-group list-group-flush" id="categoryList">
+                                <button class="list-group-item list-group-item-action categoryButton rounded mt-3"
+                                        th:each="category: ${allCategories}"
+                                        th:id="${'category' + category.getCategoryId()}"
+                                        th:attr="categoryName=|${category.getName()}|, onclick=|selectCategory(${category.getCategoryId()})|">
+                                    <span th:text="${category.name}"/>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col bigColumn thick-right-border p-3" >
-                        <h2 class="border-bottom border-dark">
-                            Products
-                        </h2>
-                        <div class="list-group list-group-flush" id="productList">
-                            <button class="list-group-item list-group-item-action list-group-item-dark rounded d-flex productListItem"
-                                    th:each="product: ${allProducts}"
-                                    th:id="${'product' + product.getProductId()}"
-                                    th:attr="productPrice=|${product.getPrice()}|,
+                        <div class="col bigColumn thick-right-border p-3" >
+                            <h2 class="border-bottom border-dark">
+                                Products
+                            </h2>
+                            <div class="list-group list-group-flush" id="productList">
+                                <button class="list-group-item list-group-item-action list-group-item-dark rounded
+                                                d-flex productListItem mt-3"
+                                        th:each="product: ${allProducts}"
+                                        th:id="${'product' + product.getProductId()}"
+                                        th:attr="productPrice=|${product.getPrice()}|,
                                  productName=|${product.getName()}|,
                                  category=|${product.getCategory().getCategoryId()}|,
                                  onclick=|addProduct(${product.getProductId()})|,
                                  productId=|${product.productId}|" >
-                                <div th:text="${product.name}" />
-                                <div th:text="${product.euroPrice()}" class="ml-auto" />
-                                <input type="hidden" value="0" class="productCountBox" th:id="${'productCount' + product.getProductId()}" />
-                            </button>
+                                    <div th:text="${product.name}" />
+                                    <div th:text="${product.euroPrice()}" class="ml-auto" />
+                                    <input type="hidden" value="0" class="productCountBox" th:id="${'productCount' + product.getProductId()}" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-5 bigColumn h-100">
-                <div id="bill" class="d-flex flex-column rounded p-2">
+            <div class="col hugeColumn h-100">
+                <div id="bill" class="d-flex flex-column rounded pt-4">
                     <h2>
                         Bill
                     </h2>
                     <div id="billProductList" class="list-group list-group-flush mb-auto overflow-auto">
                     </div>
-                    <h3 class="d-flex">
+                    <h3 class="d-flex mb-0">
                         Total
                         <div id="totalPrice" class="ml-auto">
                             €0,00
@@ -62,37 +66,62 @@
                     </h3>
                 </div>
                 <hr>
-                <div id="paymentButtons" class="d-flex justify-content-around">
-                    <button class="btn btn-dark p-3 font-xl" id="cashPayButton" onclick="doCashPayment()"
-                            data-toggle="modal" data-target="#customerModal">
-                        Direct<br>Payment
-                    </button>
-                    <button class="btn btn-primary p-3 font-xl" id="selectCustomerButton" data-toggle="modal"
-                            data-target="#customerModal">
-                        Select<br>Customer
+                <div id="paymentButtons" class="mb-4 d-flex justify-content-between">
+                    <div class="bigButton">
+                        <button class="btn btn-primary p-3 font-xl w-100 h-100" id="selectCustomerButton"
+                                data-toggle="modal" data-target="#customerModal" onclick="choosePayment();">
+                            Select<br>Customer
+                        </button>
+                    </div>
+                    <div class="bigBox p-2 border rounded">
+                        <h3 id="customerName" class="text-truncate"></h3>
+                        <p id="customerInfo"></p>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between flex-wrap mb-4">
+                    <div class="bigButton">
+                        <button class="btn btn-dark p-3 font-xl payment w-100 h-100" id="cashPayButton"
+                                onclick="choosePayment('direct')">
+                            Direct<br>Payment
+                        </button>
+                    </div>
+                    <div class="bigButton">
+                        <button class="btn btn-dark p-3 font-xl payment w-100 h-100" id="payPrepaidButton"
+                                onclick="choosePayment('prepaid')">
+                            Prepaid<br>Payment
+                        </button>
+                    </div>
+                    <div class="bigButton">
+                        <button class="btn btn-dark p-3 font-xl payment w-100 h-100" id="payCreditButton"
+                                onclick="choosePayment('credit')">
+                            Credit<br>Payment
+                        </button>
+                    </div>
+                </div>
+                <div id="confirmContainer">
+                    <div id="paymentError" class="alert alert-danger mb-4"></div>
+                    <div id="paymentSuccess" class="alert alert-success mb-4"></div>
+                    <button class="btn btn-success p-3 font-xl w-100" id="confirmPayButton"
+                            onclick="confirmPayment();" style="display: none;">
+                        Confirm
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="customerModal">
+    <div class="modal" id="customerModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title" id="modalLabel">Payment</h2>
+                    <h2 class="modal-title" id="modalLabel">Select Customer</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div id="paymentError" class="alert alert-danger modal-body m-3"></div>
-                <div id="paymentSuccess" class="alert alert-success modal-body m-3">
-                    Payment successful.
-                </div>
-                <div class="modal-body">
+                <div class="modal-body pre-payment">
                     <button class="btn btn-dark mb-2" id="addPrepaidButton" onclick="addPrepaidCustomer()">
                         + New Prepaid Customer
                     </button>
-
                     <datalist th:field="${user.userId}" id="userList">
                         <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
                     </datalist>
@@ -112,18 +141,16 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-dark mb-2 payment w-100" id="payPrepaidButton" onclick="doPrepaidPayment()">
-                            &#8627; Prepaid Payment
-                        </button>
                     </div>
                     <div id="credit">
                         <hr>
+                        <h5>Credit</h5>
                         <div id="currentCredit" class="badge badge-secondary mb-2 w-100">
                             <p id="currentCreditText" class="p-1 m-1 font-lg no-bold">Credit total: ...</p>
                         </div>
-                        <button class="btn btn-dark mb-2 payment w-100" id="payCreditButton" onclick="doCreditPayment()">
-                            &#8627; Credit Payment
-                        </button>
+                    </div>
+                    <div class="alert alert-danger" id="noPaymentError" style="display: none;">
+                        This user has no payment privileges.
                     </div>
                 </div>
             </div>
