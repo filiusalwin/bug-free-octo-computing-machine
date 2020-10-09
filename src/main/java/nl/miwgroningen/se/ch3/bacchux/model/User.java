@@ -15,7 +15,7 @@ public class User implements Comparable<User> {
 
     @OneToMany (cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
-            mappedBy = "user")
+            mappedBy = "customer")
     private List<CreditPayment> creditPayments;
 
     private String name;
