@@ -3,10 +3,16 @@
 var newCategory;
 var newProduct;
 
+$(document).ready(function() {
+    $("#categoryNameError").hide();
+});
+
 function openModalNewCategory() {
     newCategory = true;
+    $("#modalLabelCategory").html("New Category");
+    $("#categoryNameInput, #originalCategoryName, #categoryIdInput" ).val("");
     $('#maintainCategoryModal').modal('show');
-    $("#modalLabel").html("New Category");
+    $('#deleteCategory').hide();
 }
 
 function openModalNewProduct() {
@@ -18,11 +24,11 @@ function fillOutForm(data) {
     $("#categoryForm").attr("action", "/catalog/add");
     $("#modalLabelCategory").html("Edit " + data.name);
     $("#categoryNameInput, #originalCategoryName").val(data.name);
+    $("#categoryIdInput").val(data.categoryId);
 }
 
-//TODO this method is not correct yet
 function addCategoryByCategoryName(categoryName) {
-    console.log(categoryName);
+
     $.ajax({
         type: "GET",
         url: "/catalog/byCategoryName/" + categoryName,
@@ -34,7 +40,6 @@ function addCategoryByCategoryName(categoryName) {
         $('#maintainCategoryModal').modal('show');
         fillOutForm(data);
     }).fail(function (data) {
-       console.log("fail")
     });
 }
 
@@ -80,6 +85,12 @@ function selectCategory(id) {
             product.classList.remove("list-group-item", "d-flex");
         }
     }
+}
+
+function deleteCategory() {
+    var categoryId = $("#categoryIdInput").val();
+    console.log($("#categoryIdInput").val());
+    window.location.href = "/catalog/delete/" + categoryId;
 }
 
 function resetNewCategory() {

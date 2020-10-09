@@ -74,9 +74,8 @@
                 <div class="modal-body">
                     <form id="categoryForm" action="#" th:action="@{/catalog/add}" th:object="${category}"
                           method="post">
-<!--
-                        <p><input type="hidden" id="categoryIdInput" th:field="*{categoryId}"  /></p>
--->
+                        <div id="categoryIdInput" input="hidden">
+                        </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon1">Name</span>
@@ -89,7 +88,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary mr-auto">Delete</button>
+                    <button class="btn btn-secondary mr-auto" id="deleteCategory" onclick="deleteCategory()">Delete</button>
                     <button class="btn btn-secondary" form="categoryForm" name="action"
                             type="submit" value="Save" >Save</button>
                 </div>
@@ -97,12 +96,14 @@
         </div>
     </div>
 
-    <div class="modal fade" id="maintainProductModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelProduct" aria-hidden="true">
+    <div class="modal fade" id="maintainProductModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelProduct"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalLabelProduct">New Product</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetNewProduct()">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            onclick="resetNewProduct()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
