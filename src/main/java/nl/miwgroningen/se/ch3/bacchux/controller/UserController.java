@@ -90,7 +90,7 @@ public class UserController {
 
     // Only check the pin and password if the new user is not a customer
     private void checkPinPass(User user, RedirectAttributes redirAttrs) {
-        if (user.getRoles() != "ROLE_CUSTOMER"){
+        if (!user.getRoles().equals("ROLE_CUSTOMER")){
             if (user.getPin() != null && !user.getPin().isBlank() && user.getPin().length() == 4 ) {
                 user.setPin(passwordEncoder.encode(user.getPin()));
             } else {
