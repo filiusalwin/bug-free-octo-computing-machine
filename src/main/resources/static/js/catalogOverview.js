@@ -3,10 +3,16 @@
 var newCategory;
 var newProduct;
 
+$(document).ready(function() {
+    $("#categoryNameError").hide();
+});
+
 function openModalNewCategory() {
     newCategory = true;
+    $("#modalLabelCategory").html("New Category");
+    $("#categoryNameInput, #originalCategoryName, #categoryIdInput" ).val("");
     $('#maintainCategoryModal').modal('show');
-    $("#modalLabel").html("New Category");
+
 }
 
 function openModalNewProduct() {
@@ -18,6 +24,7 @@ function fillOutForm(data) {
     $("#categoryForm").attr("action", "/catalog/add");
     $("#modalLabelCategory").html("Edit " + data.name);
     $("#categoryNameInput, #originalCategoryName").val(data.name);
+    $("#categoryIdInput").val(data.categoryId);
 }
 
 //TODO this method is not correct yet
