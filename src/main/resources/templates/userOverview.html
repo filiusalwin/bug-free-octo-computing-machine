@@ -30,6 +30,7 @@
                     <table class="table table-striped m">
                         <thead>
                         <tr>
+                            <th scope="col">Profile Picture</th>
                             <th scope="col">Name</th>
                             <th scope="col">Username</th>
                             <th scope="col">Balance</th>
@@ -41,6 +42,8 @@
                         </tr>
                         </thead>
                         <tr th:each="user: ${#lists.sort(allUsers)}">
+                            <td><img id="profileFoto" th:src="*{'data:image/jpg;base64,'+ user.picture}"
+                                     class="img-fluid" alt="Profile Picture" style="width: 200px; height: 140px"> </td>
                             <td th:text="${user.name}" />
                             <td th:text="${user.username}" />
                             <td th:text="${user.balance}" />
@@ -67,8 +70,8 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="originalUsername" value=""/>
-                    <form id="userForm" action="#" th:action="@{/user/add}" th:object="${user}" method="post">
-                        <p><input type="hidden" id="userIdInput" th:field="*{userId}"  /></p>
+                    <form id="userForm" action="#" th:action="@{/user/add}" th:object="${user}" method="post" enctype="multipart/form-data">
+                        <p><input type="hidden" id="userIdInput" th:field="*{userId}"/></p>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon1">Username</span>
@@ -139,12 +142,22 @@
                                 <span id="ibanError" class="help">This iban is not valid.</span>
                             </div>
                         </div>
+                        <div id="uploadProfilePicture" class="custom-file">
+                            <input type="file" class="custom-file-input" id="profilePicture" th:field="*{picture}">
+                            <label class="custom-file-label" for="profilePicture">Choose a profile picture</label>
+                            <!--the three icons: default, ok file (img), error file (not an img)-->
+                            <h1 class="imgupload"><i class="fa fa-file-image-o"></i></h1>
+                            <h1 class="imguploadok"><i class="fa fa-check"></i></h1>
+                            <h1 class="imguploadstop"><i class="fa fa-times"></i></h1>
+                            <!--this field changes dynamically displaying the filename we are trying to upload-->
+                            <p id="namefile">Only pictures are allowed! (jpg, jpeg, bmp, png)</p>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button onclick="resetPassword()" id="resetPassword" class="btn btn-primary mr-auto">Reset Password</button>
+                    <button onclick="changeProfilePicture()" id="changeProfilePicture" class="btn btn-primary mr-auto">Change Profile Picture</button>
                     <button class="btn btn-secondary" id="saveButton" form="userForm" name="action" type="submit" value="Save" >Save</button>
-                    <button class="btn btn-secondary" form="userForm" name="action" type="reset" value="Reset">Reset</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>

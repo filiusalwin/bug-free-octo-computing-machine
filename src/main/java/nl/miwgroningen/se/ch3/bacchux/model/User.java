@@ -38,6 +38,9 @@ public class User implements Comparable<User> {
 
     private Integer balance;
 
+    @Lob
+    private byte[] picture;
+
     public Integer getCreditTotal() {
         int total = 0;
         for (CreditPayment payment : creditPayments) {
@@ -56,6 +59,14 @@ public class User implements Comparable<User> {
                 .replace("ROLE_BARTENDER", "Bartender")
                 .replace("ROLE_CUSTOMER", "Customer")
                 .replace(",", ", ");
+    }
+
+    public byte[] getPicture() {
+        return picture;
+    }
+
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
     }
 
     public List<CreditPayment> getCreditPayments() {

@@ -9,10 +9,17 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 
 @RequestMapping("/user")
@@ -64,6 +71,7 @@ public class UserController {
     @PostMapping ("/add")
     protected String saveNewUser( Model model,
                                        @ModelAttribute("user") User user,
+                                       @RequestParam("file") MultipartFile picture,
                                        BindingResult result, RedirectAttributes redirAttrs) {
         if (result.hasErrors()) {
             return "userOverview";
@@ -77,6 +85,8 @@ public class UserController {
             return "redirect:/user/";
         }
         checkPinPass(user, redirAttrs);
+        checkPicture(user, redirAttrs, picture);
+
         try {
             userRepository.save(user);
         } catch (DataIntegrityViolationException exception) {
@@ -86,6 +96,30 @@ public class UserController {
         }
         redirAttrs.addFlashAttribute("success", "New user added.");
         return "redirect:/user/";
+    }
+
+    private void checkPicture(User user, RedirectAttributes redirAttrs, MultipartFile picture) {
+        // Normalize file name
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(picture.getOriginalFilename()));
+
+        // Check if the file's name contains invalid characters
+        if (fileName.contains("..")) {
+            redirAttrs.addFlashAttribute("error","Sorry! Filename contains invalid path sequence " + fileName);
+
+        // If there is no image uploaded, save default image.
+        } else if (picture.isEmpty()){
+            byte[] defaultPictureInBytes = new byte[0];
+            if (user.getPicture() == null) {
+                try {
+                    File image = new File("src/main/resources/static/images/defaultPicture.png");
+                    FileInputStream imageInFile = new FileInputStream(image);
+                    defaultPictureInBytes = imageInFile.readAllBytes();
+                } catch (IOException e) {
+                    redirAttrs.addFlashAttribute("error", "Could not store this profile picture. New user not added.");
+                }
+                user.setPicture(defaultPictureInBytes);
+            }
+        }
     }
 
     // Only check the pin and password if the new user is not a customer
@@ -127,6 +161,11 @@ public class UserController {
         user.setPassword(user1.get().getPassword());
         user.setBalance(user1.get().getBalance());
         user.setPin(user1.get().getPin());
+
+        if (user.getPicture() == null) {
+            user.setPicture(user1.get().getPicture());
+        }
+
         Optional<User> userByUsername = userRepository.findByUsername(user.getUsername());
         if (userByUsername.isPresent() && userByUsername.get().getUserId() != user.getUserId()) {
             model.addAttribute("error", "This username is taken by another user.");

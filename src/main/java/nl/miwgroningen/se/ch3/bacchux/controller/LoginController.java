@@ -7,11 +7,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +56,16 @@ public class LoginController {
         if (allUsers.size() != 0) {
             return;
         }
+
+        byte[] defaultPictureInBytes = new byte[0];
+        try {
+            File image = new File("images/defaultPicture.png");
+            FileInputStream imageInFile = new FileInputStream(image);
+            defaultPictureInBytes = imageInFile.readAllBytes();
+        } catch (IOException e) {
+            System.out.println("Exception while reading the Image " + e);
+        }
+
         User newUser = new User();
         newUser.setUsername("admin");
         newUser.setName("admin");
@@ -60,6 +73,7 @@ public class LoginController {
         newUser.setPin(passwordEncoder.encode("1234"));
         newUser.setRoles("ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER");
         newUser.setPasswordNeedsChange(true);
+        newUser.setPicture(defaultPictureInBytes);
         userRepository.save(newUser);
     }
 

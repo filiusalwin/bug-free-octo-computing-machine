@@ -56,7 +56,8 @@ function fillOutForm(data) {
     $("#prepaid_balance").val(data.balance);
     $("#Credit").prop("checked", data.creditAllowed);
     $("#credit_account").val(data.creditPaymentBankAccountNumber);
-
+    $(".custom-file-label").html(data.picture);
+    uploadPicture();
 }
 
 // edit existing user
@@ -99,6 +100,33 @@ function openModalNewUser() {
             $("#password_pincode").show();
             $("#password").prop('required',true);
             $("#pin").prop('required',true);
+        }
+    });
+    uploadPicture();
+}
+
+function uploadPicture(){
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+        //if file is not valid we show the error icon and the red alert
+        if (fileName.indexOf(".jpg") === -1 && fileName.indexOf(".png") === -1 && fileName.indexOf(".jpeg") === -1 &&
+            fileName.indexOf(".bmp") === -1 && fileName.indexOf(".JPG") === -1 && fileName.indexOf(".PNG") === -1 &&
+            fileName.indexOf(".JPEG") === -1 && fileName.indexOf(".BMP") === -1) {
+            $( ".imgupload" ).hide("slow");
+            $( ".imguploadok" ).hide("slow");
+            $( ".imguploadstop" ).show("slow");
+            $('#namefile').css({"color":"red","font-weight":600});
+            $('#namefile').html(fileName + " is not an image. Please choose a picture!");
+            $( "#saveButton").disable();
+        } else {
+            //if file is valid we show the green alert
+            $( ".imgupload" ).hide("slow");
+            $( ".imguploadstop" ).hide("slow");
+            $( ".imguploadok" ).show("slow");
+            $('#namefile').html(fileName + " is a good picture!");
+            $('#namefile').css({"color":"green","font-weight":600});
         }
     });
 }
@@ -158,4 +186,8 @@ function deleteUser() {
 function resetPassword() {
     userId = $("#userIdInput").val();
     window.location.assign("/profile/passwordreset/" + userId);
+}
+
+function changeProfilePicture() {
+    $(".custom-file").toggle();
 }
