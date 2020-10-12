@@ -59,7 +59,7 @@ public class LoginController {
 
         byte[] defaultPictureInBytes = new byte[0];
         try {
-            File image = new File("images/defaultPicture.png");
+            File image = new File("src/main/resources/static/images/defaultPicture.png");
             FileInputStream imageInFile = new FileInputStream(image);
             defaultPictureInBytes = imageInFile.readAllBytes();
         } catch (IOException e) {

@@ -55,8 +55,6 @@ function fillOutForm(data) {
     $("#Prepaid").prop("checked", data.prepaidAllowed);
     $("#prepaid_balance").val(data.balance);
     $("#Credit").prop("checked", data.creditAllowed);
-    $("#credit_account").val(data.creditPaymentBankAccountNumber);
-    $(".custom-file-label").html(data.picture);
     uploadPicture();
 }
 
