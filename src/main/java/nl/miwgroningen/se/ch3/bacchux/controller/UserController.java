@@ -6,6 +6,8 @@ import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -132,9 +134,24 @@ public class UserController {
             model.addAttribute("error", "This username is taken by another user.");
             return "userOverview";
         }
+        if (user1.get().getUserId().equals(getCurrentUser().get().getUserId())){
+            user.setRoles(user1.get().getRoles());
+            model.addAttribute("error", "You can not change your own roles.");
+            return "userOverview";
+        }
+
         redirAttrs.addFlashAttribute("success", "User updated.");
         userRepository.save(user);
         return "redirect:/user/";
+    }
+
+    public Optional<User> getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!(principal instanceof UserDetails)) {
+            return null;
+        }
+        String username = ((UserDetails) principal).getUsername();
+        return userRepository.findByUsername(username);
     }
 
     @GetMapping("/delete/{userId}")
