@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -38,7 +39,33 @@ public class UserController {
         // to check Radio button "Customer"
         User user = new User();
         model.addAttribute("user", user);
+        // If the users have profile picture, then it will be converted to a base64 string so it can be displayed
+        for (User user1: userRepository.findAll()) {
+            model.addAttribute("picture", convertToBase64(user1));
+        }
         return "userOverview";
+    }
+
+    public String convertToBase64(User user) {
+        String imageInBase64 = "";
+        try {
+            // Check if there is an image uploaded, if there is not set the profile picture to the default image
+            if (user.getPicture() == null){
+                // Set a default image
+                File image = new File("src/main/resources/static/images/defaultPicture.png");
+                FileInputStream imageInFile = new FileInputStream(image);
+                byte[] imageInBytes = imageInFile.readAllBytes();
+                imageInBase64 += Base64.getEncoder().encodeToString(imageInBytes);
+            }
+            // if the user uploaded an image then convert it to Base64
+            else {
+                imageInBase64 += Base64.getEncoder().encodeToString(user.getPicture());
+            }
+        }
+        catch (IOException ioe) {
+            System.out.println("Exception while reading the Image " + ioe);
+        }
+        return imageInBase64;
     }
 
     @GetMapping("/update/{userId}")
@@ -106,18 +133,23 @@ public class UserController {
         if (fileName.contains("..")) {
             redirAttrs.addFlashAttribute("error","Sorry! Filename contains invalid path sequence " + fileName);
 
-        // If there is no image uploaded, save default image.
-        } else if (picture.isEmpty()){
-            byte[] defaultPictureInBytes = new byte[0];
-            if (user.getPicture() == null) {
+       // If there is no image uploaded, save default image.
+        } else if (user.getPicture() == null) {
                 try {
                     File image = new File("src/main/resources/static/images/defaultPicture.png");
                     FileInputStream imageInFile = new FileInputStream(image);
-                    defaultPictureInBytes = imageInFile.readAllBytes();
+                    byte[] imageInBytes = imageInFile.readAllBytes();
+                    user.setPicture(imageInBytes);
                 } catch (IOException e) {
                     redirAttrs.addFlashAttribute("error", "Could not store this profile picture. New user not added.");
                 }
-                user.setPicture(defaultPictureInBytes);
+
+        // if the user uploaded an image then use that image
+        } else {
+            try {
+                user.setPicture(picture.getBytes());
+            } catch (IOException e) {
+                redirAttrs.addFlashAttribute("error", "Could not store this profile picture. New user not added.");
             }
         }
     }
@@ -167,7 +199,7 @@ public class UserController {
         }
 
         Optional<User> userByUsername = userRepository.findByUsername(user.getUsername());
-        if (userByUsername.isPresent() && userByUsername.get().getUserId() != user.getUserId()) {
+        if (userByUsername.isPresent() && !userByUsername.get().getUserId().equals(user.getUserId())) {
             model.addAttribute("error", "This username is taken by another user.");
             return "userOverview";
         }

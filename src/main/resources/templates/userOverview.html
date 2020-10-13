@@ -42,7 +42,7 @@
                         </tr>
                         </thead>
                         <tr th:each="user: ${#lists.sort(allUsers)}">
-                            <td><img id="profileFoto" th:src="*{'data:image/jpg;base64,'+ user.picture}"
+                            <td><img id="profileFoto" th:src="|data:image/jpeg;base64,${picture}|"
                                      class="img-fluid" alt="Profile Picture" style="width: 200px; height: 140px"> </td>
                             <td th:text="${user.name}" />
                             <td th:text="${user.username}" />
@@ -143,6 +143,7 @@
                             </div>
                         </div>
                         <div id="uploadProfilePicture" class="custom-file">
+                            <!--Profile Picture-->
                             <input type="file" class="custom-file-input" id="profilePicture" th:field="*{picture}">
                             <label class="custom-file-label" for="profilePicture">Choose a profile picture</label>
                             <!--the three icons: default, ok file (img), error file (not an img)-->

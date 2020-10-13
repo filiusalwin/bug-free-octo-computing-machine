@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,23 +58,21 @@ public class LoginController {
             return;
         }
 
-        byte[] defaultPictureInBytes = new byte[0];
-        try {
-            File image = new File("src/main/resources/static/images/defaultPicture.png");
-            FileInputStream imageInFile = new FileInputStream(image);
-            defaultPictureInBytes = imageInFile.readAllBytes();
-        } catch (IOException e) {
-            System.out.println("Exception while reading the Image " + e);
-        }
-
         User newUser = new User();
         newUser.setUsername("admin");
         newUser.setName("admin");
         newUser.setPassword(passwordEncoder.encode("admin"));
         newUser.setPin(passwordEncoder.encode("1234"));
         newUser.setRoles("ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER");
-        newUser.setPasswordNeedsChange(true);
-        newUser.setPicture(defaultPictureInBytes);
+        newUser.setPasswordNeedsChange(false); //todo change to true
+        try {
+            File image = new File("src/main/resources/static/images/defaultPicture.png");
+            FileInputStream imageInFile = new FileInputStream(image);
+            byte[] imageInBytes = imageInFile.readAllBytes();
+            newUser.setPicture(imageInBytes);
+        } catch (IOException e) {
+            System.out.println("Could not store this profile picture. New user not added.");
+        }
         userRepository.save(newUser);
     }
 
