@@ -6,6 +6,8 @@ import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -128,7 +130,7 @@ public class UserController {
         user.setBalance(user1.get().getBalance());
         user.setPin(user1.get().getPin());
         Optional<User> userByUsername = userRepository.findByUsername(user.getUsername());
-        if (userByUsername.isPresent() && userByUsername.get().getUserId() != user.getUserId()) {
+        if (userByUsername.isPresent() && !userByUsername.get().getUserId().equals(user.getUserId())) {
             model.addAttribute("error", "This username is taken by another user.");
             return "userOverview";
         }
@@ -138,11 +140,25 @@ public class UserController {
     }
 
     @GetMapping("/delete/{userId}")
-    protected String deleteUser(@PathVariable("userId") final Integer userId) {
+    protected String deleteUser(@PathVariable("userId") final Integer userId, RedirectAttributes redirAttrs) {
         Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            userRepository.deleteById(userId);
+        Optional<User> currentUser = getCurrentUser();
+        System.out.println(currentUser.get().getName());
+        if (user.isEmpty() || user.get().getUserId().equals(currentUser.get().getUserId())) {
+            redirAttrs.addFlashAttribute("error", "You can not delete yourself.");
+            return "redirect:/user/";
         }
+        userRepository.deleteById(userId);
+        redirAttrs.addFlashAttribute("success", "User deleted.");
         return "redirect:/user/";
+    }
+
+    public Optional<User> getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!(principal instanceof UserDetails)) {
+            return Optional.empty();
+        }
+        String username = ((UserDetails) principal).getUsername();
+        return userRepository.findByUsername(username);
     }
 }
