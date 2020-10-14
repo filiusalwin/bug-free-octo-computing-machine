@@ -19,9 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @RequestMapping("/user")
 @Controller
@@ -40,8 +38,11 @@ public class UserController {
         User user = new User();
         model.addAttribute("user", user);
         // If the users have profile picture, then it will be converted to a base64 string so it can be displayed
+
+        List<String> pictures = new ArrayList<>();
         for (User user1: userRepository.findAll()) {
-            model.addAttribute("picture", convertToBase64(user1));
+            pictures.add(convertToBase64(user1));
+            model.addAttribute("pictures", pictures);
         }
         return "userOverview";
     }
@@ -134,7 +135,7 @@ public class UserController {
             redirAttrs.addFlashAttribute("error","Sorry! Filename contains invalid path sequence " + fileName);
 
        // If there is no image uploaded, save default image.
-        } else if (user.getPicture() == null) {
+        } else if (picture.isEmpty()) {
                 try {
                     File image = new File("src/main/resources/static/images/defaultPicture.png");
                     FileInputStream imageInFile = new FileInputStream(image);
@@ -174,6 +175,7 @@ public class UserController {
     @PostMapping ("/save")
     protected String updateUser( Model model,
                                        @ModelAttribute("user") User user,
+                                       @RequestParam("file") MultipartFile picture,
                                        BindingResult result, RedirectAttributes redirAttrs) {
         model.addAttribute("allUsers", userRepository.findAll());
         if (result.hasErrors()) {
@@ -193,9 +195,16 @@ public class UserController {
         user.setPassword(user1.get().getPassword());
         user.setBalance(user1.get().getBalance());
         user.setPin(user1.get().getPin());
+        user.setPicture(user1.get().getPicture());
 
-        if (user.getPicture() == null) {
-            user.setPicture(user1.get().getPicture());
+        if (picture.isEmpty()) {
+           user.setPicture(user.getPicture());
+        } else {
+            try {
+                user.setPicture(picture.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         Optional<User> userByUsername = userRepository.findByUsername(user.getUsername());
