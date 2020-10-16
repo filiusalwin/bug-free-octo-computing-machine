@@ -126,8 +126,6 @@ function uploadPicture(){
             $( ".imguploadok" ).show("slow");
             $('#namefile').html(fileName + " is a good picture!");
             $('#namefile').css({"color":"green","font-weight":600});
-          /* TODO: change the picture when new picture is chosen
-                $("#profileFoto").attr('src',$("#profilePicture").attr('src'));*/
         }
     });
 }

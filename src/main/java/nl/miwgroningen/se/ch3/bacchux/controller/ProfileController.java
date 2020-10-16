@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Base64;
 import java.util.Optional;
 
 @RequestMapping("/profile")
@@ -24,8 +25,16 @@ public class ProfileController {
     UserRepository userRepository;
 
     @GetMapping("")
-    protected String changeProfile() {
+    protected String changeProfile(Model model) {
+        Optional<User> user = getCurrentUser();
+        model.addAttribute("picture", convertToBase64(user.get()));
         return "profileOverview";
+    }
+
+    public String convertToBase64(User user) {
+        String imageInBase64 = "";
+        imageInBase64 += Base64.getEncoder().encodeToString(user.getPicture());
+        return imageInBase64;
     }
 
     @GetMapping("/password")
