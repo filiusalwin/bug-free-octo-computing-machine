@@ -47,7 +47,7 @@ function fillOutForm(data) {
     $("#userForm").attr("action", "/user/save");
     $("#modalLabel").html("Edit " + data.username);
     $("#usernameInput, #originalUsername").val(data.username);
-    $("#usernameError,#password_pincode").hide();
+    $("#usernameError, #password_pincode,.custom-file").hide();
     $("#Prepaid-Choice-Label, #resetPassword").show();
     $("#Prepaid-Choice-Label").html("The prepaid balance: " + data.balance);
     $("#userIdInput").val(data.userId);
@@ -55,6 +55,7 @@ function fillOutForm(data) {
     $("#Prepaid").prop("checked", data.prepaidAllowed);
     $("#prepaid_balance").val(data.balance);
     $("#Credit").prop("checked", data.creditAllowed);
+    $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
     uploadPicture();
 }
 
@@ -84,7 +85,7 @@ function openModalNewUser() {
     $('#maintainUserModal').modal('show');
     $("#modalLabel").html("New User");
     $("#usernameInput, #password, #userIdInput, #nameInput, #credit_account").val("");
-    $("#usernameError, #Prepaid-Choice-Label, #resetPassword").hide();
+    $("#usernameError, #Prepaid-Choice-Label, #resetPassword, .custom-file").hide();
     $("#bartender, #barmanager, #Prepaid, #Credit").prop("checked",false);
     $("#customer").prop("checked",true);
     $("#password_pincode").hide();
@@ -125,6 +126,8 @@ function uploadPicture(){
             $( ".imguploadok" ).show("slow");
             $('#namefile').html(fileName + " is a good picture!");
             $('#namefile').css({"color":"green","font-weight":600});
+          /* TODO: change the picture when new picture is chosen
+                $("#profileFoto").attr('src',$("#profilePicture").attr('src'));*/
         }
     });
 }

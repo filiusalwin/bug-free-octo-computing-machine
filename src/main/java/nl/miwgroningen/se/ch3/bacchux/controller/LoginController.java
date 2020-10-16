@@ -64,7 +64,7 @@ public class LoginController {
         newUser.setPassword(passwordEncoder.encode("admin"));
         newUser.setPin(passwordEncoder.encode("1234"));
         newUser.setRoles("ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER");
-        newUser.setPasswordNeedsChange(false); //todo change to true
+        newUser.setPasswordNeedsChange(true);
         try {
             File image = new File("src/main/resources/static/images/defaultPicture.png");
             FileInputStream imageInFile = new FileInputStream(image);

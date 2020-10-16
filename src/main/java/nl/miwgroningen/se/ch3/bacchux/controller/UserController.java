@@ -17,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -37,31 +36,18 @@ public class UserController {
         // to check Radio button "Customer"
         User user = new User();
         model.addAttribute("user", user);
-        // If the users have profile picture, then it will be converted to a base64 string so it can be displayed
-
-        List<String> pictures = new ArrayList<>();
-        for (User user1: userRepository.findAll()) {
-            pictures.add(convertToBase64(user1));
-            model.addAttribute("pictures", pictures);
-        }
+        model.addAttribute("picture", convertToBase64(user));
         return "userOverview";
     }
 
     public String convertToBase64(User user) {
         String imageInBase64 = "";
         try {
-            // Check if there is an image uploaded, if there is not set the profile picture to the default image
-            if (user.getPicture() == null){
-                // Set a default image
-                File image = new File("src/main/resources/static/images/defaultPicture.png");
-                FileInputStream imageInFile = new FileInputStream(image);
-                byte[] imageInBytes = imageInFile.readAllBytes();
-                imageInBase64 += Base64.getEncoder().encodeToString(imageInBytes);
-            }
-            // if the user uploaded an image then convert it to Base64
-            else {
-                imageInBase64 += Base64.getEncoder().encodeToString(user.getPicture());
-            }
+            // Set a default image
+            File image = new File("src/main/resources/static/images/defaultPicture.png");
+            FileInputStream imageInFile = new FileInputStream(image);
+            byte[] imageInBytes = imageInFile.readAllBytes();
+            imageInBase64 += Base64.getEncoder().encodeToString(imageInBytes);
         }
         catch (IOException ioe) {
             System.out.println("Exception while reading the Image " + ioe);
@@ -206,7 +192,6 @@ public class UserController {
                 e.printStackTrace();
             }
         }
-
         Optional<User> userByUsername = userRepository.findByUsername(user.getUsername());
         if (userByUsername.isPresent() && !userByUsername.get().getUserId().equals(user.getUserId())) {
             model.addAttribute("error", "This username is taken by another user.");

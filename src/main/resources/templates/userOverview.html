@@ -30,7 +30,6 @@
                     <table class="table table-striped m">
                         <thead>
                         <tr>
-                            <th scope="col">Profile Picture</th>
                             <th scope="col">Name</th>
                             <th scope="col">Username</th>
                             <th scope="col">Balance</th>
@@ -42,9 +41,6 @@
                         </tr>
                         </thead>
                         <tr th:each="user: ${#lists.sort(allUsers)}">
-                            <span th:each="picture: ${pictures}">
-                            <td><img id="profileFoto" th:src="|data:image/jpeg;base64,${picture}|"
-                                class="img-fluid" alt="Profile Picture" style="width: 200px; height: 140px"> </td></span>
                             <td th:text="${user.name}" />
                             <td th:text="${user.username}" />
                             <td th:text="${user.balance}" />
@@ -141,6 +137,14 @@
                                 <label id="Credit-Choice-Label" for="credit_account">What is your bank account number?</label>
                                 <input type="text" id="credit_account" name="credit_account" onkeyup="ibanValidation()"  th:field="*{creditPaymentBankAccountNumber}">
                                 <span id="ibanError" class="help">This iban is not valid.</span>
+                            </div>
+                        </div>
+                        <div>
+                            <!--Displays the current profile picture for the selected user-->
+                            <div>
+                                <div class="row">Profile Picture:</div>
+                                <img id="profileFoto" th:src="|data:image/jpeg;base64,${picture}|"
+                                     class="img-fluid" alt="Profile Picture" style="width: 400px; height: 300px"/>
                             </div>
                         </div>
                         <div id="uploadProfilePicture" class="custom-file">

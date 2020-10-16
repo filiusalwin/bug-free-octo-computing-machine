@@ -1,6 +1,7 @@
 package nl.miwgroningen.se.ch3.bacchux.model;
 
 import javax.persistence.*;
+import java.util.Base64;
 import java.util.List;
 
 @Entity
