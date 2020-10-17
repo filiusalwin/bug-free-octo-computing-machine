@@ -32,7 +32,7 @@ body {
 }
 .main {
     position: absolute;
-    top: 35%;
+    top: 30%;
     left: 35%;
     margin: -150px 0 0 -150px;
     width:800px;
@@ -116,8 +116,9 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 
 #clock{
     width:400px;
+    height: 180px;
     padding:40px;
-    margin: auto;
+    margin:-100px auto 5px;
     position:relative;
 }
 
@@ -139,7 +140,7 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
     padding: 40px 20px 20px;
     border-radius:6px;
     position:relative;
-    height: 54px;
+    height: 105px;
 }
 
 
@@ -446,7 +447,7 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 #clock .ampm{
     position:absolute;
     bottom:13px;
-    right:0px;
+    right:5px;
     font-size:14px;
 }
 
