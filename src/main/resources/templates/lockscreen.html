@@ -8,6 +8,7 @@
 </head>
 <body class='main'>
 <div>
+    <!--The clock-->
     <div id="clock" class="light">
         <div class="display">
             <div class="weekdays"></div>
@@ -19,7 +20,8 @@
     <div class="button-holder">
         <a class="button">Switch Theme</a>
     </div>
-    <h1>Welcome to BacchUx, <label id="name" sec:authentication="name"></label>!</h1>
+
+    <h1>Welcome to BacchUX, <label id="name" sec:authentication="name"></label>!</h1>
     <form th:action="@{/lockout}" method="post">
         <div id='form' >
             <input id='pin' name='pin' type='password' placeholder="My pincode" />
