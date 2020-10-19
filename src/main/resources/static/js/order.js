@@ -418,6 +418,7 @@ function savingUserSuccess(){
     const message = "User " + $("#usernameInput").val() + " successfully added."
     $("#newCustomerModal").modal('hide');
     savingCustomerSuccess(message);
+    loadCustomer($("#usernameInput").val(), $("#nameInput").val());
 
 }
 
@@ -438,6 +439,7 @@ function checkIfUserNameExists() {
     });
 }
 
+// to update the search list when a new user is added, the new added user is automatically selected
 function loadCustomer(username, fullname) {
     var newOpt = document.createElement("option");
     newOpt.value = username;
