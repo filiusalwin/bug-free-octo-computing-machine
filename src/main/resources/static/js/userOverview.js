@@ -56,8 +56,10 @@ function fillOutForm(data) {
     $("#prepaid_balance").val(data.balance);
     $("#Credit").prop("checked", data.creditAllowed);
     $("#credit_account").val(data.creditPaymentBankAccountNumber);
+
 }
 
+// edit existing user
 function addUserByUsername(username) {
     $.ajax({
         type: "GET",
@@ -75,6 +77,7 @@ function resetNewUser() {
     newUser = false;
 }
 
+// Create new user
 function openModalNewUser() {
     newUser = true;
     $("#originalUsername").val("");
@@ -83,12 +86,27 @@ function openModalNewUser() {
     $("#modalLabel").html("New User");
     $("#usernameInput, #password, #userIdInput, #nameInput, #credit_account").val("");
     $("#usernameError, #Prepaid-Choice-Label, #resetPassword").hide();
-    $("#password_pincode").show();
-    $("#password, #pin").attr("required", "");
-    $("#customer").prop("checked",true);
     $("#bartender, #barmanager, #Prepaid, #Credit").prop("checked",false);
+    $("#customer").prop("checked",true);
+    $("#password_pincode").hide();
+    $('input[type=radio][name=roles]').change(function() {
+        if (this.value === 'ROLE_CUSTOMER') {
+            $("#password_pincode").hide();
+            $("#password").prop('required',false);
+            $("#pin").prop('required',false);
+        }
+        else {
+            $("#password_pincode").show();
+            $("#password").prop('required',true);
+            $("#pin").prop('required',true);
+        }
+    });
 }
 
+function keyPressed(){
+    var key = event.keyCode || event.charCode || event.which ;
+    return key;
+}
 
 // ---- Modal Checks ---- \\
 function checkIfUserNameExists() {

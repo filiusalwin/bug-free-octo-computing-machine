@@ -15,7 +15,7 @@ public class User implements Comparable<User> {
 
     @OneToMany (cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
-            mappedBy = "user")
+            mappedBy = "customer")
     private List<CreditPayment> creditPayments;
 
     private String name;
@@ -167,6 +167,6 @@ public class User implements Comparable<User> {
 
     @Override
     public int compareTo(User user) {
-        return username.compareTo(user.getUsername());
+        return name.toLowerCase().compareTo(user.getName().toLowerCase());
     }
 }

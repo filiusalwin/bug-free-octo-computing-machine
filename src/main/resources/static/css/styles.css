@@ -1,5 +1,22 @@
 .bigColumn {
-    flex: 0 0 400px;
+    flex: 0 0 476px;
+}
+.hugeColumn {
+    flex: 0 0 500px;
+}
+.gigaColumn {
+    flex: 0 0 1000px;
+}
+#bill {
+    font-family: "Courier New", Courier, monospace;
+    height: 400px;
+}
+#confirmContainer {
+    height: 100px;
+}
+.graybox {
+    background-color: rgb(232,232,232);
+    border-radius: 30px;
 }
 .font-lg {
     font-size: 1.2rem;
@@ -9,4 +26,12 @@
 }
 .no-bold {
     font-weight: normal;
+}
+.bigButton {
+    width: 140px !important;
+    height: 100px !important;
+}
+.bigBox {
+    width: 305px !important;
+    height: 100px !important;
 }
