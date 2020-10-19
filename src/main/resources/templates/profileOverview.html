@@ -8,13 +8,8 @@
 <body>
 <nav th:replace="fragments/navbar :: navbar" />
 <div class="container text-center text-secondary">
-    <h1 th:inline="text">Welcome to BacchUx, '[[${#httpServletRequest.remoteUser}]]'.</h1>
+    <h1 th:inline="text">Welcome to BacchUX, "[[${#httpServletRequest.remoteUser}]]".</h1>
 </div>
-    <div class="row text-center text-secondary">
-        <div class="col">
-            You can change your password and your pin, and maybe see your beautiful profile picture.
-        </div>
-    </div>
 <div>
     <div class="text-center">
         <img id="profileFoto" th:src="|data:image/jpeg;base64,${picture}|"
@@ -25,10 +20,10 @@
     <div class="row">
         <div class="col-sm">
             <a th:href="@{/profile/password}"><button type="button" class="btn btn-secondary px-md-5 mt-5" >Change your password</button></a>
-        </div>
-        <div class="col-sm">
+           <br>
             <a th:href="@{/profile/pin}"><button type="button" class="btn btn-secondary px-md-5 mt-5" >Change your pin code</button></a>
         </div>
+
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"/>
