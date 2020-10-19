@@ -119,6 +119,7 @@ function uploadPicture(){
             $('#namefile').css({"color":"red","font-weight":600});
             $('#namefile').html(fileName + " is not an image. Please choose a picture!");
             $( "#saveButton").disable();
+
         } else {
             //if file is valid we show the green alert
             $( ".imgupload" ).hide("slow");
@@ -126,8 +127,22 @@ function uploadPicture(){
             $( ".imguploadok" ).show("slow");
             $('#namefile').html(fileName + " is a good picture!");
             $('#namefile').css({"color":"green","font-weight":600});
+            readURL(this)
         }
     });
+}
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#profileFoto')
+                .attr('src', e.target.result)
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
 }
 
 function keyPressed(){
