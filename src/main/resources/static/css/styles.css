@@ -35,3 +35,25 @@
     width: 305px !important;
     height: 100px !important;
 }
+
+#lockButton {
+    padding: 12px 30px;
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: dodgerblue;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+   text-decoration-color: #0f1620;
+}
+
+#lockButton:hover {background-color: dodgerblue}
+
+#lockButton:active {
+    background-color: dodgerblue;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
