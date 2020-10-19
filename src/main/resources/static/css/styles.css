@@ -1,3 +1,5 @@
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
+
 .bigColumn {
     flex: 0 0 476px;
 }
@@ -37,13 +39,13 @@
 }
 
 #lockButton {
-    padding: 12px 30px;
+    padding: 8px 30px;
     font-size: 24px;
     text-align: center;
     cursor: pointer;
     outline: none;
     color: #fff;
-    background-color: dodgerblue;
+    background-color: gray;
     border: none;
     border-radius: 15px;
     box-shadow: 0 9px #999;
@@ -53,7 +55,7 @@
 #lockButton:hover {background-color: dodgerblue}
 
 #lockButton:active {
-    background-color: dodgerblue;
+    background-color: gray;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }

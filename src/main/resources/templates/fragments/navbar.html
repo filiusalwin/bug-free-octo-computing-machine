@@ -25,7 +25,8 @@
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item button" >
-                <a th:href="@{/lockout}"><button class="button" id="lockButton">Lock</button></a>
+                <a th:href="@{/lockout}"><button class="button" id="lockButton">
+                    <span class="glyphicon glyphicon-lock"></span></button></a>
             </li>
         </ul>
         <ul class="navbar-nav float-lg-right" sec:authorize="isAuthenticated()">
@@ -41,5 +42,6 @@
         </ul>
     </div>
 </nav>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
