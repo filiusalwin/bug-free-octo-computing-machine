@@ -116,8 +116,7 @@ $(function(){
         digits.s2.attr('class', digit_to_name[now[5]]);
 
         // The library returns Sunday as the first day of the week.
-        // Stupid, I know. Lets shift all the days one position down,
-        // and make Sunday last
+        // Lets shift all the days one position down and make Sunday last
 
         var dow = now[6];
         dow--;
@@ -143,6 +142,8 @@ $(function(){
 
     $('a.button').click(function(){
         clock.toggleClass('light dark');
+        $("body").next('div').slideToggle('slow', function() {});
+        $("body").toggleClass('active');
     });
 
 });
