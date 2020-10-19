@@ -55,16 +55,6 @@ public class UserRestController {
         return user;
     }
 
-    @GetMapping("/byUsername/{username}")
-    User oneUsername(@PathVariable String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        if (!userOptional.isPresent()) {
-            return new User();
-        }
-        User user = userOptional.get();
-        return user;
-    }
-
     @GetMapping("/ibanValid/")
     boolean ibanValid(@RequestParam String iban) {
         IbanValidation ibanValidation = new IbanValidation();

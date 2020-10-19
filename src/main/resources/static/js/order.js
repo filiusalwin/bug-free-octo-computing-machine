@@ -341,8 +341,7 @@ function saveNewCustomer() {
         },
         success: savingUserSuccess,
         error: function(jqXHR, textStatus, errorThrown) {
-            console.log('fout bij opslaan')
-            savingCustomerError("Adding a user error: " + jqXHR.responseText);
+            savingCustomerError("User not saved, user already exists. " + jqXHR.responseText);
             disablePayments(false);
         }
     });
@@ -350,8 +349,6 @@ function saveNewCustomer() {
 
 
 function savingCustomerSuccess(message) {
-    console.log(!message);
-    console.log(message);
     var success = $("#savingUserSucces");
     if (!message) {
 
@@ -359,8 +356,8 @@ function savingCustomerSuccess(message) {
         return;
     }
     $("#savingUserSucces").html(message);
-    $("#savingUserSucces").show
-    setTimeout(success.hide(), 3000)
+    $("#savingUserSucces").show();
+    setTimeout(function () {success.hide()}, 3000)
 }
 function savingCustomerError(message) {
     var error = $("#savingUserError");
@@ -371,7 +368,7 @@ function savingCustomerError(message) {
     error.text(message);
     error.show();
     $("#newCustomerModal").modal('hide');
-    setTimeout(error.hide(), 3000)
+    setTimeout(function () {error.hide()}, 3000)
 }
 
 function savingUserSuccess(){
@@ -391,10 +388,8 @@ function checkIfUserNameExists() {
             404: function() {return;}
         }
     }).done(function(data) {
-        console.log(data);
         if (data !== "") {
             $("#usernameError").show();
-            console.log("error6")
             return;
         }
         $("#usernameError").hide();
