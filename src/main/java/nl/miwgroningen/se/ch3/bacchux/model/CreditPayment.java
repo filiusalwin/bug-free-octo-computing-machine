@@ -4,6 +4,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 public class CreditPayment {
@@ -12,31 +13,43 @@ public class CreditPayment {
     private Integer creditPaymentId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "userId", referencedColumnName = "userId", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private User user;
+    @JoinColumn(name = "customerId", referencedColumnName = "userId", nullable = false)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    private User customer;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "bartenderId", referencedColumnName = "userId", nullable = false)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    private User bartender;
+
+    private String customerName;
+    private String bartenderName;
     private Integer amount;
     private boolean paid;
+    private Timestamp timestamp;
 
     @Column(length = 1023)
     private String orderJson;
 
     public CreditPayment(){};
 
-    public CreditPayment(User user, Integer amount, boolean paid, String orderJson) {
-        this.user = user;
+    public CreditPayment(User customer, User bartender, Integer amount, String orderJson) {
+        this.customer = customer;
+        this.customerName = customer.getName();
+        this.bartender = bartender;
+        this.bartenderName = bartender.getName();
         this.amount = amount;
-        this.paid = paid;
+        this.paid = false;
+        this.timestamp = new Timestamp(System.currentTimeMillis());
         this.orderJson = orderJson;
     }
 
-    public CreditPayment(Integer creditPaymentId, User user, Integer amount, boolean paid, String orderJson) {
-        this.creditPaymentId = creditPaymentId;
-        this.user = user;
-        this.amount = amount;
-        this.paid = paid;
-        this.orderJson = orderJson;
+    public String getBartenderName() {
+        return bartenderName;
+    }
+
+    public void setBartenderName(String bartenderName) {
+        this.bartenderName = bartenderName;
     }
 
     public Integer getCreditPaymentId() {
@@ -47,12 +60,36 @@ public class CreditPayment {
         this.creditPaymentId = creditPaymentId;
     }
 
-    public User getUser() {
-        return user;
+    public User getCustomer() {
+        return customer;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCustomer(User customer) {
+        this.customer = customer;
+    }
+
+    public User getBartender() {
+        return bartender;
+    }
+
+    public void setBartender(User bartender) {
+        this.bartender = bartender;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     public Integer getAmount() {
