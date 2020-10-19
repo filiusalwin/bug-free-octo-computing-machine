@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,7 +55,6 @@ public class LoginController {
         if (allUsers.size() != 0) {
             return;
         }
-
         User newUser = new User();
         newUser.setUsername("admin");
         newUser.setName("admin");
@@ -65,6 +62,8 @@ public class LoginController {
         newUser.setPin(passwordEncoder.encode("1234"));
         newUser.setRoles("ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER");
         newUser.setPasswordNeedsChange(true);
+        newUser.setPrepaidAllowed(true);
+        newUser.setCreditAllowed(true);
         try {
             File image = new File("src/main/resources/static/images/defaultPicture.png");
             FileInputStream imageInFile = new FileInputStream(image);
