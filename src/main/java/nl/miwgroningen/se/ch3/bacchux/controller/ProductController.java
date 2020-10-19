@@ -69,7 +69,7 @@ public class ProductController {
                 return "catalogOverview";
             }
         }
-        return "redirect:/catalog/product/" + categoryId;
+        return "redirect:/catalog/";
     }
 
     @GetMapping("/update/{productId}")
