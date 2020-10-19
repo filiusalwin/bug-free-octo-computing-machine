@@ -23,6 +23,7 @@ public class CreditPayment {
     private User bartender;
 
     private String customerName;
+    private String bartenderName;
     private Integer amount;
     private boolean paid;
     private Timestamp timestamp;
@@ -36,10 +37,19 @@ public class CreditPayment {
         this.customer = customer;
         this.customerName = customer.getName();
         this.bartender = bartender;
+        this.bartenderName = bartender.getName();
         this.amount = amount;
         this.paid = false;
         this.timestamp = new Timestamp(System.currentTimeMillis());
         this.orderJson = orderJson;
+    }
+
+    public String getBartenderName() {
+        return bartenderName;
+    }
+
+    public void setBartenderName(String bartenderName) {
+        this.bartenderName = bartenderName;
     }
 
     public Integer getCreditPaymentId() {
