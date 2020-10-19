@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: headFragment" />
+    <title>Billing</title>
+</head>
+<body>
+<nav th:replace="fragments/navbar :: navbar" />
+<div class="container">
+    <h1>
+        Credit Bill
+    </h1>
+    <div class="row h5">
+        <div class="col-2">
+            Name
+        </div>
+        <div class="col-2">
+            <span th:text="${user.getName()}"></span>
+        </div>
+    </div>
+    <div class="row h5 mb-4">
+        <div class="col-2">
+            Username
+        </div>
+        <div class="col-2">
+            <span th:text="${user.getUsername()}"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            Prepaid Balance
+        </div>
+        <div class="col-2">
+            <span th:text="${balanceBefore}"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            Total Credit
+        </div>
+        <div class="col-2 border-bottom" style="border-width: 2px !important; border-color: black !important;">
+            -
+            <span th:text="${creditTotal}"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            Remaining Balance
+        </div>
+        <div class="col-2">
+            <span th:text="${balanceAfter}"></span>
+        </div>
+    </div>
+    <div class="row h3">
+        <div class="col-2">
+            Bill Total
+        </div>
+        <div class="col-2">
+            <span th:text="${billTotal}"></span>
+        </div>
+    </div>
+    <hr>
+    <h2>Payments</h2>
+    <div class="row" th:each="payment : ${creditPayments}">
+        <div class="col">
+            <div class="row">
+                <span th:text="${payment.getDateAndTimeString()}"></span>
+                &nbsp; served by &nbsp;
+                <span th:text="${payment.getBartenderName()}"></span>
+            </div>
+            <div class="row ml-4 paymentEntry" th:text="${payment.getOrderJson()}"></div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/header :: scriptFragment" />
+</body>
+</html>

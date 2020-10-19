@@ -1,5 +1,6 @@
 package nl.miwgroningen.se.ch3.bacchux.model;
 
+import nl.miwgroningen.se.ch3.bacchux.utils.CurrencyFormatter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -25,9 +26,7 @@ public class Product {
     private Category category;
 
     public String euroPrice(){
-        double priceInEuro;
-        priceInEuro =  (double) price / CENTS_PER_EURO;
-        return String.format("€%.2f", priceInEuro);
+        return CurrencyFormatter.formatCurrency(price);
     }
 
     public String getName() {

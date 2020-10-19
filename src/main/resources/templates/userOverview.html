@@ -47,8 +47,23 @@
                             <td th:text="${user.displayRoles}" />
                             <td th:if="${user.prepaidAllowed}">On</td><td th:if="${!user.prepaidAllowed}">Off</td>
                             <td th:if="${user.creditAllowed}" >On</td><td th:if="${!user.creditAllowed}" >Off</td>
-                            <td><a class="btn btn-secondary" th:attr="onclick=|addUserByUsername('${user.username}')|" data-toggle="modal" data-target="#maintainUserModal">Update </a></td>
-                            <td><a class="btn btn-secondary" th:href="@{/user/delete/{userId}(userId=${user.userId})}">Delete</a></td>
+                            <td>
+                                <a class="btn btn-dark" th:attr="onclick=|addUserByUsername('${user.username}')|"
+                                   data-toggle="modal" data-target="#maintainUserModal">
+                                    Update
+                                </a>
+                            </td>
+                            <td>
+                                <a id="produceBillButton" class="btn btn-secondary"
+                                        th:href="@{/user/bill/{userId}(userId=${user.userId})}">
+                                    Produce Bill
+                                </a>
+                            </td>
+                            <td>
+                                <a class="btn btn-danger" th:href="@{/user/delete/{userId}(userId=${user.userId})}">
+                                    Delete
+                                </a>
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -144,7 +159,6 @@
                 <div class="modal-footer">
                     <button onclick="resetPassword()" id="resetPassword" class="btn btn-primary mr-auto">Reset Password</button>
                     <button class="btn btn-secondary" id="saveButton" form="userForm" name="action" type="submit" value="Save" >Save</button>
-                    <button class="btn btn-secondary" form="userForm" name="action" type="reset" value="Reset">Reset</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>

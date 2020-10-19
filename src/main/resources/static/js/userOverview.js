@@ -108,6 +108,7 @@ function keyPressed(){
     return key;
 }
 
+
 // ---- Modal Checks ---- \\
 function checkIfUserNameExists() {
     var originalUsername = $("#originalUsername").val();
