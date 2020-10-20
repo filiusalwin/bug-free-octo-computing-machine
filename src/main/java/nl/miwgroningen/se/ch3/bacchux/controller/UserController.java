@@ -115,12 +115,15 @@ public class UserController {
         if (result.hasErrors()) {
             return "userOverview";
         }
+
+        // Check IBAN
         IbanValidation ibanValidation = new IbanValidation();
         if (!user.getCreditPaymentBankAccountNumber().equals("")
                 && !ibanValidation.validateIban(user.getCreditPaymentBankAccountNumber())) {
             redirAttrs.addFlashAttribute("error", "The bank account number is not correct. User not updated");
             return "redirect:/user/";
         }
+
         Optional<User> user1 = userRepository.findById(user.getUserId());
         if (user1.isEmpty()) {
             model.addAttribute("error", "User not found, cannot be updated.");
@@ -129,11 +132,15 @@ public class UserController {
         user.setPassword(user1.get().getPassword());
         user.setBalance(user1.get().getBalance());
         user.setPin(user1.get().getPin());
+
+        // Check username
         Optional<User> userByUsername = userRepository.findByUsername(user.getUsername());
         if (userByUsername.isPresent() && userByUsername.get().getUserId() != user.getUserId()) {
             model.addAttribute("error", "This username is taken by another user.");
             return "userOverview";
         }
+
+        // Check role
         if (user1.get().getUserId().equals(getCurrentUser().get().getUserId())){
             user.setRoles(user1.get().getRoles());
             model.addAttribute("error", "You can not change your own roles.");
@@ -144,6 +151,7 @@ public class UserController {
         userRepository.save(user);
         return "redirect:/user/";
     }
+
 
     public Optional<User> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
