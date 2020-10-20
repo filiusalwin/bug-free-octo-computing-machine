@@ -57,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .permitAll()
                     .and()
                 .logout()
-                    .logoutUrl("/appLogout")
+                    .logoutUrl("/bacchuxLogout")
                     .logoutSuccessUrl("/login")
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID")
