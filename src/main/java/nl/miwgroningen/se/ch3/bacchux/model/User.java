@@ -41,7 +41,6 @@ public class User implements Comparable<User> {
 
     private Integer balance;
 
-
     @Lob
     private byte[] picture;
 
@@ -54,6 +53,9 @@ public class User implements Comparable<User> {
         }
         return String.format("€%.2f", balanceInEuro);
     }
+
+    @Lob
+    private byte[] picture;
 
     public Integer getCreditTotal() {
         int total = 0;

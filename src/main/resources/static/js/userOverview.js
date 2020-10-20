@@ -101,7 +101,11 @@ function openModalNewUser() {
             $("#pin").prop('required',true);
         }
     });
+    resetPicture();
     uploadPicture();
+}
+function resetPicture() {
+    $("#profileFoto").attr('src','images/defaultPicture.png');
 }
 
 function uploadPicture(){
