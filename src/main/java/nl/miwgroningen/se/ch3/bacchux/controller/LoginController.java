@@ -105,4 +105,8 @@ public class LoginController {
         return userRepository.findByUsername(username);
     }
 
+    @PostMapping("/appLogout")
+    protected String logout () {
+        return "redirect:/login";
+    }
 }
