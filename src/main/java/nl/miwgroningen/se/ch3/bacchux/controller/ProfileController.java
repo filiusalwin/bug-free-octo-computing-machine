@@ -42,7 +42,8 @@ public class ProfileController {
 
     @PostMapping("/password")
     protected String doChangePassword(Model model, @RequestParam("currentPassword") String currentPassword,
-                                      @RequestParam("newPassword") String newPassword) {
+                                      @RequestParam("newPassword") String newPassword,
+                                      RedirectAttributes redirectAttributes) {
         Optional<User> user = getCurrentUser();
         if (user == null || user.isEmpty()) {
             return "redirect:/login";
@@ -58,8 +59,8 @@ public class ProfileController {
         user.get().setPassword(passwordEncoder.encode(newPassword));
         user.get().setPasswordNeedsChange(false);
         userRepository.save(user.get());
-        model.addAttribute("success", "Password changed successfully.");
-        return "changePassword";
+        redirectAttributes.addFlashAttribute("success", "Password changed successfully.");
+        return "redirect:/profile";
     }
 
     @GetMapping("/passwordreset/{userId}")
@@ -108,23 +109,21 @@ public class ProfileController {
     }
 
     @PostMapping("/pin")
-    protected String doChangePin(Model model, @RequestParam("currentPin") String currentPin,
-                                      @RequestParam("newPin") String newPin) {
+    protected String doChangePin(Model model,
+                                 @RequestParam("newPin") String newPin,
+                                 @RequestParam("currentPassword") String currentPassword,
+                                 RedirectAttributes redirectAttributes) {
         Optional<User> user = getCurrentUser();
         if (user == null || user.isEmpty()) {
             return "redirect:/login";
         }
-        if (!passwordEncoder.matches(currentPin, (String) user.get().getPin())) {
-            model.addAttribute("error", "Wrong pin code.");
-            return "changePin";
-        }
-        if (passwordEncoder.matches(newPin, (String) user.get().getPin())) {
-            model.addAttribute("error", "New and old pin code may not be the same!");
+        if (!passwordEncoder.matches(currentPassword, user.get().getPassword())) {
+            model.addAttribute("error", "Wrong password.");
             return "changePin";
         }
         user.get().setPin(passwordEncoder.encode(newPin));
         userRepository.save(user.get());
-        model.addAttribute("success", "Pin code changed successfully.");
-        return "/profileOverview";
+        redirectAttributes.addFlashAttribute("success", "Pin code changed successfully.");
+        return "redirect:/profile";
     }
 }
