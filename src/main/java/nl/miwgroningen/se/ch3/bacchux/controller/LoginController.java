@@ -60,6 +60,8 @@ public class LoginController {
         newUser.setPin(passwordEncoder.encode("1234"));
         newUser.setRoles("ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER");
         newUser.setPasswordNeedsChange(true);
+        newUser.setPrepaidAllowed(true);
+        newUser.setCreditAllowed(true);
         userRepository.save(newUser);
     }
 

@@ -3,6 +3,7 @@ var currentBalance = 0;
 var currentCredit = 0;
 var totalPrice = 0;
 var productsInBill;
+var paymentType = null;
 
 
 // ---- On document load --- \\
@@ -11,6 +12,9 @@ $(document).ready(function() {
     hidePayment();
     paymentError();
     paymentSuccess();
+    savingCustomerSuccess();
+    savingCustomerError();
+    $("#usernameError").hide();
     $("#categoryList > button:first-child").trigger("click");
 
     // event listeners
@@ -23,30 +27,32 @@ $(document).ready(function() {
 
 // ---- Show and Hide --- \\
 function showPaymentStuff(hasPrepaid, hasCredit) {
-    $("#prepaid, #credit").hide();
+    $("#prepaid, #payPrepaidButton, #credit, #payCreditButton").hide();
     if (hasPrepaid) {
-        $("#prepaid").show();
+        $("#prepaid, #payPrepaidButton").show();
     }
     if (hasCredit) {
-        $("#credit").show();
+        $("#credit, #payCreditButton").show();
     }
 }
 
 function clearUser() {
+    $("#noPaymentError").hide();
     $("#searchUser").val("");
+    showCustomerInfo();
     showPaymentStuff(false, false);
 }
 
 function showPayment() {
-    $(".payment").show();
+    $(".payment").attr("disabled", false);
 }
 
 function hidePayment() {
-    $(".payment").hide();
+    $(".payment").attr("disabled", true);
 }
 
 function disablePayments(value) {
-    $("#payCreditButton, #payPrepaidButton, #cashPayButton").attr("disabled", value);
+    $("#confirmPayButton").attr("disabled", value);
 }
 
 
@@ -57,19 +63,35 @@ function getUserFromSearch() {
 }
 
 function chooseCustomer(data) {
+    $("#noPaymentError").hide();
     paymentError();
     if ($.isEmptyObject(data)) {
         clearUser();
         return;
     }
+    showCustomerInfo(data);
     currentBalance = data.balance;
     currentCredit = data.currentCredit;
     updateCurrentBalance();
     updateCurrentCredit();
     if (!data.prepaidAllowed && !data.creditAllowed) {
-        paymentError("This user has no payment privileges.");
+        $("#noPaymentError").show();
     }
     showPaymentStuff(data.prepaidAllowed, data.creditAllowed);
+}
+
+function showCustomerInfo(data) {
+    if (!data) {
+        $("#customerName").text(null);
+        $("#customerInfo").text(null);
+        return;
+    }
+    $("#customerName").text(data.name);
+    var info = "Balance "
+            + formatCurrencyString(data.balance)
+            + "<br>Credit "
+            + formatCurrencyString(data.currentCredit);
+    $("#customerInfo").html(info);
 }
 
 function getCustomerByUsernameAnd(username, callback) {
@@ -87,6 +109,7 @@ function getCustomerByUsernameAnd(username, callback) {
 
 // ---- Update Bill ---- \\
 function updateProductList(products) {
+    choosePayment();
     var productBox = document.getElementById("billProductList");
     productBox.innerHTML = "";
 
@@ -206,12 +229,37 @@ function selectCategory(id) {
 
 
 // ---- Payment ---- \\
+function choosePayment(type) {
+    paymentType = type;
+    if (!type) {
+        $("#confirmPayButton").hide();
+        return;
+    }
+    paymentError();
+    $("#confirmPayButton").show();
+}
+
+function confirmPayment() {
+    switch (paymentType) {
+        case "direct":
+            doCashPayment();
+            break;
+        case "prepaid":
+            doPrepaidPayment();
+            break;
+        case "credit":
+            doCreditPayment();
+            break;
+    }
+}
+
 function paymentError(message) {
     var error = $("#paymentError");
     if (!message) {
         error.hide();
         return;
     }
+    choosePayment();
     error.text(message);
     error.show();
 }
@@ -222,6 +270,7 @@ function paymentSuccess(message) {
         success.hide();
         return;
     }
+    choosePayment();
     success.text(message);
     success.show();
 }
@@ -237,30 +286,6 @@ function doCashPayment() {
     var price = document.getElementById("totalPrice").innerHTML;
     paymentSuccess("Payment successful. Price: " + price);
     reloadAfter(3000);
-    disablePayments(false);
-
-}
-
-// ---- Direct Payment Logging ---- \\
-
-
-function doPaymentLog(paymentType) {
-    $("#paymentError").hide();
-    $.ajax({
-        type: "POST",
-        url: "/log/directPayment/",
-        data: {
-            totalAmount: totalPrice,
-            customer: $("#searchUser").val(),
-            paymentType: paymentType,
-            paymentDetails: JSON.stringify(productsInBill)
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            $("#paymentError").text("Logging error: " + jqXHR.responseText);
-            $("#paymentError").show();
-        }
-    });
-
 }
 
 function doPrepaidPayment() {
@@ -321,12 +346,100 @@ function creditSuccessAndReload() {
 }
 
 
-// ---- New Customer ---- \\
-function addPrepaidCustomer() {
-    window.open("/order/new/prepaid", "popUpWindow",
-         'height=500, width=600, left=50, top=50, resizable=yes, scrollbars=yes, toolbar=yes, menubar=no, location=no, directories=no, status=yes');
+// ---- Direct Payment Logging ---- \\
+function doPaymentLog(paymentType) {
+    $("#paymentError").hide();
+    $.ajax({
+        type: "POST",
+        url: "/log/directPayment/",
+        data: {
+            totalAmount: totalPrice,
+            customer: $("#searchUser").val(),
+            paymentType: paymentType,
+            paymentDetails: JSON.stringify(productsInBill)
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            $("#paymentError").text("Logging error: " + jqXHR.responseText);
+            $("#paymentError").show();
+        }
+    });
 }
 
+
+// ---- New Customer ---- \\
+function addPrepaidCustomer() {
+    $("#usernameInput, #nameInput").val("");
+    $("#newCustomerModal").modal('show');
+}
+
+function saveNewCustomer() {
+    $.ajax({
+        type: "PUT",
+        url: "/order/newCustomer/",
+        data: {
+            username: $("#usernameInput").val(),
+            name: $("#nameInput").val(),
+            prepaidOn: $("#prepaidNewCustomer").prop("checked"),
+        },
+        success: savingUserSuccess,
+        error: function(jqXHR, textStatus, errorThrown) {
+            savingCustomerError("User not saved, user already exists. " + jqXHR.responseText);
+            disablePayments(false);
+        }
+    });
+}
+
+
+function savingCustomerSuccess(message) {
+    var success = $("#savingUserSucces");
+    if (!message) {
+
+        success.hide();
+        return;
+    }
+    $("#savingUserSucces").html(message);
+    $("#savingUserSucces").show();
+    setTimeout(function () {success.hide()}, 3000)
+}
+function savingCustomerError(message) {
+    var error = $("#savingUserError");
+    if (!message) {
+        error.hide();
+        return;
+    }
+    error.text(message);
+    error.show();
+    $("#newCustomerModal").modal('hide');
+    setTimeout(function () {error.hide()}, 3000)
+}
+
+function savingUserSuccess(){
+    savingCustomerError();
+    const message = "User " + $("#usernameInput").val() + " successfully added."
+    $("#newCustomerModal").modal('hide');
+    savingCustomerSuccess(message);
+    loadCustomer($("#usernameInput").val(), $("#nameInput").val());
+
+}
+
+function checkIfUserNameExists() {
+    username = $("#usernameInput").val();
+    $.ajax({
+        type: "GET",
+        url: "/order/username/" + username,
+        statusCode: {
+            404: function() {return;}
+        }
+    }).done(function(data) {
+        if (data !== "") {
+            $("#usernameError").show();
+            return;
+        }
+        $("#usernameError").hide();
+    });
+}
+
+// to update the search list when a new user is added, the new added user is automatically selected
 function loadCustomer(username, fullname) {
     var newOpt = document.createElement("option");
     newOpt.value = username;
