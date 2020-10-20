@@ -105,10 +105,15 @@ public class ProfileController {
     @PostMapping("/pin")
     protected String doChangePin(Model model,
                                  @RequestParam("newPin") String newPin,
+                                 @RequestParam("currentPassword") String currentPassword,
                                  RedirectAttributes redirectAttributes) {
         Optional<User> user = getCurrentUser();
         if (user == null || user.isEmpty()) {
             return "redirect:/login";
+        }
+        if (!passwordEncoder.matches(currentPassword, user.get().getPassword())) {
+            model.addAttribute("error", "Wrong password.");
+            return "changePin";
         }
         user.get().setPin(passwordEncoder.encode(newPin));
         userRepository.save(user.get());

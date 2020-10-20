@@ -14,6 +14,10 @@
                 <div class="alert alert-danger" th:text="${error}" th:if="${error}"/>
                 <div class="alert alert-success" th:text="${success}" th:if="${success}"/>
                 <div class="form-group">
+                    <input type="password" class="form-control" name="currentPassword" id="currentPassword" placeholder="Password" aria-describedby="currentPasswordLabel" required>
+                </div>
+                <hr>
+                <div class="form-group">
                     <input type="password" class="form-control" name="newPin" id="newPin" maxlength="4"
                            onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,''),
         alert('Pin code can only have numbers.')"
