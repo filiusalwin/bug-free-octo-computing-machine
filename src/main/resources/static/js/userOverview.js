@@ -47,7 +47,7 @@ function fillOutForm(data) {
     $("#userForm").attr("action", "/user/save");
     $("#modalLabel").html("Edit " + data.username);
     $("#usernameInput, #originalUsername").val(data.username);
-    $("#usernameError,#password_pincode").hide();
+    $("#usernameError, #password_pincode,.custom-file").hide();
     $("#Prepaid-Choice-Label, #resetPassword").show();
     $("#Prepaid-Choice-Label").html("The prepaid balance: " + data.balance);
     $("#userIdInput").val(data.userId);
@@ -55,8 +55,8 @@ function fillOutForm(data) {
     $("#Prepaid").prop("checked", data.prepaidAllowed);
     $("#prepaid_balance").val(data.balance);
     $("#Credit").prop("checked", data.creditAllowed);
-    $("#credit_account").val(data.creditPaymentBankAccountNumber);
-
+    $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
+    uploadPicture();
 }
 
 // edit existing user
@@ -85,7 +85,7 @@ function openModalNewUser() {
     $('#maintainUserModal').modal('show');
     $("#modalLabel").html("New User");
     $("#usernameInput, #password, #userIdInput, #nameInput, #credit_account").val("");
-    $("#usernameError, #Prepaid-Choice-Label, #resetPassword").hide();
+    $("#usernameError, #Prepaid-Choice-Label, #resetPassword, .custom-file").hide();
     $("#bartender, #barmanager, #Prepaid, #Credit").prop("checked",false);
     $("#customer").prop("checked",true);
     $("#password_pincode").hide();
@@ -101,6 +101,52 @@ function openModalNewUser() {
             $("#pin").prop('required',true);
         }
     });
+    resetPicture();
+    uploadPicture();
+}
+function resetPicture() {
+    $("#profileFoto").attr('src','images/defaultPicture.png');
+}
+
+function uploadPicture(){
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+        //if file is not valid we show the error icon and the red alert
+        if (fileName.indexOf(".jpg") === -1 && fileName.indexOf(".png") === -1 && fileName.indexOf(".jpeg") === -1 &&
+            fileName.indexOf(".bmp") === -1 && fileName.indexOf(".JPG") === -1 && fileName.indexOf(".PNG") === -1 &&
+            fileName.indexOf(".JPEG") === -1 && fileName.indexOf(".BMP") === -1) {
+            $( ".imgupload" ).hide("slow");
+            $( ".imguploadok" ).hide("slow");
+            $( ".imguploadstop" ).show("slow");
+            $('#namefile').css({"color":"red","font-weight":600});
+            $('#namefile').html(fileName + " is not an image. Please choose a picture!");
+            $( "#saveButton").disable();
+
+        } else {
+            //if file is valid we show the green alert
+            $( ".imgupload" ).hide("slow");
+            $( ".imguploadstop" ).hide("slow");
+            $( ".imguploadok" ).show("slow");
+            $('#namefile').html(fileName + " is a good picture!");
+            $('#namefile').css({"color":"green","font-weight":600});
+            readURL(this)
+        }
+    });
+}
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#profileFoto')
+                .attr('src', e.target.result)
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
 }
 
 function keyPressed(){
@@ -110,20 +156,21 @@ function keyPressed(){
 
 // ---- Modal Checks ---- \\
 function checkIfUserNameExists() {
-    var originalUsername = $("#originalUsername").val();
     username = $("#usernameInput").val();
     $.ajax({
         type: "GET",
-        url: "/user/byUsername/" + username,
-        data: {
-            username: username,
-        },
-    }).done(function getUserData(userData) {
-        if (userData.username === username && userData.username !== originalUsername) {
-            $("#usernameError").show();
-        } else {
-            $("#usernameError").hide();
+        url: "/order/username/" + username,
+        statusCode: {
+            404: function () {
+                return;
+            }
         }
+    }).done(function (data) {
+        if (data !== null) {
+            $("#usernameError").show();
+            return;
+        }
+        $("#usernameError").hide();
     });
 }
 
@@ -150,12 +197,17 @@ function ibanValidation() {
 
 // ---- Direct Links ---- \\
 function deleteUser() {
-   var userId = $("#userIdInput").val();
-    console.log($("#userIdInput").val());
+    var userId = $("#userIdInput").val();
     window.location.href = "/user/delete/" + userId;
 }
+
+
 
 function resetPassword() {
     userId = $("#userIdInput").val();
     window.location.assign("/profile/passwordreset/" + userId);
+}
+
+function changeProfilePicture() {
+    $(".custom-file").toggle();
 }
