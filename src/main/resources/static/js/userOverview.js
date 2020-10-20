@@ -202,10 +202,11 @@ function ibanValidation() {
 
 // ---- Direct Links ---- \\
 function deleteUser() {
-   var userId = $("#userIdInput").val();
-    console.log($("#userIdInput").val());
+    var userId = $("#userIdInput").val();
     window.location.href = "/user/delete/" + userId;
 }
+
+
 
 function resetPassword() {
     userId = $("#userIdInput").val();

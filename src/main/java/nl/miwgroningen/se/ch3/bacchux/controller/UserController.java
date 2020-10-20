@@ -6,6 +6,8 @@ import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -152,12 +154,15 @@ public class UserController {
         if (result.hasErrors()) {
             return "userOverview";
         }
+
+        // Check IBAN
         IbanValidation ibanValidation = new IbanValidation();
         if (!user.getCreditPaymentBankAccountNumber().equals("")
                 && !ibanValidation.validateIban(user.getCreditPaymentBankAccountNumber())) {
             redirAttrs.addFlashAttribute("error", "The bank account number is not correct. User not updated");
             return "redirect:/user/";
         }
+
         Optional<User> user1 = userRepository.findById(user.getUserId());
         if (user1.isEmpty()) {
             model.addAttribute("error", "User not found, cannot be updated.");
@@ -177,16 +182,35 @@ public class UserController {
                 e.printStackTrace();
             }
         }
+
+        // Check username
         Optional<User> userByUsername = userRepository.findByUsername(user.getUsername());
         if (userByUsername.isPresent() && !userByUsername.get().getUserId().equals(user.getUserId())) {
             model.addAttribute("error", "This username is taken by another user.");
             return "userOverview";
         }
+
+        // Check role
+        if (user1.get().getUserId().equals(getCurrentUser().get().getUserId())){
+            user.setRoles(user1.get().getRoles());
+            model.addAttribute("error", "You can not change your own roles.");
+            return "userOverview";
+        }
+
         redirAttrs.addFlashAttribute("success", "User updated.");
         userRepository.save(user);
         return "redirect:/user/";
     }
 
+
+    public Optional<User> getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!(principal instanceof UserDetails)) {
+            return null;
+        }
+        String username = ((UserDetails) principal).getUsername();
+        return userRepository.findByUsername(username);
+    }
 
     @GetMapping("/delete/{userId}")
     protected String deleteUser(@PathVariable("userId") final Integer userId) {
