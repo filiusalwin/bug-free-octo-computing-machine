@@ -6,11 +6,11 @@
 </head>
 <body>
 <nav th:replace="fragments/navbar :: navbar" />
-<div class="container">
+<div class="container mt-4" id="bill">
     <h1>
         Credit Bill
     </h1>
-    <div class="row h5">
+    <div class="row">
         <div class="col-2">
             Name
         </div>
@@ -18,7 +18,7 @@
             <span th:text="${user.getName()}"></span>
         </div>
     </div>
-    <div class="row h5 mb-4">
+    <div class="row mb-4">
         <div class="col-2">
             Username
         </div>
@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-2">
+        <div class="col-3">
             Prepaid Balance
         </div>
         <div class="col-2">
@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-2">
+        <div class="col-3">
             Total Credit
         </div>
         <div class="col-2 border-bottom" style="border-width: 2px !important; border-color: black !important;">
@@ -44,15 +44,15 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-2">
+        <div class="col-3">
             Remaining Balance
         </div>
         <div class="col-2">
             <span th:text="${balanceAfter}"></span>
         </div>
     </div>
-    <div class="row h3">
-        <div class="col-2">
+    <div class="row h3 mt-4">
+        <div class="col-3">
             Bill Total
         </div>
         <div class="col-2">
@@ -63,16 +63,19 @@
     <h2>Payments</h2>
     <div class="row" th:each="payment : ${creditPayments}">
         <div class="col">
-            <div class="row">
+            <div>
                 <span th:text="${payment.getDateAndTimeString()}"></span>
                 &nbsp; served by &nbsp;
                 <span th:text="${payment.getBartenderName()}"></span>
             </div>
-            <div class="row ml-4 paymentEntry" th:text="${payment.getOrderJson()}"></div>
+            <div class=" mb-3 ml-5 paymentEntry" th:text="${payment.getOrderJson()}"
+                 th:attr="total=${payment.getAmount()}"></div>
         </div>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"/>
 <div th:replace="fragments/header :: scriptFragment" />
+<script src="/js/userBill.js"></script>
+<script src="/js/order_currency.js"></script>
 </body>
 </html>

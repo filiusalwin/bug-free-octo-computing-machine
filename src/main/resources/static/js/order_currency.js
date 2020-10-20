@@ -88,7 +88,7 @@ function formatCurrency(input, blur) {
   input[0].setSelectionRange(caret_pos, caret_pos);
 }
 
-function formatCurrencyString(input_val) {
+function formatCurrencyString(input_val, fullDisplay) {
     input_val = input_val / 100;
     input_val = input_val.toString();
 
@@ -140,7 +140,7 @@ function formatCurrencyString(input_val) {
        input_val = "€" + input_val;
 
        // final formatting
-       if (blur === "blur") {
+       if (blur === "blur" || fullDisplay) {
          input_val += ".00";
        }
      }
