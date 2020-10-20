@@ -12,6 +12,9 @@ $(document).ready(function() {
     hidePayment();
     paymentError();
     paymentSuccess();
+    savingCustomerSuccess();
+    savingCustomerError();
+    $("#usernameError").hide();
     $("#categoryList > button:first-child").trigger("click");
 
     // event listeners
@@ -365,10 +368,78 @@ function doPaymentLog(paymentType) {
 
 // ---- New Customer ---- \\
 function addPrepaidCustomer() {
-    window.open("/order/new/prepaid", "popUpWindow",
-         'height=500, width=600, left=50, top=50, resizable=yes, scrollbars=yes, toolbar=yes, menubar=no, location=no, directories=no, status=yes');
+    $("#usernameInput, #nameInput").val("");
+    $("#newCustomerModal").modal('show');
 }
 
+function saveNewCustomer() {
+    $.ajax({
+        type: "PUT",
+        url: "/order/newCustomer/",
+        data: {
+            username: $("#usernameInput").val(),
+            name: $("#nameInput").val(),
+            prepaidOn: $("#prepaidNewCustomer").prop("checked"),
+        },
+        success: savingUserSuccess,
+        error: function(jqXHR, textStatus, errorThrown) {
+            savingCustomerError("User not saved, user already exists. " + jqXHR.responseText);
+            disablePayments(false);
+        }
+    });
+}
+
+
+function savingCustomerSuccess(message) {
+    var success = $("#savingUserSucces");
+    if (!message) {
+
+        success.hide();
+        return;
+    }
+    $("#savingUserSucces").html(message);
+    $("#savingUserSucces").show();
+    setTimeout(function () {success.hide()}, 3000)
+}
+function savingCustomerError(message) {
+    var error = $("#savingUserError");
+    if (!message) {
+        error.hide();
+        return;
+    }
+    error.text(message);
+    error.show();
+    $("#newCustomerModal").modal('hide');
+    setTimeout(function () {error.hide()}, 3000)
+}
+
+function savingUserSuccess(){
+    savingCustomerError();
+    const message = "User " + $("#usernameInput").val() + " successfully added."
+    $("#newCustomerModal").modal('hide');
+    savingCustomerSuccess(message);
+    loadCustomer($("#usernameInput").val(), $("#nameInput").val());
+
+}
+
+function checkIfUserNameExists() {
+    username = $("#usernameInput").val();
+    $.ajax({
+        type: "GET",
+        url: "/order/username/" + username,
+        statusCode: {
+            404: function() {return;}
+        }
+    }).done(function(data) {
+        if (data !== "") {
+            $("#usernameError").show();
+            return;
+        }
+        $("#usernameError").hide();
+    });
+}
+
+// to update the search list when a new user is added, the new added user is automatically selected
 function loadCustomer(username, fullname) {
     var newOpt = document.createElement("option");
     newOpt.value = username;
