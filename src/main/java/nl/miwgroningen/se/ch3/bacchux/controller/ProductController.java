@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/catalog/product")
@@ -27,9 +28,12 @@ public class ProductController {
     protected String showProducts(@PathVariable("categoryId") final Integer categoryId,
                                   Model model){
         model.addAttribute("allCategories", categoryRepository.findAll());
+        model.addAttribute("allProducts", productRepository.findAll());
+        model.addAttribute("product", new Product());
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
             model.addAttribute("category", category.get());
+
             return "catalogOverview";
         }
         return "redirect:/catalog/";
@@ -61,6 +65,7 @@ public class ProductController {
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
             try {
+                model.addAttribute("category", category.get());
                 product.setCategory(category.get());
                 productRepository.save(product);
             } catch (DataIntegrityViolationException exception) {
@@ -69,7 +74,7 @@ public class ProductController {
                 return "catalogOverview";
             }
         }
-        return "redirect:/catalog/";
+        return "redirect:/catalog/product/" + categoryId;
     }
 
     @GetMapping("/update/{productId}")

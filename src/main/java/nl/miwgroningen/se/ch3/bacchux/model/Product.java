@@ -6,7 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 
 @Entity
-public class Product {
+public class Product implements Comparable<Product> {
 
     private static final int CENTS_PER_EURO = 100;
 
@@ -28,6 +28,11 @@ public class Product {
         double priceInEuro;
         priceInEuro =  (double) price / CENTS_PER_EURO;
         return String.format("€%.2f", priceInEuro);
+    }
+
+    @Override
+    public int compareTo(Product product) {
+        return name.toLowerCase().compareTo(product.getName().toLowerCase());
     }
 
     public String getName() {

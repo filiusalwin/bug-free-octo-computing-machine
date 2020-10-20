@@ -18,6 +18,8 @@ import java.util.Optional;
 @Controller
 public class CategoryController {
 
+    public static final int FIRST_IN_LIST = 0;
+
     @Autowired
     CategoryRepository categoryRepository;
     @Autowired
@@ -27,12 +29,19 @@ public class CategoryController {
     protected String showCatalog(Model model) {
         List<Category> allCategories = categoryRepository.findAll();
         List<Product> allProducts = productRepository.findAll();
+        allCategories.sort(Category::compareTo);
+        allProducts.sort(Product::compareTo);
         model.addAttribute("allCategories", allCategories);
         model.addAttribute("allProducts", allProducts);
-        model.addAttribute("category", new Category());
         model.addAttribute("product", new Product());
+        if (allCategories.isEmpty()) {
+            model.addAttribute("category", new Category());
+        } else {
+            model.addAttribute("category", allCategories.get(FIRST_IN_LIST));
+        }
         return "catalogOverview";
     }
+
 
     @PostMapping("/add")
     protected String saveOrUpdateCategory( Model model,

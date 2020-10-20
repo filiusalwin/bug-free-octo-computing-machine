@@ -19,6 +19,7 @@
                 <div class="d-flex border-bottom">
                     <h2>
                         Categories
+                        <span id="categoryId" hidden th:text="${category.getCategoryId()}"></span>
                     </h2>
                     <button class="btn btn-secondary ml-auto font-xl" onclick="openModalNewCategory()" data-toggle="modal"
                             data-target="#maintainCategoryModal">+</button>
@@ -134,7 +135,6 @@
                                    aria-label="Price" aria-describedby="basic-addon1" th:field="*{price}"
                                    onfocusout="checkIfPriceIsNumber()" required>
                             <span id="priceError" class="help">Only numbers allowed</span>
-
                         </div>
                     </form>
                 </div>

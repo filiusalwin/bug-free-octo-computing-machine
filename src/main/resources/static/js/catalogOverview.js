@@ -5,6 +5,8 @@ $(document).ready(function() {
     $("#categoryNameError").hide();
     $("#productNameError").hide();
     $("#priceError").hide();
+    categoryId = $("#categoryId").text();
+    selectCategory(categoryId);
 });
 
 function openModalNewCategory() {
@@ -64,7 +66,7 @@ function checkIfCategoryNameExists() {
 
 function selectCategory(id) {
     var highlightClass = "list-group-item-dark"
-    $("#productForm").attr("action", "/catalog/product/" + id + "/add")
+    $("#productForm").attr("action", "/catalog/product/" + id + "/add");
     // unhighlight all buttons
     $(".categoryButton").removeClass(highlightClass);
 
