@@ -1,10 +1,13 @@
 package nl.miwgroningen.se.ch3.bacchux.model;
 
 import javax.persistence.*;
+import java.util.Base64;
 import java.util.List;
 
 @Entity
 public class User implements Comparable<User> {
+
+    private static final int CENTS_PER_EURO = 100;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,7 +18,7 @@ public class User implements Comparable<User> {
 
     @OneToMany (cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
-            mappedBy = "user")
+            mappedBy = "customer")
     private List<CreditPayment> creditPayments;
 
     private String name;
@@ -38,6 +41,19 @@ public class User implements Comparable<User> {
 
     private Integer balance;
 
+    public String balanceEuro(){
+        double balanceInEuro;
+        if (balance == null) {
+            balanceInEuro = 0;
+        } else {
+            balanceInEuro = (double) balance / CENTS_PER_EURO;
+        }
+        return String.format("€%.2f", balanceInEuro);
+    }
+
+    @Lob
+    private byte[] picture;
+
     public Integer getCreditTotal() {
         int total = 0;
         for (CreditPayment payment : creditPayments) {
@@ -56,6 +72,14 @@ public class User implements Comparable<User> {
                 .replace("ROLE_BARTENDER", "Bartender")
                 .replace("ROLE_CUSTOMER", "Customer")
                 .replace(",", ", ");
+    }
+
+    public byte[] getPicture() {
+        return picture;
+    }
+
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
     }
 
     public List<CreditPayment> getCreditPayments() {
