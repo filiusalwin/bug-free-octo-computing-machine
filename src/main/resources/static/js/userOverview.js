@@ -107,8 +107,6 @@ function openModalNewUser() {
     $("#bartender, #barmanager, #Prepaid, #Credit").prop("checked",false);
     $("#customer").prop("checked",true);
     $("#password_pincode").hide();
-    resetPicture();
-    uploadPicture();
     $('input[type=radio][name=roles]').change(function() {
         if (this.value === 'ROLE_CUSTOMER') {
             $("#password_pincode").hide();
@@ -121,9 +119,9 @@ function openModalNewUser() {
             $("#pin").prop('required',true);
         }
     });
+    resetPicture();
+    uploadPicture();
 }
-
-// check the right radio boxes
 
 function resetPicture() {
     $("#profileFoto").attr('src','images/defaultPicture.png');
