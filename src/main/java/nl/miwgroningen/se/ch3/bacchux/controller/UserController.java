@@ -241,12 +241,4 @@ public class UserController {
         return "redirect:/user/";
     }
 
-    public Optional<User> getCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!(principal instanceof UserDetails)) {
-            return Optional.empty();
-        }
-        String username = ((UserDetails) principal).getUsername();
-        return userRepository.findByUsername(username);
-    }
 }
