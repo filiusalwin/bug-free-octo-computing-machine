@@ -16,6 +16,8 @@ $(document).ready(function() {
         this.value = "";
     });
     $("#usernameError, #ibanError").hide();
+
+    showPicture();
 });
 
 
@@ -56,7 +58,9 @@ function fillOutForm(data) {
     $("#prepaid_balance").val(data.balance);
     $("#Credit").prop("checked", data.creditAllowed);
     $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
-    uploadPicture();
+    if(data.picture === null) {
+    resetPicture();
+    }
 }
 
 // edit existing user
@@ -102,13 +106,12 @@ function openModalNewUser() {
         }
     });
     resetPicture();
-    uploadPicture();
 }
 function resetPicture() {
-    $("#profileFoto").attr('src','images/defaultPicture.png');
+    $("#profileFoto").attr('src','/images/defaultPicture.png');
 }
 
-function uploadPicture(){
+function showPicture(){
     $(".custom-file-input").on("change", function() {
         var fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -131,7 +134,9 @@ function uploadPicture(){
             $( ".imguploadok" ).show("slow");
             $('#namefile').html(fileName + " is a good picture!");
             $('#namefile').css({"color":"green","font-weight":600});
-            readURL(this)
+
+            // show new image
+            readURL(this);
         }
     });
 }
@@ -142,7 +147,7 @@ function readURL(input) {
 
         reader.onload = function (e) {
             $('#profileFoto')
-                .attr('src', e.target.result)
+                .attr('src', e.target.result);
         };
 
         reader.readAsDataURL(input.files[0]);
