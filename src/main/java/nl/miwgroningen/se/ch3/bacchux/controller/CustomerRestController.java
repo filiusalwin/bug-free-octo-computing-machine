@@ -5,33 +5,37 @@ import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.model.UserDTO;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
+// is used to add a new customer from the order page, for security reasons the user url has been disbaled
+// in order for a bartender to acces this particular method this new controller was created with the url
+// order/newCustomer
+
 @RestController
-@RequestMapping("/user")
-public class UserRestController {
+@RequestMapping("/order")
+public class CustomerRestController {
 
     @Autowired
     UserRepository userRepository;
 
-    @PutMapping("/topup")
-    protected ResponseEntity topUpUser(@RequestParam String username, @RequestParam Integer amount) {
+
+    @PutMapping ("/newCustomer")
+    protected ResponseEntity saveNewCustomer(@RequestParam String username,
+                                     @RequestParam String name,
+                                     @RequestParam boolean prepaidOn) {
         Optional<User> userOptional = userRepository.findByUsername(username);
-        if (!userOptional.isPresent()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        } else if (amount <= 0) {
+        if (!userOptional.isEmpty()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        User user = userOptional.get();
-        user.setBalance(user.getBalance() + amount);
+        User user = new User();
+        user.setUsername(username);
+        user.setName(name);
+        user.setRoles("ROLE_CUSTOMER");
+        user.setPrepaidAllowed(prepaidOn);
         userRepository.save(user);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -43,22 +47,6 @@ public class UserRestController {
             return null;
         }
         return new UserDTO(user.get());
-    }
-
-    @GetMapping("/{userId}")
-    User one(@PathVariable Integer userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        if (!userOptional.isPresent()) {
-            return new User();
-        }
-        User user = userOptional.get();
-        return user;
-    }
-
-    @GetMapping("/ibanValid/")
-    boolean ibanValid(@RequestParam String iban) {
-        IbanValidation ibanValidation = new IbanValidation();
-        return ibanValidation.validateIban(iban);
     }
 
 

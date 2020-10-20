@@ -40,10 +40,10 @@
                             <th scope="col"></th>
                         </tr>
                         </thead>
-                        <tr th:each="user: ${#lists.sort(allUsers)}">
+                        <tr th:each="user: ${#lists.sort(allUsers)}"  th:attr="balance=|${user.balance}|">
                             <td th:text="${user.name}" />
                             <td th:text="${user.username}" />
-                            <td th:text="${user.balance}" />
+                            <td th:text="${user.balanceEuro()}" class="ml-auto" />
                             <td th:text="${user.displayRoles}" />
                             <td th:if="${user.prepaidAllowed}">On</td><td th:if="${!user.prepaidAllowed}">Off</td>
                             <td th:if="${user.creditAllowed}" >On</td><td th:if="${!user.creditAllowed}" >Off</td>
