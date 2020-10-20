@@ -90,7 +90,7 @@ public class LoginController {
         if (user.isEmpty()) {
             return "redirect:/login";
         }
-        if (passwordEncoder.matches(currentPin, (String) user.get().getPin())) {
+        if (passwordEncoder.matches(currentPin, user.get().getPin())) {
             return "redirect:/order/";
         }
             return "redirect:/lockout?error" ;

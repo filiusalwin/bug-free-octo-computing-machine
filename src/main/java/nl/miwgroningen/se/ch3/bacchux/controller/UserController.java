@@ -228,11 +228,17 @@ public class UserController {
     }
 
     @GetMapping("/delete/{userId}")
-    protected String deleteUser(@PathVariable("userId") final Integer userId) {
+    protected String deleteUser(@PathVariable("userId") final Integer userId, RedirectAttributes redirAttrs) {
         Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            userRepository.deleteById(userId);
+        Optional<User> currentUser = getCurrentUser();
+        System.out.println(currentUser.get().getName());
+        if (user.isEmpty() || user.get().getUserId().equals(currentUser.get().getUserId())) {
+            redirAttrs.addFlashAttribute("error", "You can not delete yourself.");
+            return "redirect:/user/";
         }
+        userRepository.deleteById(userId);
+        redirAttrs.addFlashAttribute("success", "User deleted.");
         return "redirect:/user/";
     }
+
 }
