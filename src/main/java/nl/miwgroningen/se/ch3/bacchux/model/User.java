@@ -7,6 +7,8 @@ import java.util.List;
 @Entity
 public class User implements Comparable<User> {
 
+    private static final int CENTS_PER_EURO = 100;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userId;
@@ -39,8 +41,19 @@ public class User implements Comparable<User> {
 
     private Integer balance;
 
+
     @Lob
     private byte[] picture;
+
+    public String balanceEuro(){
+        double balanceInEuro;
+        if (balance == null) {
+            balanceInEuro = 0;
+        } else {
+            balanceInEuro = (double) balance / CENTS_PER_EURO;
+        }
+        return String.format("€%.2f", balanceInEuro);
+    }
 
     public Integer getCreditTotal() {
         int total = 0;
