@@ -76,6 +76,7 @@ public class User implements Comparable<User> {
                 .replace("ROLE_CUSTOMER", "Customer")
                 .replace(",", ", ");
     }
+
     public String convertToBase64() {
         String imageInBase64 = "";
         if (this.getPicture() == null){
@@ -91,6 +92,7 @@ public class User implements Comparable<User> {
             }
             return imageInBase64;
         }
+        //Use custom image
         imageInBase64 += Base64.getEncoder().encodeToString(this.getPicture());
         return imageInBase64;
     }
