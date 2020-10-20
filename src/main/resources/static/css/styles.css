@@ -35,3 +35,10 @@
     width: 305px !important;
     height: 100px !important;
 }
+
+#logout {
+    border:none;
+    background:none;
+    padding:0;
+    text-align:left;
+}

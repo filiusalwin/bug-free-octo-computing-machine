@@ -35,8 +35,8 @@
                     <a class="dropdown-item" th:href="@{/profile}">Your Profile</a>
                     <a class="dropdown-item" th:href="@{/profile/password}">Change Password</a>
                     <a class="dropdown-item" th:href="@{/profile/pin}">Change PIN code</a>
-                    <a class="dropdown-item" ><form th:action="@{/appLogout}" method="POST">
-                        <input type="submit" value="Logout"/>
+                    <a class="dropdown-item"><form th:action="@{/appLogout}" method="POST">
+                        <input type="submit" id="logout" value="Logout"/>
                     </form></a>
                 </div>
             </li>
