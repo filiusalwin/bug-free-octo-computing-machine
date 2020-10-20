@@ -40,7 +40,7 @@
 
 #lockButton {
     padding: 8px 30px;
-    font-size: 24px;
+    font-size: 25px;
     text-align: center;
     cursor: pointer;
     outline: none;
@@ -49,7 +49,7 @@
     border: none;
     border-radius: 15px;
     box-shadow: 0 9px #999;
-   text-decoration-color: #0f1620;
+    text-decoration-color: #0f1620;
 }
 
 #lockButton:hover {background-color: dodgerblue}

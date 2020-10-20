@@ -45,7 +45,6 @@ $(function(){
     // Cache some selectors
 
     var clock = $('#clock'),
-        alarm = clock.find('.alarm'),
         ampm = clock.find('.ampm');
 
     // Map digits to their names (this will be an array)
@@ -59,8 +58,7 @@ $(function(){
         'h1', 'h2', ':', 'm1', 'm2', ':', 's1', 's2'
     ];
 
-    // Generate the digits with the needed markup,
-    // and add them to the clock
+    // Generate the digits with the needed markup, and add them to the clock
 
     var digit_holder = clock.find('.digits');
 

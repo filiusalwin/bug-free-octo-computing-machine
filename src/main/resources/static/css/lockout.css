@@ -404,26 +404,6 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
     top:34px;
 }
 
-
-/*-------------------------
-	The Alarm
---------------------------*/
-
-
-#clock .alarm{
-    width:16px;
-    height:16px;
-    bottom:20px;
-    background:url('../img/alarm_light.jpg');
-    position:absolute;
-    opacity:0.2;
-}
-
-#clock .alarm.active{
-    opacity:1;
-}
-
-
 /*-------------------------
 	Weekdays
 --------------------------*/
