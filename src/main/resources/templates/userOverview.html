@@ -25,8 +25,8 @@
             <div class="row">
                 <div class="col-12">
                     <h2>User Overview</h2>
-                    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
-                    <div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
+                    <div class="alert alert-danger" role="alert" id="userSaveSucces" th:text="${error}" th:if="${error}"></div>
+                    <div class="alert alert-primary" role="alert" id="userSaveError" th:text="${success}" th:if="${success}"></div>
                     <table class="table table-striped m">
                         <thead>
                         <tr>
@@ -74,7 +74,9 @@
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon1">Username</span>
                             </div>
                             <input type="text" id="usernameInput" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" th:field="*{username}" onfocusout="checkIfUserNameExists()" required>
-                            <span id="usernameError" class="help">This username already exists.</span>
+                        </div>
+                        <div class="alert alert-danger" id="usernameError" style="display: none;">
+                            This username already exists.
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend" >

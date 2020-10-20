@@ -5,7 +5,7 @@ var newUser;
 // ---- Onload ---- \\
 $(document).ready(function() {
     setTimeout(function() {
-        $(".alert").alert('close');
+        $("#userSaveError, #userSaveSucces").alert('close');
     }, 5000);
 
     $(document).on('change', 'input', function(){
@@ -36,6 +36,7 @@ function getUserFromSearch() {
 function checkCorrectRadioBox(userData) {
     if (userData.roles === "ROLE_CUSTOMER") {
         $("#customer").prop("checked", true);
+        $("#resetPassword").hide();
     } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER") {
         $("#bartender").prop("checked", true);
     } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER") {
@@ -43,6 +44,7 @@ function checkCorrectRadioBox(userData) {
     }
 }
 
+// fill out form for an existing user
 function fillOutForm(data) {
     $("#userForm").attr("action", "/user/save");
     $("#modalLabel").html("Edit " + data.username);
@@ -56,7 +58,15 @@ function fillOutForm(data) {
     $("#prepaid_balance").val(data.balance);
     $("#Credit").prop("checked", data.creditAllowed);
     $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
+    $('input[type=radio][name=roles]').change(function() {
+        if (this.value === 'ROLE_CUSTOMER') {
+            $("#resetPassword").hide();
+        } else {
+            $("#resetPassword").show();
+        }
+    });
     uploadPicture();
+
 }
 
 // edit existing user
@@ -89,6 +99,8 @@ function openModalNewUser() {
     $("#bartender, #barmanager, #Prepaid, #Credit").prop("checked",false);
     $("#customer").prop("checked",true);
     $("#password_pincode").hide();
+    resetPicture();
+    uploadPicture();
     $('input[type=radio][name=roles]').change(function() {
         if (this.value === 'ROLE_CUSTOMER') {
             $("#password_pincode").hide();
@@ -101,9 +113,10 @@ function openModalNewUser() {
             $("#pin").prop('required',true);
         }
     });
-    resetPicture();
-    uploadPicture();
 }
+
+// check the right radio boxes
+
 function resetPicture() {
     $("#profileFoto").attr('src','images/defaultPicture.png');
 }
@@ -166,7 +179,7 @@ function checkIfUserNameExists() {
             }
         }
     }).done(function (data) {
-        if (data !== null) {
+        if (data !== "") {
             $("#usernameError").show();
             return;
         }
@@ -198,7 +211,6 @@ function ibanValidation() {
 // ---- Direct Links ---- \\
 function deleteUser() {
    var userId = $("#userIdInput").val();
-    console.log($("#userIdInput").val());
     window.location.href = "/user/delete/" + userId;
 }
 
