@@ -20,11 +20,9 @@ function openModalNewProduct() {
 }
 
 function fillOutForm(data) {
-    console.log("filloutform");
-    $("#categoryForm").attr("action", "/catalog/add");
     $("#modalLabelCategory").html("Edit " + data.name);
     $("#categoryNameInput, #originalCategoryName").val(data.name);
-    $("#categoryIdInput").val(data.categoryId);
+    $("#categoryId").val(data.categoryId);
 }
 
 function addCategoryByCategoryName(categoryName) {
@@ -36,7 +34,6 @@ function addCategoryByCategoryName(categoryName) {
             categoryName: categoryName,
         },
     }).done(function (data) {
-        console.log(data)
         $('#maintainCategoryModal').modal('show');
         fillOutForm(data);
     }).fail(function (data) {

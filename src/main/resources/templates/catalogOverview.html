@@ -76,8 +76,7 @@
                     <form id="categoryForm" action="#"
                           th:action="@{/catalog/add}"
                           th:object="${category}" method="post">
-                        <div id="categoryIdInput" input="hidden">
-                        </div>
+                        <input th:field="*{categoryId}" type="hidden">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon1">Name</span>
