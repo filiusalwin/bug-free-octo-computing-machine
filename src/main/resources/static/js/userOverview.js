@@ -1,5 +1,6 @@
 // ---- Globals ---- \\
 var newUser;
+var roleUser;
 
 
 // ---- Onload ---- \\
@@ -37,10 +38,13 @@ function checkCorrectRadioBox(userData) {
     if (userData.roles === "ROLE_CUSTOMER") {
         $("#customer").prop("checked", true);
         $("#resetPassword").hide();
+        roleUser = "Customer";
     } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER") {
         $("#bartender").prop("checked", true);
+        roleUser = "Bartender";
     } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER") {
         $("#barmanager").prop("checked", true);
+        roleUser = "Barmanager";
     }
 }
 
@@ -63,6 +67,9 @@ function fillOutForm(data) {
             $("#resetPassword").hide();
         } else {
             $("#resetPassword").show();
+            if (roleUser === "Customer") {
+                $("#resetPassword").html("Add password");
+            }
         }
     });
     uploadPicture();
