@@ -56,6 +56,9 @@ function fillOutForm(data) {
     $("#prepaid_balance").val(data.balance);
     $("#Credit").prop("checked", data.creditAllowed);
     $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
+    if(data.picture === null) {
+    resetPicture();
+    }
     uploadPicture();
 }
 
