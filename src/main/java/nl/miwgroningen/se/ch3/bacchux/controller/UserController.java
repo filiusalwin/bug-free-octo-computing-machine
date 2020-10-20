@@ -202,7 +202,6 @@ public class UserController {
         return "redirect:/user/";
     }
 
-
     public Optional<User> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!(principal instanceof UserDetails)) {
