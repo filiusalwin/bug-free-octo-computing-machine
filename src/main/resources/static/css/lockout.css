@@ -38,21 +38,21 @@ body.active {
 }
 .main {
     position: absolute;
-    top: 40%;
+    top: 30%;
     left: 35%;
     margin: -150px 0 0 -150px;
     width:800px;
     height:900px;
 }
 .main h1 { color: lightgray; text-shadow: 0 0 10px rgba(0,0,0,0.3); font-size: 60px; letter-spacing:1px; text-align:center; }
-.main h2 { color: gray; text-shadow: 0 0 10px rgba(0,0,0,0.3); font-size: 20px; letter-spacing:1px; text-align:center; }
+.main h2 { color: #808080; text-shadow: 0 0 10px rgba(0,0,0,0.3); font-size: 20px; letter-spacing:1px; text-align:center; }
 
 input {
     width: 50%;
     margin-bottom: 20px;
     background: rgba(0,0,0,0.3);
     padding: 10px;
-    font-size: 30px;
+    font-size: 25px;
     color: #fff;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
     border: 1px solid rgba(0,0,0,0.3);
@@ -65,7 +65,12 @@ input {
     transition: box-shadow .5s ease;
     margin-left: 25%;
 }
-input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgba(255,255,255,0.2); }
+input:focus { box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.4), 0 1px 1px rgba(255,255,255,0.2); }
+
+input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #1c1c1d;
+    opacity: 0.7; /* Firefox */
+}
 
 #name{
     color: lightgray;
@@ -451,16 +456,17 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
     text-align:center;
     padding-top: 10px;
     padding-bottom:50px;
+    font-size: 20px;
 }
 
 a.button{
-    background-color:#f6a7b3;
+    background-color:lightcyan;
 
-    background-image:-webkit-linear-gradient(top, #f6a7b3, #f0a3af);
+    background-image:-webkit-linear-gradient(top, black, grey);
     background-image:-moz-linear-gradient(top, #f6a7b3, #f0a3af);
     background-image:linear-gradient(top, #f6a7b3, #f0a3af);
 
-    border:1px solid #eb9ba7;
+    border:1px solid lightcyan;
     border-radius:2px;
 
     box-shadow:0 2px 2px #ccc;
