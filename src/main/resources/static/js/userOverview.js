@@ -1,6 +1,6 @@
 // ---- Globals ---- \\
 var newUser;
-var roleUser;
+var databaseRoleUser;
 
 
 // ---- Onload ---- \\
@@ -38,13 +38,13 @@ function checkCorrectRadioBox(userData) {
     if (userData.roles === "ROLE_CUSTOMER") {
         $("#customer").prop("checked", true);
         $("#resetPassword").hide();
-        roleUser = "Customer";
+        databaseRoleUser = "Customer";
     } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER") {
         $("#bartender").prop("checked", true);
-        roleUser = "Bartender";
+        databaseRoleUser = "Bartender";
     } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER") {
         $("#barmanager").prop("checked", true);
-        roleUser = "Barmanager";
+        databaseRoleUser = "Barmanager";
     }
 }
 
@@ -66,10 +66,11 @@ function fillOutForm(data) {
         if (this.value === 'ROLE_CUSTOMER') {
             $("#resetPassword").hide();
         } else {
-            $("#resetPassword").show();
-            if (roleUser === "Customer") {
+            // if database role was customer a password needs to be added
+            if (databaseRoleUser === "Customer") {
                 $("#resetPassword").html("Add password");
             }
+            $("#resetPassword").show();
         }
     });
     uploadPicture();
