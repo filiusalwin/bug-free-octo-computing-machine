@@ -38,9 +38,11 @@ public class UserController {
 
     @GetMapping("")
     protected String showUserForm(Model model) {
+
         if (currentSession.isLockscreenEnabled()) {
             return "lockscreen";
         }
+        currentSession.setPreviousUrl("/user");
         model.addAttribute("allUsers", userRepository.findAll());
         // to check Radio button "Customer"
         User user = new User();

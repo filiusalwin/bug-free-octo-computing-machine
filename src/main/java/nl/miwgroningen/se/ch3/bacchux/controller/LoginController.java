@@ -97,7 +97,7 @@ public class LoginController {
         }
         if (passwordEncoder.matches(currentPin, user.get().getPin())) {
             currentSession.setLockscreenEnabled(false);
-            return "redirect:/order/";
+            return "redirect:" + currentSession.getPreviousUrl();
         }
             return "redirect:/lockout?error" ;
     }

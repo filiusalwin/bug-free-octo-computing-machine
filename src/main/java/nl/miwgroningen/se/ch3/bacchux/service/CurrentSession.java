@@ -7,6 +7,16 @@ public class CurrentSession {
 
     private boolean lockscreenEnabled = false;
 
+    private String previousUrl = "";
+
+    public String getPreviousUrl() {
+        return previousUrl;
+    }
+
+    public void setPreviousUrl(String previousUrl) {
+        this.previousUrl = previousUrl;
+    }
+
     public boolean isLockscreenEnabled() {
         return lockscreenEnabled;
     }

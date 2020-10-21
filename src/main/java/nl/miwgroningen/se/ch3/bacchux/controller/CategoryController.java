@@ -33,6 +33,7 @@ public class CategoryController {
         if (currentSession.isLockscreenEnabled()) {
             return "lockscreen";
         }
+        currentSession.setPreviousUrl("/catalog");
         List<Category> allCategories = categoryRepository.findAll();
         List<Product> allProducts = productRepository.findAll();
         model.addAttribute("allCategories", allCategories);

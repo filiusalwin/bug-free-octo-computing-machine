@@ -37,6 +37,7 @@ public class OrderController {
         if (currentSession.isLockscreenEnabled()) {
             return "lockscreen";
         }
+        currentSession.setPreviousUrl("/order");
         model.addAttribute("allProducts", productRepository.findAll());
         model.addAttribute("allUsers", userRepository.findAll());
         User user = new User();
