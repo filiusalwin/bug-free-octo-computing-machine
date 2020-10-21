@@ -1,0 +1,26 @@
+{
+  "short_name": "BacchUX",
+  "name": "BacchUX: a professional P.O.S",
+  "description": "A product from team de Stijl from Ma IT work, 2020",
+  "icons": [
+    {
+      "src": "/images/defaultPicture.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "/http://localhost:8080/",
+  "background_color": "#3367D6",
+  "display": "fullscreen",
+  "scope": "/",
+  "theme_color": "#3367D6",
+  "shortcuts": [
+    {
+      "name": "BacchUX: a professional P.O.S",
+      "short_name": "BacchUX",
+      "description": "A product from team de Stijl from Ma IT work, 2020",
+      "url": "http://localhost:8080/",
+      "icons": [{ "src": "/images/defaultPicture.png", "sizes": "192x192" }]
+    }
+  ]
+}
