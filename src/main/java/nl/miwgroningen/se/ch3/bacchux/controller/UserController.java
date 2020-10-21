@@ -4,6 +4,7 @@ package nl.miwgroningen.se.ch3.bacchux.controller;
 import nl.miwgroningen.se.ch3.bacchux.model.IbanValidation;
 import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
+import nl.miwgroningen.se.ch3.bacchux.service.CurrentSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,8 +33,14 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    CurrentSession currentSession;
+
     @GetMapping("")
     protected String showUserForm(Model model) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         model.addAttribute("allUsers", userRepository.findAll());
         // to check Radio button "Customer"
         User user = new User();

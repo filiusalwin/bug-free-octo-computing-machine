@@ -4,6 +4,7 @@ import nl.miwgroningen.se.ch3.bacchux.model.Category;
 import nl.miwgroningen.se.ch3.bacchux.model.Product;
 import nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository;
 import nl.miwgroningen.se.ch3.bacchux.repository.ProductRepository;
+import nl.miwgroningen.se.ch3.bacchux.service.CurrentSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -20,11 +21,18 @@ public class CategoryController {
 
     @Autowired
     CategoryRepository categoryRepository;
+
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    CurrentSession currentSession;
+
     @GetMapping("")
     protected String showCatalog(Model model) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         List<Category> allCategories = categoryRepository.findAll();
         List<Product> allProducts = productRepository.findAll();
         model.addAttribute("allCategories", allCategories);
