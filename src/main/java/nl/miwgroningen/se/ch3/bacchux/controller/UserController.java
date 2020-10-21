@@ -200,7 +200,7 @@ public class UserController {
         }
 
         // Check role
-        if (user1.get().getUserId().equals(getCurrentUser().get().getUserId())){
+        if (user1.get().getUserId().equals(getCurrentUser().get().getUserId()) && !user1.get().getRoles().equals(user.getRoles())){
             user.setRoles(user1.get().getRoles());
             model.addAttribute("error", "You can not change your own roles.");
             return "userOverview";
