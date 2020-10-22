@@ -1,4 +1,4 @@
-const LOCKSCREEN_COUNTDOWN = 100; // 100 milliseconds then the app will be automatic locked
+const LOCKSCREEN_COUNTDOWN = 1; // 1 milliseconds then the app will be automatic locked
 const LOG_OUT_COUNTDOWN = 7200000; // 2 hours (7200000 ms) then the app wil log out
 const MESSAGE_COUNTDOWN = 10000; // 10 second then the locked message will be automatic disappear
 
