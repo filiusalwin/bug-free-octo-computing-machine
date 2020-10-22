@@ -211,7 +211,7 @@ public class UserController {
         }
 
         // Check role
-        if (user1.get().getUserId().equals(getCurrentUser().get().getUserId())){
+        if (user1.get().getUserId().equals(getCurrentUser().get().getUserId()) && !user1.get().getRoles().equals(user.getRoles())){
             user.setRoles(user1.get().getRoles());
             model.addAttribute("error", "You can not change your own roles.");
             return "userOverview";
@@ -221,7 +221,6 @@ public class UserController {
         userRepository.save(user);
         return "redirect:/user/";
     }
-
 
     public Optional<User> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
