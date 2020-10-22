@@ -11,6 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Base64;
 import javax.swing.text.html.Option;
 import java.util.Optional;
 
@@ -25,7 +29,9 @@ public class ProfileController {
     UserRepository userRepository;
 
     @GetMapping("")
-    protected String changeProfile() {
+    protected String changeProfile(Model model) {
+        Optional<User> user = getCurrentUser();
+        model.addAttribute("picture", user.get().convertToBase64());
         return "profileOverview";
     }
 

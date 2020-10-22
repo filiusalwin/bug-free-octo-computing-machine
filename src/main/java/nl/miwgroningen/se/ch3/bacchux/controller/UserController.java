@@ -38,23 +38,8 @@ public class UserController {
         // to check Radio button "Customer"
         User user = new User();
         model.addAttribute("user", user);
-        model.addAttribute("picture", convertToBase64(user));
+        model.addAttribute("picture", user.convertToBase64());
         return "userOverview";
-    }
-
-    public String convertToBase64(User user) {
-        String imageInBase64 = "";
-        try {
-            // Set a default image
-            File image = new File("src/main/resources/static/images/defaultPicture.png");
-            FileInputStream imageInFile = new FileInputStream(image);
-            byte[] imageInBytes = imageInFile.readAllBytes();
-            imageInBase64 += Base64.getEncoder().encodeToString(imageInBytes);
-        }
-        catch (IOException ioe) {
-            System.out.println("Exception while reading the Image " + ioe);
-        }
-        return imageInBase64;
     }
 
     @GetMapping("/update/{userId}")
