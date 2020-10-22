@@ -189,7 +189,9 @@
                             </div>
                             <input type="text" id="usernameInput" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" th:field="*{username}" onfocusout="checkIfUserNameExists()" required>
                         </div>
-                        <span id="usernameError" class="help">This username already exists.</span>
+                        <div class="alert alert-danger" id="usernameError" style="display: none;">
+                            This username already exists.
+                        </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend" >
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon4">Name</span>

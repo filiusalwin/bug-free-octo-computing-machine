@@ -1,11 +1,12 @@
 // ---- Globals ---- \\
 var newUser;
+var databaseRoleUser;
 
 
 // ---- Onload ---- \\
 $(document).ready(function() {
     setTimeout(function() {
-        $(".alert").alert('close');
+        $("#userSaveError, #userSaveSucces").alert('close');
     }, 5000);
 
     $(document).on('change', 'input', function(){
@@ -16,6 +17,8 @@ $(document).ready(function() {
         this.value = "";
     });
     $("#usernameError, #ibanError").hide();
+
+    showPicture();
 });
 
 
@@ -36,13 +39,18 @@ function getUserFromSearch() {
 function checkCorrectRadioBox(userData) {
     if (userData.roles === "ROLE_CUSTOMER") {
         $("#customer").prop("checked", true);
+        $("#resetPassword").hide();
+        databaseRoleUser = "Customer";
     } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER") {
         $("#bartender").prop("checked", true);
+        databaseRoleUser = "Bartender";
     } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER") {
         $("#barmanager").prop("checked", true);
+        databaseRoleUser = "Barmanager";
     }
 }
 
+// fill out form for an existing user
 function fillOutForm(data) {
     $("#userForm").attr("action", "/user/save");
     $("#modalLabel").html("Edit " + data.username);
@@ -56,7 +64,20 @@ function fillOutForm(data) {
     $("#prepaid_balance").val(data.balance);
     $("#Credit").prop("checked", data.creditAllowed);
     $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
-    uploadPicture();
+    if(data.picture === null) {
+    resetPicture();
+    }
+    $('input[type=radio][name=roles]').change(function() {
+        if (this.value === 'ROLE_CUSTOMER') {
+            $("#resetPassword").hide();
+        } else {
+            // if database role was customer a password needs to be added
+            if (databaseRoleUser === "Customer") {
+                $("#resetPassword").html("Add password");
+            }
+            $("#resetPassword").show();
+        }
+    });
 }
 
 // edit existing user
@@ -102,13 +123,12 @@ function openModalNewUser() {
         }
     });
     resetPicture();
-    uploadPicture();
 }
 function resetPicture() {
-    $("#profileFoto").attr('src','images/defaultPicture.png');
+    $("#profileFoto").attr('src','/images/defaultPicture.png');
 }
 
-function uploadPicture(){
+function showPicture(){
     $(".custom-file-input").on("change", function() {
         var fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -131,7 +151,9 @@ function uploadPicture(){
             $( ".imguploadok" ).show("slow");
             $('#namefile').html(fileName + " is a good picture!");
             $('#namefile').css({"color":"green","font-weight":600});
-            readURL(this)
+
+            // show new image
+            readURL(this);
         }
     });
 }
@@ -142,7 +164,7 @@ function readURL(input) {
 
         reader.onload = function (e) {
             $('#profileFoto')
-                .attr('src', e.target.result)
+                .attr('src', e.target.result);
         };
 
         reader.readAsDataURL(input.files[0]);
@@ -166,7 +188,7 @@ function checkIfUserNameExists() {
             }
         }
     }).done(function (data) {
-        if (data !== null) {
+        if (data !== null || data !== "") {
             $("#usernameError").show();
             return;
         }
@@ -197,11 +219,9 @@ function ibanValidation() {
 
 // ---- Direct Links ---- \\
 function deleteUser() {
-    var userId = $("#userIdInput").val();
+   var userId = $("#userIdInput").val();
     window.location.href = "/user/delete/" + userId;
 }
-
-
 
 function resetPassword() {
     userId = $("#userIdInput").val();

@@ -1,6 +1,9 @@
 package nl.miwgroningen.se.ch3.bacchux.model;
 
 import javax.persistence.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 
@@ -41,6 +44,9 @@ public class User implements Comparable<User> {
 
     private Integer balance;
 
+    @Lob
+    private byte[] picture;
+
     public String balanceEuro(){
         double balanceInEuro;
         if (balance == null) {
@@ -50,9 +56,6 @@ public class User implements Comparable<User> {
         }
         return String.format("€%.2f", balanceInEuro);
     }
-
-    @Lob
-    private byte[] picture;
 
     public Integer getCreditTotal() {
         int total = 0;
@@ -72,6 +75,26 @@ public class User implements Comparable<User> {
                 .replace("ROLE_BARTENDER", "Bartender")
                 .replace("ROLE_CUSTOMER", "Customer")
                 .replace(",", ", ");
+    }
+
+    public String convertToBase64() {
+        String imageInBase64 = "";
+        if (this.getPicture() == null){
+            try {
+                // Set a default image
+                File image = new File("src/main/resources/static/images/defaultPicture.png");
+                FileInputStream imageInFile = new FileInputStream(image);
+                byte[] imageInBytes = imageInFile.readAllBytes();
+                imageInBase64 += Base64.getEncoder().encodeToString(imageInBytes);
+            }
+            catch (IOException ioe) {
+                System.out.println("Exception while reading the Image " + ioe);
+            }
+            return imageInBase64;
+        }
+        //Use custom image
+        imageInBase64 += Base64.getEncoder().encodeToString(this.getPicture());
+        return imageInBase64;
     }
 
     public byte[] getPicture() {

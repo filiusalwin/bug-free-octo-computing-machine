@@ -7,13 +7,23 @@
 </head>
 <body>
 <nav th:replace="fragments/navbar :: navbar" />
-<div class="container">
-    <h1>"Good morning/afternoon/evening," Welcome "username"!</h1>
+<div class="container text-center text-secondary">
+    <h1> Welcome to BacchUX! </h1>
+    <h1 th:inline="text">[[${#httpServletRequest.remoteUser}]]</h1>
     <div class="alert alert-success" id="saveSucces" th:text="${success}" th:if="${success}"/>
+</div>
+<div>
+    <div class="text-center">
+        <img id="profileFoto" th:src="|data:image/jpeg;base64,${picture}|"
+             class="img-fluid " alt="Profile Picture" style="width: 300px; height: 200px"/></div>
+</div>
+</div>
+<div class="container text-center ">
     <div class="row">
-
-        <div class="col">
-            This page is for changing your password and your pin, and maybe see your beautiful profile picture.
+        <div class="col-sm">
+            <a th:href="@{/profile/password}"><button type="button" class="btn btn-secondary px-md-5 mt-5" >Change your password</button></a>
+           <br>
+            <a th:href="@{/profile/pin}"><button type="button" class="btn btn-secondary px-md-5 mt-5" >Change your pin code</button></a>
         </div>
     </div>
 </div>
