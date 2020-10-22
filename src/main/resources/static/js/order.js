@@ -14,7 +14,7 @@ $(document).ready(function() {
     paymentSuccess();
     savingCustomerSuccess();
     savingCustomerError();
-    $("#usernameError, #profileFotoTag,#profileFoto, #chooseUser").hide();
+    $("#usernameError, #profileFoto, #chooseUser").hide();
     $("#categoryList > button:first-child").trigger("click");
 
     // event listeners
@@ -23,7 +23,7 @@ $(document).ready(function() {
         clearUser();
     });
 
-    showPicture();
+    resetPicture();
 });
 
 
@@ -43,6 +43,13 @@ function clearUser() {
     $("#searchUser").val("");
     showCustomerInfo();
     showPaymentStuff(false, false);
+    resetPicture();
+    $("#profileFoto,#chooseUser").hide();
+}
+
+function resetPicture(){
+    $("#profileFoto").attr('src','/images/defaultPicture.png');
+    $("#profileFoto2").attr('src','/images/defaultPicture.png');
 }
 
 function showPayment() {
@@ -81,6 +88,10 @@ function chooseCustomer(data) {
     }
     showPaymentStuff(data.prepaidAllowed, data.creditAllowed);
     $("#chooseUser").show();
+    if (data.username == null) {
+        $("#profileFoto").attr('src','/images/defaultPicture.png');
+    }
+    showPicture();
 
 }
 
@@ -96,9 +107,10 @@ function showCustomerInfo(data) {
             + "<br>Credit "
             + formatCurrencyString(data.currentCredit);
     $("#customerInfo").html(info);
+    $("#profileFoto").show();
     $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
     $("#profileFoto2").attr('src','data:image/png;base64,' + data.picture);
-    $("#profileFotoTag,#profileFoto").show();
+
 }
 
 // Change picture when new user is chosen
