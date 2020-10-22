@@ -4,16 +4,18 @@ import nl.miwgroningen.se.ch3.bacchux.model.CreditPayment;
 import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.repository.CreditPaymentRepository;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
+import nl.miwgroningen.se.ch3.bacchux.utils.CurrencyFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.CollectionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/payment/credit")
@@ -49,6 +51,32 @@ public class CreditRestController {
         creditPaymentRepository.save(payment);
 
         return new ResponseEntity<>("Transaction successful", HttpStatus.OK);
+    }
+
+    @PostMapping("/clear/{userId}")
+    protected ResponseEntity clearCreditPayments(@PathVariable("userId") final Integer userId) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        User user = userOpt.get();
+        if (!user.isCreditAllowed()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        List<CreditPayment> payments = creditPaymentRepository.findByCustomer(user);
+        CollectionUtils.filter(payments, payment -> !((CreditPayment) payment).isPaid());
+
+        int total = 0;
+        for (CreditPayment payment : payments) {
+            payment.setPaid(true);
+            creditPaymentRepository.save(payment);
+            total += payment.getAmount();
+        }
+        int newBalance = Math.max(user.getBalance() - total, 0);
+        user.setBalance(newBalance);
+        userRepository.save(user);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public Optional<User> getCurrentUser() {

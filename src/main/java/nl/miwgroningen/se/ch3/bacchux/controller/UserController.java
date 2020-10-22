@@ -1,10 +1,14 @@
 package nl.miwgroningen.se.ch3.bacchux.controller;
 
 
+import nl.miwgroningen.se.ch3.bacchux.model.CreditPayment;
 import nl.miwgroningen.se.ch3.bacchux.model.IbanValidation;
 import nl.miwgroningen.se.ch3.bacchux.model.User;
+import nl.miwgroningen.se.ch3.bacchux.repository.CreditPaymentRepository;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
+import nl.miwgroningen.se.ch3.bacchux.utils.CurrencyFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.CollectionUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+import java.util.Optional;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -31,6 +37,9 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CreditPaymentRepository creditPaymentRepository;
 
     @GetMapping("")
     protected String showUserForm(Model model) {
@@ -230,4 +239,33 @@ public class UserController {
         return "redirect:/user/";
     }
 
+    @GetMapping("/bill/{userId}")
+    protected String showUserBill(Model model, @PathVariable("userId") final Integer userId) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) {
+            return "redirect:/user/";
+        }
+        User user = userOpt.get();
+
+        model.addAttribute("user", user);
+
+        Integer creditTotal = user.getCreditTotal();
+        model.addAttribute("creditTotal", CurrencyFormatter.formatCurrency(creditTotal));
+
+        Integer balanceBefore = user.getBalance();
+        model.addAttribute("balanceBefore", CurrencyFormatter.formatCurrency(balanceBefore));
+
+        // calculate total for bill
+        Integer billTotal = balanceBefore > creditTotal ? 0 : creditTotal - balanceBefore;
+        model.addAttribute("billTotal", CurrencyFormatter.formatCurrency(billTotal));
+
+        // calculate remaining balance
+        Integer balanceAfter = balanceBefore > creditTotal ? balanceBefore - creditTotal : 0;
+        model.addAttribute("balanceAfter", CurrencyFormatter.formatCurrency(balanceAfter));
+
+        List<CreditPayment> creditPayments = creditPaymentRepository.findByCustomer(user);
+        CollectionUtils.filter(creditPayments, payment -> !((CreditPayment) payment).isPaid());
+        model.addAttribute("creditPayments", creditPayments);
+        return "userBill";
+    }
 }
