@@ -77,19 +77,17 @@ function checkIfCategoryNameExists() {
     }
     $.ajax({
         type: "GET",
-        url: "/catalog/byCategoryName/" + categoryName,
+        url: "/catalog/byCategoryName/" + categoryNameAfterTyping,
         statusCode: {
             404: function () {
                 return;
             }
         }
     }).done(function (data) {
-        console.log(data);
         if (data !== "") {
             $("#categorySaveErrorFrontEnd").show();
             return;
         }
-        console.log("test");
         $("#categorySaveErrorFrontEnd").hide();
     });
 }
