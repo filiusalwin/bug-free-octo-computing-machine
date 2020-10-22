@@ -14,7 +14,7 @@ $(document).ready(function() {
     paymentSuccess();
     savingCustomerSuccess();
     savingCustomerError();
-    $("#usernameError, #profileFotoTag,#profileFoto").hide();
+    $("#usernameError, #profileFotoTag,#profileFoto, #chooseUser").hide();
     $("#categoryList > button:first-child").trigger("click");
 
     // event listeners
@@ -80,6 +80,7 @@ function chooseCustomer(data) {
         $("#noPaymentError").show();
     }
     showPaymentStuff(data.prepaidAllowed, data.creditAllowed);
+    $("#chooseUser").show();
 
 }
 
@@ -106,6 +107,10 @@ function showPicture(){
         $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
         $("#profileFoto2").attr('src','data:image/png;base64,' + data.picture);
     });
+}
+
+function chooseThisUser() {
+    $('.modal').modal('hide');
 }
 
 function getCustomerByUsernameAnd(username, callback) {
