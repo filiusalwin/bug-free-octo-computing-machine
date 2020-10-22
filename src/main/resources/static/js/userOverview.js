@@ -16,7 +16,8 @@ $(document).ready(function() {
     $("#searchUser").click(function() {
         this.value = "";
     });
-    $("#usernameError, #ibanError").hide();
+    $("#usernameError").hide();
+    ibanError();
 
     showPicture();
 });
@@ -196,8 +197,23 @@ function checkIfUserNameExists() {
     });
 }
 
+function ibanError(msg) {
+    const error = $("#ibanError");
+    if (!msg) {
+        error.text("");
+        $("#saveButton").prop("disabled", false);
+    } else {
+        error.text(msg);
+        $("#saveButton").prop("disabled", true);
+    }
+}
+
 function ibanValidation() {
     var iban = $("#credit_account").val();
+    if (iban.length != 18 && iban.length != 0) {
+        ibanError("IBAN must be 18 characters.");
+        return;
+    }
     $.ajax({
         type: "GET",
         url: "/user/ibanValid/",
@@ -206,11 +222,9 @@ function ibanValidation() {
         },
     }).done(function(ibanData) {
         if (!ibanData && iban) {
-            $("#ibanError").show();
-            $("#saveButton").prop("disabled", true);
+            ibanError("This IBAN is not valid.")
         } else {
-            $("#ibanError").hide();
-            $("#saveButton").prop("disabled", false);
+            ibanError();
         }
 
     });
