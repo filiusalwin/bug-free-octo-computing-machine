@@ -96,6 +96,7 @@ function showCustomerInfo(data) {
             + formatCurrencyString(data.currentCredit);
     $("#customerInfo").html(info);
     $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
+    $("#profileFoto2").attr('src','data:image/png;base64,' + data.picture);
     $("#profileFotoTag,#profileFoto").show();
 }
 
@@ -103,6 +104,7 @@ function showCustomerInfo(data) {
 function showPicture(){
     $("#searchUser").on("change", function() {
         $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
+        $("#profileFoto2").attr('src','data:image/png;base64,' + data.picture);
     });
 }
 
