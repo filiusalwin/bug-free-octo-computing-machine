@@ -1,5 +1,6 @@
 var newCategory;
 var newProduct;
+var categoryId;
 
 $(document).ready(function() {
     $("#categorySaveErrorFrontEnd").hide();
@@ -8,7 +9,7 @@ $(document).ready(function() {
     categoryId = $("#categoryId").text();
     selectCategory(categoryId);
     setTimeout(function () {
-        $("#categorySaveError, #productSaveError").alert('close');
+        $("#categorySaveError, #categorySaveSuccess #productSaveError,#productSaveSuccess" ).alert('close');
     }, 5000);
 });
 
@@ -25,10 +26,15 @@ function openModalNewProduct() {
 }
 
 function editProduct(id) {
+    console.log(id);
+    product = $('#product' + id);
+    var data = {
+        name : product.attr("productName"),
+        productId : product.attr("productId"),
+        price: product.attr("productPrice"),
+    }
     $('#maintainProductModal').modal('show');
     fillOutProductModal(data);
-
-
 }
 
 function fillOutForm(data) {
@@ -44,6 +50,8 @@ function fillOutProductModal(data) {
     $("#productNameInput, #originalProductName").val(data.name);
     $("#productPriceInput, #originalProductPrice").val(data.price);
     $("#productId").val(data.productId);
+    $("#productCategoryIdInput").val(categoryId);
+    $("#productForm").attr("action", "/catalog/product/update/" + data.productId);
 
 }
 
@@ -61,7 +69,6 @@ function addCategoryByCategoryName(categoryName) {
     });
 }
 
-//TODO this method is not correct yet
 function checkIfCategoryNameExists() {
     categoryNameAfterTyping = $("#categoryNameInput").val();
     if (categoryName == categoryNameAfterTyping ) {
@@ -89,6 +96,7 @@ function checkIfCategoryNameExists() {
 
 function selectCategory(id) {
     var highlightClass = "list-group-item-dark"
+    categoryId = id;
     $("#productForm").attr("action", "/catalog/product/" + id + "/add");
     // unhighlight all buttons
     $(".categoryButton").removeClass(highlightClass);

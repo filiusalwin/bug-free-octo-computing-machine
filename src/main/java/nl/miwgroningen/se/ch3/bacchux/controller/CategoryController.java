@@ -59,10 +59,11 @@ public class CategoryController {
                 return  "redirect:/catalog/";
             }
         }
+        redirAttrs.addFlashAttribute("success", "The category " + category.getName() + " is added.");
         return "redirect:/catalog/";
     }
 
-    @GetMapping("/update/{categoryId}")
+    @PostMapping("/update/{categoryId}")
     protected String UpdateCategoryForm(Model model,
                                     @PathVariable("categoryId") final Integer categoryId) {
         model.addAttribute("allCategories", categoryRepository.findAll());

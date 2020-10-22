@@ -75,23 +75,28 @@ public class ProductController {
                 return "redirect:/catalog/product/" + categoryId;
             }
         }
+        redirAttrs.addFlashAttribute("success1", "The product " + product.getName() + " is added.");
         return "redirect:/catalog/product/" + categoryId;
     }
 
-    @GetMapping("/update/{productId}")
-    protected String UpdateProductForm(Model model,
-                                       @PathVariable("productId") final Integer productId) {
-        Optional<Product> product = productRepository.findById(productId);
-        if (product.isPresent()) {
-            Category category = product.get().getCategory();
-            product.get().setCategory(category);
-            model.addAttribute(product.get());
-            model.addAttribute("categoryId", category.getCategoryId());
-            return "productForm";
-        } else {
-            model.addAttribute(new Product());
+    @PostMapping("/update/{productId}")
+    protected String UpdateProductForm(@PathVariable("productId") final Integer productId,
+                                       @RequestParam("categoryId") final Integer categoryId,
+                                       @ModelAttribute("product") Product product,
+                                       RedirectAttributes redirAttrs) {
+        Optional<Product> optional = productRepository.findById(productId);
+        Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
+        if (!optionalCategory.isPresent()||!optional.isPresent()) {
+            redirAttrs.addFlashAttribute("error1", "No product is added.");
+            return "redirect:/catalog/";
         }
-        return "redirect:/catalog/product/" + product.get().getCategory().getCategoryId();
+            optional.get().setCategory(optionalCategory.get());
+            optional.get().setName(product.getName());
+            optional.get().setPrice(product.getPrice());
+            optional.get().setProductId(productId);
+            productRepository.save(optional.get());
+        redirAttrs.addFlashAttribute("success1", "The product " + product.getName() + " is added.");
+        return "redirect:/catalog/product/" + optional.get().getCategory().getCategoryId();
     }
 
     @GetMapping("/delete/{productId}")
