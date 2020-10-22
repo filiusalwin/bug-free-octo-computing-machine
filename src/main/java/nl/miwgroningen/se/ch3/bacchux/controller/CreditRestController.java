@@ -66,11 +66,15 @@ public class CreditRestController {
         List<CreditPayment> payments = creditPaymentRepository.findByCustomer(user);
         CollectionUtils.filter(payments, payment -> !((CreditPayment) payment).isPaid());
 
-
+        int total = 0;
         for (CreditPayment payment : payments) {
             payment.setPaid(true);
             creditPaymentRepository.save(payment);
+            total += payment.getAmount();
         }
+        int newBalance = Math.max(user.getBalance() - total, 0);
+        user.setBalance(newBalance);
+        userRepository.save(user);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

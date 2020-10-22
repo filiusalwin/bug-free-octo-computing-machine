@@ -40,11 +40,19 @@ function appendSpan(parent, content, width, type) {
 function deductPayment() {
     $("#error").hide();
     $.ajax({
-        type: "GET",
-        url: "/user/"
+        type: "POST",
+        url: "/payment/credit/clear/" + $("#userId").val()
     }).done(data => {
         location.href = "/user";
-    }).fail(_ => {
+    }).fail(jqXHR => {
+        console.table(jqXHR.responseText);
         $("#error").show();
     });
+}
+
+function printPage() {
+    var buttons = $(".hideOnPrint");
+    buttons.hide();
+    print();
+    buttons.show();
 }
