@@ -75,7 +75,7 @@ public class ProductController {
                 return "redirect:/catalog/product/" + categoryId;
             }
         }
-        redirAttrs.addFlashAttribute("success1", "The product " + product.getName() + " is added.");
+        redirAttrs.addFlashAttribute("success1", "The product " + product.getName() + " is saved.");
         return "redirect:/catalog/product/" + categoryId;
     }
 
@@ -95,7 +95,7 @@ public class ProductController {
             optional.get().setPrice(product.getPrice());
             optional.get().setProductId(productId);
             productRepository.save(optional.get());
-        redirAttrs.addFlashAttribute("success1", "The product " + product.getName() + " is added.");
+        redirAttrs.addFlashAttribute("success1", "The product " + product.getName() + " is saved.");
         return "redirect:/catalog/product/" + optional.get().getCategory().getCategoryId();
     }
 

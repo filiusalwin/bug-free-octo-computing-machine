@@ -59,7 +59,7 @@ public class CategoryController {
                 return  "redirect:/catalog/";
             }
         }
-        redirAttrs.addFlashAttribute("success", "The category " + category.getName() + " is added.");
+        redirAttrs.addFlashAttribute("success", "The category " + category.getName() + " is saved.");
         return "redirect:/catalog/";
     }
 
