@@ -60,6 +60,4 @@ public class UserRestController {
         IbanValidation ibanValidation = new IbanValidation();
         return ibanValidation.validateIban(iban);
     }
-
-
 }

@@ -18,6 +18,7 @@ public class UserDTO {
         balance = user.getBalance();
         creditPaymentBankAccountNumber = user.getCreditPaymentBankAccountNumber();
         currentCredit = user.getCreditTotal();
+        picture = user.getPicture();
     }
 
     private Integer userId;
@@ -36,9 +37,19 @@ public class UserDTO {
 
     private Integer balance;
 
+    private byte[] picture;
+
     private String creditPaymentBankAccountNumber;
 
     private Integer currentCredit;
+
+    public byte[] getPicture() {
+        return picture;
+    }
+
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
+    }
 
     public Integer getCurrentCredit() {
         return currentCredit;

@@ -1,11 +1,12 @@
 // ---- Globals ---- \\
 var newUser;
+var databaseRoleUser;
 
 
 // ---- Onload ---- \\
 $(document).ready(function() {
     setTimeout(function() {
-        $(".alert").alert('close');
+        $("#userSaveError, #userSaveSucces").alert('close');
     }, 5000);
 
     $(document).on('change', 'input', function(){
@@ -16,6 +17,8 @@ $(document).ready(function() {
         this.value = "";
     });
     $("#usernameError, #ibanError").hide();
+
+    showPicture();
 });
 
 
@@ -36,18 +39,23 @@ function getUserFromSearch() {
 function checkCorrectRadioBox(userData) {
     if (userData.roles === "ROLE_CUSTOMER") {
         $("#customer").prop("checked", true);
+        $("#resetPassword").hide();
+        databaseRoleUser = "Customer";
     } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER") {
         $("#bartender").prop("checked", true);
+        databaseRoleUser = "Bartender";
     } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER") {
         $("#barmanager").prop("checked", true);
+        databaseRoleUser = "Barmanager";
     }
 }
 
+// fill out form for an existing user
 function fillOutForm(data) {
     $("#userForm").attr("action", "/user/save");
     $("#modalLabel").html("Edit " + data.username);
     $("#usernameInput, #originalUsername").val(data.username);
-    $("#usernameError,#password_pincode").hide();
+    $("#usernameError, #password_pincode,.custom-file").hide();
     $("#Prepaid-Choice-Label, #resetPassword").show();
     $("#Prepaid-Choice-Label").html("The prepaid balance: " + data.balance);
     $("#userIdInput").val(data.userId);
@@ -55,8 +63,21 @@ function fillOutForm(data) {
     $("#Prepaid").prop("checked", data.prepaidAllowed);
     $("#prepaid_balance").val(data.balance);
     $("#Credit").prop("checked", data.creditAllowed);
-    $("#credit_account").val(data.creditPaymentBankAccountNumber);
-
+    $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
+    if(data.picture === null) {
+    resetPicture();
+    }
+    $('input[type=radio][name=roles]').change(function() {
+        if (this.value === 'ROLE_CUSTOMER') {
+            $("#resetPassword").hide();
+        } else {
+            // if database role was customer a password needs to be added
+            if (databaseRoleUser === "Customer") {
+                $("#resetPassword").html("Add password");
+            }
+            $("#resetPassword").show();
+        }
+    });
 }
 
 // edit existing user
@@ -85,7 +106,7 @@ function openModalNewUser() {
     $('#maintainUserModal').modal('show');
     $("#modalLabel").html("New User");
     $("#usernameInput, #password, #userIdInput, #nameInput, #credit_account").val("");
-    $("#usernameError, #Prepaid-Choice-Label, #resetPassword").hide();
+    $("#usernameError, #Prepaid-Choice-Label, #resetPassword, .custom-file").hide();
     $("#bartender, #barmanager, #Prepaid, #Credit").prop("checked",false);
     $("#customer").prop("checked",true);
     $("#password_pincode").hide();
@@ -101,6 +122,53 @@ function openModalNewUser() {
             $("#pin").prop('required',true);
         }
     });
+    resetPicture();
+}
+function resetPicture() {
+    $("#profileFoto").attr('src','/images/defaultPicture.png');
+}
+
+function showPicture(){
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+        //if file is not valid we show the error icon and the red alert
+        if (fileName.indexOf(".jpg") === -1 && fileName.indexOf(".png") === -1 && fileName.indexOf(".jpeg") === -1 &&
+            fileName.indexOf(".bmp") === -1 && fileName.indexOf(".JPG") === -1 && fileName.indexOf(".PNG") === -1 &&
+            fileName.indexOf(".JPEG") === -1 && fileName.indexOf(".BMP") === -1) {
+            $( ".imgupload" ).hide("slow");
+            $( ".imguploadok" ).hide("slow");
+            $( ".imguploadstop" ).show("slow");
+            $('#namefile').css({"color":"red","font-weight":600});
+            $('#namefile').html(fileName + " is not an image. Please choose a picture!");
+            $( "#saveButton").disable();
+
+        } else {
+            //if file is valid we show the green alert
+            $( ".imgupload" ).hide("slow");
+            $( ".imguploadstop" ).hide("slow");
+            $( ".imguploadok" ).show("slow");
+            $('#namefile').html(fileName + " is a good picture!");
+            $('#namefile').css({"color":"green","font-weight":600});
+
+            // show new image
+            readURL(this);
+        }
+    });
+}
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#profileFoto')
+                .attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
 }
 
 function keyPressed(){
@@ -148,11 +216,14 @@ function ibanValidation() {
 // ---- Direct Links ---- \\
 function deleteUser() {
    var userId = $("#userIdInput").val();
-    console.log($("#userIdInput").val());
     window.location.href = "/user/delete/" + userId;
 }
 
 function resetPassword() {
     userId = $("#userIdInput").val();
     window.location.assign("/profile/passwordreset/" + userId);
+}
+
+function changeProfilePicture() {
+    $(".custom-file").toggle();
 }
