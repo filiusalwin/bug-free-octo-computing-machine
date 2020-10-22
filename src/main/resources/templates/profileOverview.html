@@ -9,7 +9,9 @@
 <nav th:replace="fragments/navbar :: navbar" />
 <div class="container">
     <h1>"Good morning/afternoon/evening," Welcome "username"!</h1>
+    <div class="alert alert-success" id="saveSucces" th:text="${success}" th:if="${success}"/>
     <div class="row">
+
         <div class="col">
             This page is for changing your password and your pin, and maybe see your beautiful profile picture.
         </div>
@@ -17,5 +19,6 @@
 </div>
 <div th:replace="fragments/footer :: footer"/>
 <div th:replace="fragments/header :: scriptFragment" />
+<script type="text/javascript" th:src="@{/js/profileOverview.js}" ></script>
 </body>
 </html>

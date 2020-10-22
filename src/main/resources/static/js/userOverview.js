@@ -74,7 +74,6 @@ function fillOutForm(data) {
         }
     });
     uploadPicture();
-
 }
 
 // edit existing user
@@ -122,7 +121,6 @@ function openModalNewUser() {
     resetPicture();
     uploadPicture();
 }
-
 function resetPicture() {
     $("#profileFoto").attr('src','images/defaultPicture.png');
 }
