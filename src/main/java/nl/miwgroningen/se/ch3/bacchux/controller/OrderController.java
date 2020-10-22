@@ -4,6 +4,7 @@ import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository;
 import nl.miwgroningen.se.ch3.bacchux.repository.ProductRepository;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
+import nl.miwgroningen.se.ch3.bacchux.service.CurrentSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -28,8 +29,15 @@ public class OrderController {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Autowired
+    CurrentSession currentSession;
+
     @GetMapping("")
     protected String showCatalog(Model model) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
+        currentSession.setPreviousUrl("/order");
         model.addAttribute("allProducts", productRepository.findAll());
         model.addAttribute("allUsers", userRepository.findAll());
         User user = new User();

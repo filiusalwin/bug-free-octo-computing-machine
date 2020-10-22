@@ -6,6 +6,7 @@ import nl.miwgroningen.se.ch3.bacchux.model.IbanValidation;
 import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.repository.CreditPaymentRepository;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
+import nl.miwgroningen.se.ch3.bacchux.service.CurrentSession;
 import nl.miwgroningen.se.ch3.bacchux.utils.CurrencyFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.CollectionUtils;
@@ -41,8 +42,16 @@ public class UserController {
     @Autowired
     CreditPaymentRepository creditPaymentRepository;
 
+    @Autowired
+    CurrentSession currentSession;
+
     @GetMapping("")
     protected String showUserForm(Model model) {
+
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
+        currentSession.setPreviousUrl("/user");
         model.addAttribute("allUsers", userRepository.findAll());
         // to check Radio button "Customer"
         User user = new User();

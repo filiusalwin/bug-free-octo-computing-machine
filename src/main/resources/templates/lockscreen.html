@@ -21,8 +21,8 @@
         <a class="button">Switch Theme</a>
     </div>
 
-    <h1>Welcome to BacchUX, <label id="name" sec:authentication="name"></label>!</h1>
-    <form th:action="@{/lockout}" method="post">
+    <h1>Welcome to BacchUX, <label id="name" th:text="${userName}"></label>!</h1>
+      <form th:action="@{/lockout}" method="post">
         <div id='form' >
             <input id='pin' name='pin' type='password' placeholder="My pincode" />
             <button id="lock" class="btn btn-lg btn-secondary btn-block " onclick="lockscreen()">Lock </button>
@@ -30,12 +30,11 @@
         </div>
         <div th:if="${param.error}">
             <div style="color:black" class="error">
-                The program is now locked.
+                Please enter your pincode to unlock.
             </div>
         </div>
     </form>
 </div>
-<button id="cancel" class="btn btn-lg btn-secondary btn-block " onclick="goBack()">Back </button>
 <div th:replace="fragments/header :: scriptFragment" />
 <script type="text/javascript" th:src="@{/js/lockout.js}" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>

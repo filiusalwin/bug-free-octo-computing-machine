@@ -44,7 +44,7 @@ body.active {
     width:800px;
     height:900px;
 }
-.main h1 { color: lightgray; text-shadow: 0 0 10px rgba(0,0,0,0.3); font-size: 60px; letter-spacing:1px; text-align:center; }
+.main h1 { color: lightgray; text-shadow: 0 0 10px rgba(0,0,0,0.3); font-size: 50px; letter-spacing:1px; text-align:center; }
 .main h2 { color: #808080; text-shadow: 0 0 10px rgba(0,0,0,0.3); font-size: 20px; letter-spacing:1px; text-align:center; }
 
 input {

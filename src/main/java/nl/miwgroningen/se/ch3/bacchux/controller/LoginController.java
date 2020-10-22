@@ -2,11 +2,13 @@ package nl.miwgroningen.se.ch3.bacchux.controller;
 
 import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
+import nl.miwgroningen.se.ch3.bacchux.service.CurrentSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +21,9 @@ import java.util.Optional;
 
 @Controller
 public class LoginController {
+
+    @Autowired
+    CurrentSession currentSession;
 
     @Autowired
     UserRepository userRepository;
@@ -43,11 +48,6 @@ public class LoginController {
     public String login() {
         checkForFirstUser();
         return "login";
-    }
-
-    @GetMapping("/403")
-    public String error403() {
-        return "/403";
     }
 
     public void checkForFirstUser() {
@@ -75,12 +75,19 @@ public class LoginController {
         userRepository.save(newUser);
     }
 
+    @GetMapping("/403")
+    public String error403() {
+        return "/403";
+    }
+
     @GetMapping("/lockout")
-    public String lockout() {
+    public String lockout(Model model) {
         Optional<User> user = getCurrentUser();
         if (user.isEmpty()) {
             return "redirect:/login";
         }
+        model.addAttribute("userName", user.get().getName());
+        currentSession.setLockscreenEnabled(true);
         return "lockscreen";
     }
 
@@ -91,7 +98,8 @@ public class LoginController {
             return "redirect:/login";
         }
         if (passwordEncoder.matches(currentPin, user.get().getPin())) {
-            return "redirect:/order/";
+            currentSession.setLockscreenEnabled(false);
+            return "redirect:" + currentSession.getPreviousUrl();
         }
             return "redirect:/lockout?error" ;
     }
