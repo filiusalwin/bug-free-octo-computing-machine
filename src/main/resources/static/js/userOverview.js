@@ -210,7 +210,11 @@ function ibanError(msg) {
 
 function ibanValidation() {
     var iban = $("#credit_account").val();
-    if (iban.length != 18 && iban.length != 0) {
+    if (iban.length == 0) {
+        ibanError();
+        return;
+    }
+    if (iban.length != 18) {
         ibanError("IBAN must be 18 characters.");
         return;
     }
