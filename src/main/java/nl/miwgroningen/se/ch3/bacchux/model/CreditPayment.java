@@ -50,7 +50,6 @@ public class CreditPayment {
     public String getDateAndTimeString() {
         Date date = new Date();
         date.setTime(timestamp.getTime());
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm");
         return new SimpleDateFormat("dd MMM yyyy, HH:mm").format(date);
     }
 
