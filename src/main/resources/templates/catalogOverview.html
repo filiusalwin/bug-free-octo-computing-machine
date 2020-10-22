@@ -19,15 +19,18 @@
                 <div class="d-flex border-bottom">
                     <h2>
                         Categories
+                        <span id="categoryId" hidden th:text="${category.getCategoryId()}"></span>
                     </h2>
                     <button class="btn btn-secondary ml-auto font-xl" onclick="openModalNewCategory()" data-toggle="modal"
                             data-target="#maintainCategoryModal">+</button>
                 </div>
+                <div class="alert alert-danger" role="alert" id="categorySaveError" th:text="${error}" th:if="${error}"></div>
                 <div class="list-group list-group-flush" id="categoryList">
                     <button class="list-group-item list-group-item-action categoryButton"
                             th:each="category: ${allCategories}"
                             th:id="${'category' + category.getCategoryId()}"
-                            th:attr="categoryName=${category.getName()}, onclick=|selectCategory(${category.getCategoryId()})|,
+                            th:attr="categoryName=${category.getName()},
+                            onclick=|selectCategory(${category.getCategoryId()})|,
                             ondblclick=|addCategoryByCategoryName('${category.name}')|">
                         <span th:text="${category.name}"/>
                     </button>
@@ -39,8 +42,9 @@
                         Products
                     </h2>
                     <button class="btn btn-secondary ml-auto font-xl" onclick="openModalNewProduct()" data-toggle="modal"
-                            data-target="#maintainProductModal">+</button>
+                            data-target="#maintainProductModal" th:if="${allCategories.size()>0}">+</button>
                 </div>
+                <div class="alert alert-danger" role="alert" id="productSaveError" th:text="${error1}" th:if="${error1}"></div>
                 <div class="list-group list-group-flush" id="productList">
                     <button class="list-group-item list-group-item-action d-flex productListItem"
                             th:each="product: ${allProducts}"
@@ -72,10 +76,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="categoryForm" action="#" th:action="@{/catalog/add}" th:object="${category}"
-                          method="post">
-                        <div id="categoryIdInput" input="hidden">
-                        </div>
+                    <form id="categoryForm" action="#"
+                          th:action="@{/catalog/add}"
+                          th:object="${category}" method="post">
+                        <p><input type="hidden" id="categoryIdInput" th:field="*{categoryId}"/></p>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon1">Name</span>
@@ -83,8 +87,8 @@
                             <input type="text" id="categoryNameInput" class="form-control" placeholder="Name"
                                    aria-label="Name" aria-describedby="basic-addon1" th:field="*{name}"
                                    onfocusout="checkIfCategoryNameExists()" required>
-                            <span id="categoryNameError" class="help">This category already exists.</span>
                         </div>
+                        <div class="alert alert-danger" role="alert" id="categorySaveErrorFrontEnd">This category already exists.</div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -108,8 +112,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="productForm" action="#" th:action="@{catalog/product/{categoryId}/add(categoryId=${category.categoryId})}"
+                    <form id="productForm"
+                          th:action="@{catalog/product/{categoryId}/add(categoryId=${category.categoryId})}"
                           th:object="${product}" method="post">
+                        <div id="productIdInput" input="hidden">
 <!--
                         <p><input type="hidden" id="productIdInput" th:field="*{productId}"  /></p>
 -->
@@ -120,14 +126,16 @@
                             <input type="text" id="productNameInput" class="form-control" placeholder="Name"
                                    aria-label="Name" aria-describedby="basic-addon1" th:field="*{name}"
                                    onfocusout="checkIfProductNameExists()" required>
+                            <span id="productNameError" class="help">This product already exists.</span>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" style="width: 100px;" id="basic-addon3">Price</span>
+                                <span class="input-group-text" style="width: 120px;" id="basic-addon3">Price (in cents)</span>
                             </div>
                             <input type="text" id="productPriceInput" class="form-control" placeholder="Price"
                                    aria-label="Price" aria-describedby="basic-addon1" th:field="*{price}"
                                    onfocusout="checkIfPriceIsNumber()" required>
+                            <span id="priceError" class="help">Only numbers allowed</span>
                         </div>
                     </form>
                 </div>

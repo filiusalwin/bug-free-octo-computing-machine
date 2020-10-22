@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/catalog/product")
@@ -27,9 +29,12 @@ public class ProductController {
     protected String showProducts(@PathVariable("categoryId") final Integer categoryId,
                                   Model model){
         model.addAttribute("allCategories", categoryRepository.findAll());
+        model.addAttribute("allProducts", productRepository.findAll());
+        model.addAttribute("product", new Product());
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
             model.addAttribute("category", category.get());
+
             return "catalogOverview";
         }
         return "redirect:/catalog/";
@@ -53,7 +58,8 @@ public class ProductController {
     protected String saveOrUpdateProduct( Model model,
                                           @PathVariable("categoryId") final Integer categoryId,
                                           @ModelAttribute("product") Product product,
-                                          BindingResult result) {
+                                          BindingResult result,
+                                          RedirectAttributes redirAttrs) {
 
         if (result.hasErrors()) {
             return "catalogOverview";
@@ -61,12 +67,12 @@ public class ProductController {
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
             try {
+                model.addAttribute("category", category.get());
                 product.setCategory(category.get());
                 productRepository.save(product);
             } catch (DataIntegrityViolationException exception) {
-                model.addAttribute("allProducts", productRepository.findAll());
-                model.addAttribute("error", "This product already exists!");
-                return "catalogOverview";
+                redirAttrs.addFlashAttribute("error1", "This product already exists!");
+                return "redirect:/catalog/product/" + categoryId;
             }
         }
         return "redirect:/catalog/product/" + categoryId;
