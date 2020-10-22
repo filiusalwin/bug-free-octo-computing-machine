@@ -8,7 +8,7 @@ $(document).ready(function() {
     categoryId = $("#categoryId").text();
     selectCategory(categoryId);
     setTimeout(function () {
-        $("#categorySaveError").alert('close');
+        $("#categorySaveError, #productSaveError").alert('close');
     }, 5000);
 });
 
