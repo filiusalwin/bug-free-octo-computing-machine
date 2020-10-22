@@ -31,7 +31,20 @@ function appendSpan(parent, content, width, type) {
     span.style.width = width + "px";
     if (type == "currency") {
         content = formatCurrencyString(content, true);
+        span.classList.add("text-right");
     }
     span.innerHTML = content;
     parent.appendChild(span);
+}
+
+function deductPayment() {
+    $("#error").hide();
+    $.ajax({
+        type: "GET",
+        url: "/user/"
+    }).done(data => {
+        location.href = "/user";
+    }).fail(_ => {
+        $("#error").show();
+    });
 }

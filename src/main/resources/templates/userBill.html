@@ -30,7 +30,7 @@
         <div class="col-3">
             Prepaid Balance
         </div>
-        <div class="col-2">
+        <div class="col-2 text-right">
             <span th:text="${balanceBefore}"></span>
         </div>
     </div>
@@ -38,7 +38,7 @@
         <div class="col-3">
             Total Credit
         </div>
-        <div class="col-2 border-bottom" style="border-width: 2px !important; border-color: black !important;">
+        <div class="col-2 border-bottom text-right" style="border-width: 2px !important; border-color: black !important;">
             -
             <span th:text="${creditTotal}"></span>
         </div>
@@ -47,7 +47,7 @@
         <div class="col-3">
             Remaining Balance
         </div>
-        <div class="col-2">
+        <div class="col-2 text-right">
             <span th:text="${balanceAfter}"></span>
         </div>
     </div>
@@ -59,6 +59,8 @@
             <span th:text="${billTotal}"></span>
         </div>
     </div>
+    <button class="btn btn-dark" onclick="deductPayment();">Mark as Sent</button>
+    <div id="error" class="alert alert-danger mt-2" style="display: none;">Unable to deduct payment.</div>
     <hr>
     <h2>Payments</h2>
     <div class="row" th:each="payment : ${creditPayments}">

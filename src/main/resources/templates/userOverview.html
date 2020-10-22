@@ -54,7 +54,7 @@
                                 </a>
                             </td>
                             <td>
-                                <a id="produceBillButton" class="btn btn-secondary"
+                                <a th:if="${user.creditAllowed}" id="produceBillButton" class="btn btn-secondary"
                                         th:href="@{/user/bill/{userId}(userId=${user.userId})}">
                                     Produce Bill
                                 </a>

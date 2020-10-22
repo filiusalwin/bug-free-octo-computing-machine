@@ -114,18 +114,13 @@ function checkIfUserNameExists() {
     username = $("#usernameInput").val();
     $.ajax({
         type: "GET",
-        url: "/order/username/" + username,
-        statusCode: {
-            404: function () {
-                return;
-            }
-        }
-    }).done(function (data) {
-        if (data !== null) {
+        url: "/order/username/" + username
+    }).done(data => {
+        if (!data) {
+            $("#usernameError").hide();
+        } else {
             $("#usernameError").show();
-            return;
         }
-        $("#usernameError").hide();
     });
 }
 

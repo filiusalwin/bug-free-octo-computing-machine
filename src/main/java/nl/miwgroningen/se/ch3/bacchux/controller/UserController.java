@@ -8,6 +8,7 @@ import nl.miwgroningen.se.ch3.bacchux.repository.CreditPaymentRepository;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
 import nl.miwgroningen.se.ch3.bacchux.utils.CurrencyFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.CollectionUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -179,6 +180,7 @@ public class UserController {
         model.addAttribute("balanceAfter", CurrencyFormatter.formatCurrency(balanceAfter));
 
         List<CreditPayment> creditPayments = creditPaymentRepository.findByCustomer(user);
+        CollectionUtils.filter(creditPayments, payment -> !((CreditPayment) payment).isPaid());
         model.addAttribute("creditPayments", creditPayments);
         return "userBill";
     }
