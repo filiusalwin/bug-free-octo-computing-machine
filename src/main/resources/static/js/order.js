@@ -22,6 +22,8 @@ $(document).ready(function() {
     $("#searchUser").click(function() {
         clearUser();
     });
+
+    showPicture();
 });
 
 
@@ -97,6 +99,13 @@ function showCustomerInfo(data) {
     $("#profileFotoTag,#profileFoto").show();
 }
 
+// Change picture when new user is chosen
+function showPicture(){
+    $("#searchUser").on("change", function() {
+        $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
+    });
+}
+
 function getCustomerByUsernameAnd(username, callback) {
     $.ajax({
         type: "GET",
@@ -108,7 +117,6 @@ function getCustomerByUsernameAnd(username, callback) {
         callback(data);
     });
 }
-
 
 // ---- Update Bill ---- \\
 function updateProductList(products) {
