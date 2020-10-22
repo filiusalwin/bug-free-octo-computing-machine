@@ -177,23 +177,19 @@ function keyPressed(){
     return key;
 }
 
+
 // ---- Modal Checks ---- \\
 function checkIfUserNameExists() {
     username = $("#usernameInput").val();
     $.ajax({
         type: "GET",
-        url: "/order/username/" + username,
-        statusCode: {
-            404: function () {
-                return;
-            }
-        }
-    }).done(function (data) {
-        if (data !== null || data !== "") {
+        url: "/order/username/" + username
+    }).done(data => {
+        if (!data) {
+            $("#usernameError").hide();
+        } else {
             $("#usernameError").show();
-            return;
         }
-        $("#usernameError").hide();
     });
 }
 

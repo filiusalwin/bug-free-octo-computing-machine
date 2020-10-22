@@ -5,6 +5,9 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Entity
 public class CreditPayment {
@@ -42,6 +45,12 @@ public class CreditPayment {
         this.paid = false;
         this.timestamp = new Timestamp(System.currentTimeMillis());
         this.orderJson = orderJson;
+    }
+
+    public String getDateAndTimeString() {
+        Date date = new Date();
+        date.setTime(timestamp.getTime());
+        return new SimpleDateFormat("dd MMM yyyy, HH:mm").format(date);
     }
 
     public String getBartenderName() {
