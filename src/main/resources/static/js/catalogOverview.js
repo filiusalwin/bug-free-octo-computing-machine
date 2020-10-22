@@ -19,10 +19,25 @@ function openModalNewProduct() {
     newProduct = true;
 }
 
+function editProduct(id) {
+    $('#maintainProductModal').modal('show');
+    fillOutProductModal(data);
+
+
+}
+
 function fillOutForm(data) {
     $("#modalLabelCategory").html("Edit " + data.name);
     $("#categoryNameInput, #originalCategoryName").val(data.name);
     $("#categoryId").val(data.categoryId);
+}
+
+function fillOutProductModal(data) {
+    $("#modalLabelProduct").html("Edit " + data.name);
+    $("#productNameInput, #originalProductName").val(data.name);
+    $("#productPriceInput, #originalProductPrice").val(data.price);
+    $("#productId").val(data.productId);
+
 }
 
 function addCategoryByCategoryName(categoryName) {
@@ -86,7 +101,6 @@ function selectCategory(id) {
 
 function deleteCategory() {
     var categoryId = $("#categoryIdInput").val();
-    console.log($("#categoryIdInput").val());
     window.location.href = "/catalog/delete/" + categoryId;
 }
 

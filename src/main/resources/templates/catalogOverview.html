@@ -49,7 +49,7 @@
                             th:attr="productPrice=|${product.getPrice()}|,
                          productName=|${product.getName()}|,
                          category=|${product.getCategory().getCategoryId()}|,
-                         onclick=|addProduct(${product.getProductId()})|,
+                         ondblclick=|editProduct(${product.getProductId()})|,
                          productId=|${product.productId}|" >
                         <div th:text="${product.name}" />
                         <div th:text="${product.euroPrice()}" class="ml-auto" />
