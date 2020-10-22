@@ -47,7 +47,6 @@ public class UserController {
 
     @GetMapping("")
     protected String showUserForm(Model model) {
-
         if (currentSession.isLockscreenEnabled()) {
             return "lockscreen";
         }
