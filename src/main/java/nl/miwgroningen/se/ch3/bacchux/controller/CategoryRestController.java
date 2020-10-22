@@ -25,8 +25,7 @@ public class CategoryRestController {
         if (!categoryOptional.isPresent()) {
             return null;
         }
-        Category category = categoryOptional.get();
-        return new CategoryDTO(category);
+        return new CategoryDTO(categoryOptional.get());
     }
 
 

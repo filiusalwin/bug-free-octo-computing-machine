@@ -2,11 +2,14 @@ var newCategory;
 var newProduct;
 
 $(document).ready(function() {
-    $("#categoryNameError").hide();
+    $("#categorySaveErrorFrontEnd").hide();
     $("#productNameError").hide();
     $("#priceError").hide();
     categoryId = $("#categoryId").text();
     selectCategory(categoryId);
+    setTimeout(function () {
+        $("#categorySaveError").alert('close');
+    }, 5000);
 });
 
 function openModalNewCategory() {
@@ -22,15 +25,14 @@ function openModalNewProduct() {
 }
 
 function fillOutForm(data) {
-    console.log("filloutform");
     $("#categoryForm").attr("action", "/catalog/add");
     $("#modalLabelCategory").html("Edit " + data.name);
+    categoryName = data.name
     $("#categoryNameInput, #originalCategoryName").val(data.name);
     $("#categoryIdInput").val(data.categoryId);
 }
 
 function addCategoryByCategoryName(categoryName) {
-
     $.ajax({
         type: "GET",
         url: "/catalog/byCategoryName/" + categoryName,
@@ -47,20 +49,27 @@ function addCategoryByCategoryName(categoryName) {
 
 //TODO this method is not correct yet
 function checkIfCategoryNameExists() {
-    var originalCategoryName = $("#originalCategoryName").val();
-    categoryName = $("#categoryNameInput").val();
+    categoryNameAfterTyping = $("#categoryNameInput").val();
+    if (categoryName == categoryNameAfterTyping ) {
+        $("#categorySaveErrorFrontEnd").hide();
+        return;
+    }
     $.ajax({
         type: "GET",
         url: "/catalog/byCategoryName/" + categoryName,
-        data: {
-            categoryName: categoryName,
-        },
-    }).done(function getCategoryData(categoryData) {
-        if (categoryData.categoryName === categoryData && categoryData.categoryName !== originalCategoryName) {
-            $("#categoryNameError").show();
-        } else {
-            $("#categoryNameError").hide();
+        statusCode: {
+            404: function () {
+                return;
+            }
         }
+    }).done(function (data) {
+        console.log(data);
+        if (data !== "") {
+            $("#categorySaveErrorFrontEnd").show();
+            return;
+        }
+        console.log("test");
+        $("#categorySaveErrorFrontEnd").hide();
     });
 }
 

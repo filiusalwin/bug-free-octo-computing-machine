@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +47,7 @@ public class CategoryController {
     @PostMapping("/add")
     protected String saveOrUpdateCategory( Model model,
                                        @ModelAttribute("category") Category category,
-                                       BindingResult result) {
+                                       BindingResult result, RedirectAttributes redirAttrs) {
         if (result.hasErrors()) {
             return "catalogOverview";
         } else {
@@ -54,8 +55,8 @@ public class CategoryController {
                 categoryRepository.save(category);
             } catch (DataIntegrityViolationException exception) {
                 model.addAttribute("allCategories", categoryRepository.findAll());
-                model.addAttribute("error", "This category already exists!");
-                return "catalogOverview";
+                redirAttrs.addFlashAttribute("error", "This category already exists!");
+                return  "redirect:/catalog/";
             }
         }
         return "redirect:/catalog/";

@@ -24,6 +24,7 @@
                     <button class="btn btn-secondary ml-auto font-xl" onclick="openModalNewCategory()" data-toggle="modal"
                             data-target="#maintainCategoryModal">+</button>
                 </div>
+                <div class="alert alert-danger" role="alert" id="categorySaveError" th:text="${error}" th:if="${error}"></div>
                 <div class="list-group list-group-flush" id="categoryList">
                     <button class="list-group-item list-group-item-action categoryButton"
                             th:each="category: ${allCategories}"
@@ -77,8 +78,7 @@
                     <form id="categoryForm" action="#"
                           th:action="@{/catalog/add}"
                           th:object="${category}" method="post">
-                        <div id="categoryIdInput" input="hidden">
-                        </div>
+                        <p><input type="hidden" id="categoryIdInput" th:field="*{categoryId}"/></p>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon1">Name</span>
@@ -86,8 +86,8 @@
                             <input type="text" id="categoryNameInput" class="form-control" placeholder="Name"
                                    aria-label="Name" aria-describedby="basic-addon1" th:field="*{name}"
                                    onfocusout="checkIfCategoryNameExists()" required>
-                            <span id="categoryNameError" class="help">This category already exists.</span>
                         </div>
+                        <div class="alert alert-danger" role="alert" id="categorySaveErrorFrontEnd">This category already exists.</div>
                     </form>
                 </div>
                 <div class="modal-footer">
