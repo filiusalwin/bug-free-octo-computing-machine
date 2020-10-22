@@ -146,7 +146,7 @@ public class UserController {
     // Only check the pin and password if the new user is not a customer
     private void checkPinPass(User user, RedirectAttributes redirAttrs) {
         if (!user.getRoles().equals("ROLE_CUSTOMER")){
-            if (user.getPin() != null && !user.getPin().isBlank() && user.getPin().length() == 4 ) {
+            if (user.getPin() != null && !user.getPin().isBlank() && user.getPin().length() == 4 && isNumeric(user.getPin())) {
                 user.setPin(passwordEncoder.encode(user.getPin()));
             } else {
                 redirAttrs.addFlashAttribute("error", "There was a problem with the Pincode. New user not added.");
@@ -157,6 +157,11 @@ public class UserController {
                 redirAttrs.addFlashAttribute("error", "There was a problem with the Password. New user not added.");
             }
         }
+    }
+
+    // check if the pin contains only numbers
+    public static boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
     }
 
     //to update a user without changing password
