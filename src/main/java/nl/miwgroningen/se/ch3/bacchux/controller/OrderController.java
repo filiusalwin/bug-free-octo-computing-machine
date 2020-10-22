@@ -43,6 +43,7 @@ public class OrderController {
         User user = new User();
         model.addAttribute("user", user);
         model.addAttribute("allCategories", categoryRepository.findAll());
+        model.addAttribute("picture", user.convertToBase64());
         return "order";
     }
 
@@ -66,5 +67,3 @@ public class OrderController {
         }
     }
 }
-
-
