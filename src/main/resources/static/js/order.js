@@ -92,6 +92,7 @@ function showCustomerInfo(data) {
             + "<br>Credit "
             + formatCurrencyString(data.currentCredit);
     $("#customerInfo").html(info);
+    $("#profileFoto").text(data.name);
 }
 
 function getCustomerByUsernameAnd(username, callback) {

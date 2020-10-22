@@ -131,6 +131,15 @@
                         <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
                     </datalist>
                     <input class="form-control mb-2" placeholder="Select Customer" list="userList"  id="searchUser" autocomplete="off" required>
+                    <div>
+                        <!--Displays the current profile picture for the selected user-->
+                        <div>
+                            <div class="text-center"> Profile Picture</div>
+                            <div class="text-center"><img id="profileFoto" th:src="|data:image/jpeg;base64,${picture}|"
+                                                          class="img-fluid " alt="Profile Picture" style="width: 350px; height: 250px"/></div>
+                        </div>
+                    </div>
+
                     <div id="prepaid">
                         <hr>
                         <h5>Prepaid</h5>
