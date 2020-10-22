@@ -14,7 +14,7 @@ $(document).ready(function() {
     paymentSuccess();
     savingCustomerSuccess();
     savingCustomerError();
-    $("#usernameError").hide();
+    $("#usernameError, #profileFoto, #chooseUser").hide();
     $("#categoryList > button:first-child").trigger("click");
 
     // event listeners
@@ -22,6 +22,8 @@ $(document).ready(function() {
     $("#searchUser").click(function() {
         clearUser();
     });
+
+    resetPicture();
 });
 
 
@@ -41,6 +43,13 @@ function clearUser() {
     $("#searchUser").val("");
     showCustomerInfo();
     showPaymentStuff(false, false);
+    resetPicture();
+    $("#profileFoto,#chooseUser").hide();
+}
+
+function resetPicture(){
+    $("#profileFoto").attr('src','/images/defaultPicture.png');
+    $("#profileFoto2").attr('src','/images/defaultPicture.png');
 }
 
 function showPayment() {
@@ -78,6 +87,12 @@ function chooseCustomer(data) {
         $("#noPaymentError").show();
     }
     showPaymentStuff(data.prepaidAllowed, data.creditAllowed);
+    $("#chooseUser").show();
+    if (data.username == null) {
+        $("#profileFoto").attr('src','/images/defaultPicture.png');
+    }
+    showPicture();
+
 }
 
 function showCustomerInfo(data) {
@@ -92,6 +107,22 @@ function showCustomerInfo(data) {
             + "<br>Credit "
             + formatCurrencyString(data.currentCredit);
     $("#customerInfo").html(info);
+    $("#profileFoto").show();
+    $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
+    $("#profileFoto2").attr('src','data:image/png;base64,' + data.picture);
+
+}
+
+// Change picture when new user is chosen
+function showPicture(){
+    $("#searchUser").on("change", function() {
+        $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
+        $("#profileFoto2").attr('src','data:image/png;base64,' + data.picture);
+    });
+}
+
+function chooseThisUser() {
+    $('.modal').modal('hide');
 }
 
 function getCustomerByUsernameAnd(username, callback) {
@@ -105,7 +136,6 @@ function getCustomerByUsernameAnd(username, callback) {
         callback(data);
     });
 }
-
 
 // ---- Update Bill ---- \\
 function updateProductList(products) {

@@ -128,6 +128,7 @@ function resetPicture() {
     $("#profileFoto").attr('src','/images/defaultPicture.png');
 }
 
+// Change picture when new file is uploaded
 function showPicture(){
     $(".custom-file-input").on("change", function() {
         var fileName = $(this).val().split("\\").pop();
