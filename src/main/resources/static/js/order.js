@@ -93,11 +93,7 @@ function showCustomerInfo(data) {
             + "<br>Credit "
             + formatCurrencyString(data.currentCredit);
     $("#customerInfo").html(info);
-    /* profilePicture = data.picture;
-    var img = $('<img id="profileFoto">');
-    img.attr('src', 'data:image/png;base64,' + data.picture);
-    img.appendTo('#profileFoto');*/
-    $("#profileFoto").html('<img src="data:image/png;base64,' + data + '" />');
+    $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
     $("#profileFotoTag,#profileFoto").show();
 }
 
