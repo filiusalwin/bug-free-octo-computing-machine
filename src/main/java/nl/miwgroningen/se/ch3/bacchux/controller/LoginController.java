@@ -7,11 +7,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,6 +64,14 @@ public class LoginController {
         newUser.setPasswordNeedsChange(true);
         newUser.setPrepaidAllowed(true);
         newUser.setCreditAllowed(true);
+        try {
+            File image = new File("src/main/resources/static/images/defaultPicture.png");
+            FileInputStream imageInFile = new FileInputStream(image);
+            byte[] imageInBytes = imageInFile.readAllBytes();
+            newUser.setPicture(imageInBytes);
+        } catch (IOException e) {
+            System.out.println("Could not store this profile picture. New user not added.");
+        }
         userRepository.save(newUser);
     }
 
@@ -80,7 +90,7 @@ public class LoginController {
         if (user.isEmpty()) {
             return "redirect:/login";
         }
-        if (passwordEncoder.matches(currentPin, (String) user.get().getPin())) {
+        if (passwordEncoder.matches(currentPin, user.get().getPin())) {
             return "redirect:/order/";
         }
             return "redirect:/lockout?error" ;
