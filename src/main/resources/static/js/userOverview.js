@@ -1,11 +1,12 @@
 // ---- Globals ---- \\
 var newUser;
+var databaseRoleUser;
 
 
 // ---- Onload ---- \\
 $(document).ready(function() {
     setTimeout(function() {
-        $(".alert").alert('close');
+        $("#userSaveError, #userSaveSucces").alert('close');
     }, 5000);
 
     $(document).on('change', 'input', function(){
@@ -36,13 +37,18 @@ function getUserFromSearch() {
 function checkCorrectRadioBox(userData) {
     if (userData.roles === "ROLE_CUSTOMER") {
         $("#customer").prop("checked", true);
+        $("#resetPassword").hide();
+        databaseRoleUser = "Customer";
     } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER") {
         $("#bartender").prop("checked", true);
+        databaseRoleUser = "Bartender";
     } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER") {
         $("#barmanager").prop("checked", true);
+        databaseRoleUser = "Barmanager";
     }
 }
 
+// fill out form for an existing user
 function fillOutForm(data) {
     $("#userForm").attr("action", "/user/save");
     $("#modalLabel").html("Edit " + data.username);
@@ -56,6 +62,17 @@ function fillOutForm(data) {
     $("#prepaid_balance").val(data.balance);
     $("#Credit").prop("checked", data.creditAllowed);
     $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
+    $('input[type=radio][name=roles]').change(function() {
+        if (this.value === 'ROLE_CUSTOMER') {
+            $("#resetPassword").hide();
+        } else {
+            // if database role was customer a password needs to be added
+            if (databaseRoleUser === "Customer") {
+                $("#resetPassword").html("Add password");
+            }
+            $("#resetPassword").show();
+        }
+    });
     uploadPicture();
 }
 
@@ -166,7 +183,7 @@ function checkIfUserNameExists() {
             }
         }
     }).done(function (data) {
-        if (data !== null) {
+        if (data !== "") {
             $("#usernameError").show();
             return;
         }
@@ -197,11 +214,9 @@ function ibanValidation() {
 
 // ---- Direct Links ---- \\
 function deleteUser() {
-    var userId = $("#userIdInput").val();
+   var userId = $("#userIdInput").val();
     window.location.href = "/user/delete/" + userId;
 }
-
-
 
 function resetPassword() {
     userId = $("#userIdInput").val();
