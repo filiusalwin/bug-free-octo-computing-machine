@@ -14,7 +14,7 @@ $(document).ready(function() {
     paymentSuccess();
     savingCustomerSuccess();
     savingCustomerError();
-    $("#usernameError").hide();
+    $("#usernameError, #profileFotoTag,#profileFoto").hide();
     $("#categoryList > button:first-child").trigger("click");
 
     // event listeners
@@ -78,6 +78,7 @@ function chooseCustomer(data) {
         $("#noPaymentError").show();
     }
     showPaymentStuff(data.prepaidAllowed, data.creditAllowed);
+
 }
 
 function showCustomerInfo(data) {
@@ -92,7 +93,12 @@ function showCustomerInfo(data) {
             + "<br>Credit "
             + formatCurrencyString(data.currentCredit);
     $("#customerInfo").html(info);
-    $("#profileFoto").text(data.name);
+    /* profilePicture = data.picture;
+    var img = $('<img id="profileFoto">');
+    img.attr('src', 'data:image/png;base64,' + data.picture);
+    img.appendTo('#profileFoto');*/
+    $("#profileFoto").html('<img src="data:image/png;base64,' + data + '" />');
+    $("#profileFotoTag,#profileFoto").show();
 }
 
 function getCustomerByUsernameAnd(username, callback) {
