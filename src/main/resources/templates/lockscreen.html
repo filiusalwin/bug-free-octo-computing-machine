@@ -8,7 +8,20 @@
 </head>
 <body class='main'>
 <div>
-    <h1>Welcome to BacchUx, <label id="name" sec:authentication="name"></label>!</h1>
+    <!--The clock-->
+    <div id="clock" class="light">
+        <div class="display">
+            <div class="weekdays"></div>
+            <div class="ampm"></div>
+            <div class="alarm"></div>
+            <div class="digits"></div>
+        </div>
+    </div>
+    <div class="button-holder">
+        <a class="button">Switch Theme</a>
+    </div>
+
+    <h1>Welcome to BacchUX, <label id="name" sec:authentication="name"></label>!</h1>
     <form th:action="@{/lockout}" method="post">
         <div id='form' >
             <input id='pin' name='pin' type='password' placeholder="My pincode" />
@@ -16,7 +29,7 @@
             <input id='sub' type='submit' class="btn btn-lg btn-secondary btn-block " value='Unlock' required />
         </div>
         <div th:if="${param.error}">
-            <div style="color:red" class="error">
+            <div style="color:black" class="error">
                 The program is now locked.
             </div>
         </div>
@@ -25,5 +38,7 @@
 <button id="cancel" class="btn btn-lg btn-secondary btn-block " onclick="goBack()">Back </button>
 <div th:replace="fragments/header :: scriptFragment" />
 <script type="text/javascript" th:src="@{/js/lockout.js}" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
 </body>
 </html>
