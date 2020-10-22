@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: headFragment" />
+    <title>Billing</title>
+</head>
+<body>
+<nav th:replace="fragments/navbar :: navbar" />
+<div class="container mt-4" id="bill">
+    <h1>
+        Credit Bill
+    </h1>
+    <div class="row">
+        <div class="col-2">
+            Name
+        </div>
+        <div class="col-2">
+            <span th:text="${user.getName()}"></span>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-2">
+            Username
+        </div>
+        <div class="col-2">
+            <span th:text="${user.getUsername()}"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            Prepaid Balance
+        </div>
+        <div class="col-2 text-right">
+            <span th:text="${balanceBefore}"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            Total Credit
+        </div>
+        <div class="col-2 border-bottom text-right" style="border-width: 2px !important; border-color: black !important;">
+            -
+            <span th:text="${creditTotal}"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            Remaining Balance
+        </div>
+        <div class="col-2 text-right">
+            <span th:text="${balanceAfter}"></span>
+        </div>
+    </div>
+    <div class="row h3 mt-4">
+        <div class="col-3">
+            Bill Total
+        </div>
+        <div class="col-2">
+            <span th:text="${billTotal}"></span>
+        </div>
+    </div>
+    <input type="hidden" th:value="${user.userId}" id="userId">
+    <button class="btn btn-dark hideOnPrint" onclick="printPage();">Print</button>
+    <button class="btn btn-dark hideOnPrint" onclick="deductPayment();">Mark as Paid</button>
+    <div id="error" class="alert alert-danger mt-2" style="display: none;">Unable to deduct payment.</div>
+    <hr>
+    <h2>Payments</h2>
+    <div class="row" th:each="payment : ${creditPayments}">
+        <div class="col">
+            <div>
+                <span th:text="${payment.getDateAndTimeString()}"></span>
+                &nbsp; served by &nbsp;
+                <span th:text="${payment.getBartenderName()}"></span>
+            </div>
+            <div class=" mb-3 ml-5 paymentEntry" th:text="${payment.getOrderJson()}"
+                 th:attr="total=${payment.getAmount()}"></div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/header :: scriptFragment" />
+<script src="/js/userBill.js"></script>
+<script src="/js/order_currency.js"></script>
+</body>
+</html>

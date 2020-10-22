@@ -1,10 +1,14 @@
 package nl.miwgroningen.se.ch3.bacchux.controller;
 
 
+import nl.miwgroningen.se.ch3.bacchux.model.CreditPayment;
 import nl.miwgroningen.se.ch3.bacchux.model.IbanValidation;
 import nl.miwgroningen.se.ch3.bacchux.model.User;
+import nl.miwgroningen.se.ch3.bacchux.repository.CreditPaymentRepository;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
+import nl.miwgroningen.se.ch3.bacchux.utils.CurrencyFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.CollectionUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+import java.util.Optional;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -32,29 +38,17 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    CreditPaymentRepository creditPaymentRepository;
+
     @GetMapping("")
     protected String showUserForm(Model model) {
         model.addAttribute("allUsers", userRepository.findAll());
         // to check Radio button "Customer"
         User user = new User();
         model.addAttribute("user", user);
-        model.addAttribute("picture", convertToBase64(user));
+        model.addAttribute("picture", user.convertToBase64());
         return "userOverview";
-    }
-
-    public String convertToBase64(User user) {
-        String imageInBase64 = "";
-        try {
-            // Set a default image
-            File image = new File("src/main/resources/static/images/defaultPicture.png");
-            FileInputStream imageInFile = new FileInputStream(image);
-            byte[] imageInBytes = imageInFile.readAllBytes();
-            imageInBase64 += Base64.getEncoder().encodeToString(imageInBytes);
-        }
-        catch (IOException ioe) {
-            System.out.println("Exception while reading the Image " + ioe);
-        }
-        return imageInBase64;
     }
 
     @GetMapping("/update/{userId}")
@@ -146,7 +140,7 @@ public class UserController {
     // Only check the pin and password if the new user is not a customer
     private void checkPinPass(User user, RedirectAttributes redirAttrs) {
         if (!user.getRoles().equals("ROLE_CUSTOMER")){
-            if (user.getPin() != null && !user.getPin().isBlank() && user.getPin().length() == 4 ) {
+            if (user.getPin() != null && !user.getPin().isBlank() && user.getPin().length() == 4 && isNumeric(user.getPin())) {
                 user.setPin(passwordEncoder.encode(user.getPin()));
             } else {
                 redirAttrs.addFlashAttribute("error", "There was a problem with the Pincode. New user not added.");
@@ -157,6 +151,11 @@ public class UserController {
                 redirAttrs.addFlashAttribute("error", "There was a problem with the Password. New user not added.");
             }
         }
+    }
+
+    // check if the pin contains only numbers
+    public static boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
     }
 
     //to update a user without changing password
@@ -206,7 +205,7 @@ public class UserController {
         }
 
         // Check role
-        if (user1.get().getUserId().equals(getCurrentUser().get().getUserId())){
+        if (user1.get().getUserId().equals(getCurrentUser().get().getUserId()) && !user1.get().getRoles().equals(user.getRoles())){
             user.setRoles(user1.get().getRoles());
             model.addAttribute("error", "You can not change your own roles.");
             return "userOverview";
@@ -216,7 +215,6 @@ public class UserController {
         userRepository.save(user);
         return "redirect:/user/";
     }
-
 
     public Optional<User> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -228,11 +226,46 @@ public class UserController {
     }
 
     @GetMapping("/delete/{userId}")
-    protected String deleteUser(@PathVariable("userId") final Integer userId) {
+    protected String deleteUser(@PathVariable("userId") final Integer userId, RedirectAttributes redirAttrs) {
         Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            userRepository.deleteById(userId);
+        Optional<User> currentUser = getCurrentUser();
+        System.out.println(currentUser.get().getName());
+        if (user.isEmpty() || user.get().getUserId().equals(currentUser.get().getUserId())) {
+            redirAttrs.addFlashAttribute("error", "You can not delete yourself.");
+            return "redirect:/user/";
         }
+        userRepository.deleteById(userId);
+        redirAttrs.addFlashAttribute("success", "User deleted.");
         return "redirect:/user/";
+    }
+
+    @GetMapping("/bill/{userId}")
+    protected String showUserBill(Model model, @PathVariable("userId") final Integer userId) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) {
+            return "redirect:/user/";
+        }
+        User user = userOpt.get();
+
+        model.addAttribute("user", user);
+
+        Integer creditTotal = user.getCreditTotal();
+        model.addAttribute("creditTotal", CurrencyFormatter.formatCurrency(creditTotal));
+
+        Integer balanceBefore = user.getBalance();
+        model.addAttribute("balanceBefore", CurrencyFormatter.formatCurrency(balanceBefore));
+
+        // calculate total for bill
+        Integer billTotal = balanceBefore > creditTotal ? 0 : creditTotal - balanceBefore;
+        model.addAttribute("billTotal", CurrencyFormatter.formatCurrency(billTotal));
+
+        // calculate remaining balance
+        Integer balanceAfter = balanceBefore > creditTotal ? balanceBefore - creditTotal : 0;
+        model.addAttribute("balanceAfter", CurrencyFormatter.formatCurrency(balanceAfter));
+
+        List<CreditPayment> creditPayments = creditPaymentRepository.findByCustomer(user);
+        CollectionUtils.filter(creditPayments, payment -> !((CreditPayment) payment).isPaid());
+        model.addAttribute("creditPayments", creditPayments);
+        return "userBill";
     }
 }

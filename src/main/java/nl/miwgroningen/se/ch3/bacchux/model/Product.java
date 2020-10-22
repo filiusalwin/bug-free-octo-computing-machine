@@ -1,12 +1,13 @@
 package nl.miwgroningen.se.ch3.bacchux.model;
 
+import nl.miwgroningen.se.ch3.bacchux.utils.CurrencyFormatter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
 @Entity
-public class Product {
+public class Product implements Comparable<Product> {
 
     private static final int CENTS_PER_EURO = 100;
 
@@ -25,9 +26,12 @@ public class Product {
     private Category category;
 
     public String euroPrice(){
-        double priceInEuro;
-        priceInEuro =  (double) price / CENTS_PER_EURO;
-        return String.format("€%.2f", priceInEuro);
+        return CurrencyFormatter.formatCurrency(price);
+    }
+
+    @Override
+    public int compareTo(Product product) {
+        return name.toLowerCase().compareTo(product.getName().toLowerCase());
     }
 
     public String getName() {

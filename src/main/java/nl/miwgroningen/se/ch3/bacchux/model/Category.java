@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Category {
+public class Category implements Comparable<Category> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,6 +18,12 @@ public class Category {
             fetch = FetchType.LAZY,
             mappedBy = "category")
     private List<Product> products;
+
+    @Override
+    public int compareTo(Category category) {
+        return name.toLowerCase().compareTo(category.getName().toLowerCase());
+    }
+
 
     public Integer getCategoryId() {
         return categoryId;

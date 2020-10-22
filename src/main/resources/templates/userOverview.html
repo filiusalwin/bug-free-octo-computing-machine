@@ -17,8 +17,7 @@
                     <datalist th:field="${user.userId}" id="userList">
                         <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
                     </datalist>
-                    <input class="form-control mx-3 mb-3" placeholder="Search User" list="userList"  id="searchUser"
-                           autocomplete="off" required th:attr="onclick=|addUserByUsername(${user.getUsername()})|">
+                    <input class="form-control mx-3 mb-3" placeholder="Search User" list="userList"  id="searchUser" autocomplete="off" required th:attr="onclick=|addUserByUsername(${user.getUsername()})|">
             </div>
             <button class="btn btn-secondary" onclick="openModalNewUser()" data-toggle="modal" data-target="#maintainUserModal">New User</button>
             <br>
@@ -26,8 +25,8 @@
             <div class="row">
                 <div class="col-12">
                     <h2>User Overview</h2>
-                    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
-                    <div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
+                    <div class="alert alert-danger" role="alert" id="userSaveSucces" th:text="${error}" th:if="${error}"></div>
+                    <div class="alert alert-primary" role="alert" id="userSaveError" th:text="${success}" th:if="${success}"></div>
                     <table class="table table-striped m">
                         <thead>
                         <tr>
@@ -46,11 +45,32 @@
                             <td th:text="${user.username}" />
                             <td th:text="${user.balanceEuro()}" class="ml-auto" />
                             <td th:text="${user.displayRoles}" />
-                            <td th:if="${user.prepaidAllowed}">On</td><td th:if="${!user.prepaidAllowed}">Off</td>
-                            <td th:if="${user.creditAllowed}" >On</td><td th:if="${!user.creditAllowed}" >Off</td>
-                            <td><a class="btn btn-secondary" th:attr="onclick=|addUserByUsername('${user.username}')|"
-                                   data-toggle="modal" data-target="#maintainUserModal">Update </a></td>
-                            <td><a class="btn btn-secondary" th:href="@{/user/delete/{userId}(userId=${user.userId})}">Delete</a></td>
+                            <td th:if="${user.prepaidAllowed}">✔️</td><td th:if="${!user.prepaidAllowed}">&#10060;</td>
+                            <td th:if="${user.creditAllowed}" >✔️</td><td th:if="${!user.creditAllowed}" >&#10060;</td>
+                            <td>
+                                <a class="btn btn-secondary" th:attr="onclick=|addUserByUsername('${user.username}')|"
+                                   data-toggle="modal" data-target="#maintainUserModal">
+                                    Edit
+                                </a>
+                            </td>
+                            <td>
+                                <a id="produceBillButton" class="btn btn-secondary"
+                                   th:href="@{/user/bill/{userId}(userId=${user.userId})}"
+                                   th:if="${user.getCreditTotal() > 0}">
+                                    Bill
+                                </a>
+                                <button class="btn btn-secondary"
+                                   disabled
+                                   th:unless="${user.getCreditTotal() > 0}">
+                                    Bill
+                                </button>
+                            </td>
+                            <td>
+                                <a class="btn btn-secondary" onclick="return confirm('Are you sure you want to delete this user?');"
+                                   th:href="@{/user/delete/{userId}(userId=${user.userId})}">
+                                    Delete
+                                </a>
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -58,14 +78,12 @@
         </div>
     </div>
 
-    <div class="modal fade" id="maintainUserModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="maintainUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalLabel">New User</h5>
-                    <button type="button" class="close"
-                            data-dismiss="modal" aria-label="Close" onclick="resetNewUser()">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetNewUser()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -77,18 +95,16 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon1">Username</span>
                             </div>
-                            <input type="text" id="usernameInput" class="form-control"
-                                   placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"
-                                   th:field="*{username}" onfocusout="checkIfUserNameExists()" required>
-                            <span id="usernameError" class="help">This username already exists.</span>
+                            <input type="text" id="usernameInput" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" th:field="*{username}" onfocusout="checkIfUserNameExists()" required>
+                        </div>
+                        <div class="alert alert-danger" id="usernameError" style="display: none;">
+                            This username already exists.
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend" >
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon4">Name</span>
                             </div>
-                            <input type="text" id="nameInput" class="form-control"
-                                   placeholder="Name" aria-label="Name" aria-describedby="basic-addon4"
-                                   th:field="*{name}" required>
+                            <input type="text" id="nameInput" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon4" th:field="*{name}" required>
                         </div>
                         <div id="password_pincode">
                             <div class="input-group mb-3">
@@ -143,8 +159,7 @@
                         <div class="input-group mb-3">
                             <div class="form-check" >
                                 <label id="Credit-Choice-Label" for="credit_account">What is your bank account number?</label>
-                                <input type="text" id="credit_account" name="credit_account"
-                                       onkeyup="ibanValidation()"  th:field="*{creditPaymentBankAccountNumber}">
+                                <input type="text" id="credit_account" name="credit_account" onkeyup="ibanValidation()"  th:field="*{creditPaymentBankAccountNumber}">
                                 <span id="ibanError" class="help">This iban is not valid.</span>
                             </div>
                         </div>
@@ -178,7 +193,6 @@
             </div>
         </div>
     </div>
-
     <div th:replace="fragments/header :: scriptFragment" />
     <div th:replace="fragments/footer :: footer"/>
     <script type="text/javascript" th:src="@{/js/userOverview.js}" ></script>
