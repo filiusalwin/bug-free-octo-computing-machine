@@ -45,8 +45,8 @@
                             <td th:text="${user.username}" />
                             <td th:text="${user.balanceEuro()}" class="ml-auto" />
                             <td th:text="${user.displayRoles}" />
-                            <td th:if="${user.prepaidAllowed}">On</td><td th:if="${!user.prepaidAllowed}">Off</td>
-                            <td th:if="${user.creditAllowed}" >On</td><td th:if="${!user.creditAllowed}" >Off</td>
+                            <td th:if="${user.prepaidAllowed}">✔️</td><td th:if="${!user.prepaidAllowed}">&#10060;</td>
+                            <td th:if="${user.creditAllowed}" >✔️</td><td th:if="${!user.creditAllowed}" >&#10060;</td>
                             <td>
                                 <a class="btn btn-secondary" th:attr="onclick=|addUserByUsername('${user.username}')|"
                                    data-toggle="modal" data-target="#maintainUserModal">
