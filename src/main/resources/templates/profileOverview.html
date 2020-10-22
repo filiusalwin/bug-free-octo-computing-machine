@@ -8,7 +8,8 @@
 <body>
 <nav th:replace="fragments/navbar :: navbar" />
 <div class="container text-center text-secondary">
-    <h1 th:inline="text">Welcome to BacchUX [[${#httpServletRequest.remoteUser}]]</h1>
+    <h1> Welcome to BacchUX! </h1>
+    <h1 th:inline="text">[[${#httpServletRequest.remoteUser}]]</h1>
     <div class="alert alert-success" id="saveSucces" th:text="${success}" th:if="${success}"/>
 </div>
 <div>
