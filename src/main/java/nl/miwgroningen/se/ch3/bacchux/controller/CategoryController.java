@@ -4,6 +4,7 @@ import nl.miwgroningen.se.ch3.bacchux.model.Category;
 import nl.miwgroningen.se.ch3.bacchux.model.Product;
 import nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository;
 import nl.miwgroningen.se.ch3.bacchux.repository.ProductRepository;
+import nl.miwgroningen.se.ch3.bacchux.service.CurrentSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -23,11 +24,19 @@ public class CategoryController {
 
     @Autowired
     CategoryRepository categoryRepository;
+
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    CurrentSession currentSession;
+
     @GetMapping("")
     protected String showCatalog(Model model) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
+        currentSession.setPreviousUrl("/catalog");
         List<Category> allCategories = categoryRepository.findAll();
         List<Product> allProducts = productRepository.findAll();
         allCategories.sort(Category::compareTo);
@@ -66,6 +75,9 @@ public class CategoryController {
     @PostMapping("/update/{categoryId}")
     protected String UpdateCategoryForm(Model model,
                                     @PathVariable("categoryId") final Integer categoryId) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         model.addAttribute("allCategories", categoryRepository.findAll());
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
@@ -78,10 +90,14 @@ public class CategoryController {
 
     @GetMapping("/delete/{categoryId}")
     protected String deleteCategory(@PathVariable("categoryId") final Integer categoryId) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
             categoryRepository.deleteById(categoryId);
         }
         return "redirect:/catalog/";
     }
+
 }

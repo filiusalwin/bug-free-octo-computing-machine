@@ -2,6 +2,7 @@ package nl.miwgroningen.se.ch3.bacchux.controller;
 
 import nl.miwgroningen.se.ch3.bacchux.model.User;
 import nl.miwgroningen.se.ch3.bacchux.repository.UserRepository;
+import nl.miwgroningen.se.ch3.bacchux.service.CurrentSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,11 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Base64;
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @RequestMapping("/profile")
@@ -28,8 +24,15 @@ public class ProfileController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    CurrentSession currentSession;
+
     @GetMapping("")
     protected String changeProfile(Model model) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
+        currentSession.setPreviousUrl("/profile");
         Optional<User> user = getCurrentUser();
         model.addAttribute("picture", user.get().convertToBase64());
         return "profileOverview";
@@ -37,6 +40,9 @@ public class ProfileController {
 
     @GetMapping("/password")
     protected String changePassword() {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         return "changePassword";
     }
 
@@ -65,6 +71,9 @@ public class ProfileController {
 
     @GetMapping("/passwordreset/{userId}")
     protected String loadResetPassword(Model model, @PathVariable("userId") final Integer userId, RedirectAttributes redirectAttributes) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         Optional<User> user = userRepository.findById(userId);
         if (user == null || user.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Something went wrong. You are redirect to the userpage.");
@@ -105,6 +114,9 @@ public class ProfileController {
 
     @GetMapping("/pin")
     protected String changePin() {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         return "changePin";
     }
 
