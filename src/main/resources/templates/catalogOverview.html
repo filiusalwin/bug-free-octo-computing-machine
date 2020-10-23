@@ -25,7 +25,8 @@
                             data-target="#maintainCategoryModal"><i class="fas fa-plus-square"></i></button>
                 </div>
                 <div class="alert alert-danger" role="alert" id="categorySaveError" th:text="${error}" th:if="${error}"></div>
-                <div class="list-group list-group-flush" id="categoryList">
+                <div class="alert alert-primary" role="alert" id="categorySaveSuccess" th:text="${success}" th:if="${success}"></div>
+                <div class="list-group list-group-flush" id="categ  oryList">
                     <button class="list-group-item list-group-item-action categoryButton"
                             th:each="category: ${allCategories}"
                             th:id="${'category' + category.getCategoryId()}"
@@ -45,6 +46,7 @@
                             data-target="#maintainProductModal" th:if="${allCategories.size()>0}"><i class="fas fa-plus-square"></i></button>
                 </div>
                 <div class="alert alert-danger" role="alert" id="productSaveError" th:text="${error1}" th:if="${error1}"></div>
+                <div class="alert alert-primary" role="alert" id="productSaveSuccess" th:text="${success1}" th:if="${success1}"></div>
                 <div class="list-group list-group-flush" id="productList">
                     <button class="list-group-item list-group-item-action d-flex productListItem"
                             th:each="product: ${allProducts}"
@@ -52,7 +54,7 @@
                             th:attr="productPrice=|${product.getPrice()}|,
                          productName=|${product.getName()}|,
                          category=|${product.getCategory().getCategoryId()}|,
-                         onclick=|addProduct(${product.getProductId()})|,
+                         ondblclick=|editProduct(${product.getProductId()})|,
                          productId=|${product.productId}|" >
                         <div th:text="${product.name}" />
                         <div th:text="${product.euroPrice()}" class="ml-auto" />
@@ -93,8 +95,10 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary mr-auto" id="deleteCategory" onclick="deleteCategory()">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button class="btn btn-secondary" form="categoryForm" name="action"
                             type="submit" value="Save" >Save</button>
+
                 </div>
             </div>
         </div>
@@ -115,31 +119,33 @@
                     <form id="productForm"
                           th:action="@{catalog/product/{categoryId}/add(categoryId=${category.categoryId})}"
                           th:object="${product}" method="post">
-<!--
                         <p><input type="hidden" id="productIdInput" th:field="*{productId}"  /></p>
--->
+                        <p><input type="hidden" id="productCategoryIdInput" name="categoryId" /></p>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" style="width: 120px;." id="basic-addon2">Name</span>
+                                <span class="input-group-text" style="width: 100px;." id="basic-addon2">Name</span>
                             </div>
                             <input type="text" id="productNameInput" class="form-control" placeholder="Name"
                                    aria-label="Name" aria-describedby="basic-addon1" th:field="*{name}"
-                                   onfocusout="checkIfProductNameExists()" autocomplete="off" required>
-                            <span id="productNameError" class="help">This product already exists.</span>
+                                   onfocusout="checkIfProductNameExists()" required>
                         </div>
+                        <div class="alert alert-danger" role="alert" id="productSaveErrorFrontEnd">This product already exists.</div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" style="width: 120px;" id="basic-addon3">Price</span>
+                                <span class="input-group-text" style="width: 100px;" id="basic-addon3">Price (€)</span>
                             </div>
                             <input type="text" id="productPriceInput" class="form-control" placeholder="Price"
+                                   aria-label="Price" aria-describedby="basic-addon3"
                                    data-type="currency" required>
-                            <input type="hidden" th:field="*{price}">
+                            <input id="price" type="hidden" th:field="*{price}">
                             <span id="priceError" class="help">Only numbers allowed</span>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button class="btn btn-secondary" form="productForm" name="action" type="submit" value="Save" >Save</button>
+
                 </div>
             </div>
         </div>

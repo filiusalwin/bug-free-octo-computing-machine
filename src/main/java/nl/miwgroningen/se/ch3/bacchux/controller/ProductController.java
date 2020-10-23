@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/catalog/product")
@@ -46,22 +47,22 @@ public class ProductController {
         return "redirect:/catalog/";
     }
 
-    @GetMapping("/{categoryId}/add")
-    protected String showProductForm(@PathVariable("categoryId") final Integer categoryId,
-                                     Model model) {
-        if (currentSession.isLockscreenEnabled()) {
-            return "lockscreen";
-        }
-        Optional<Category> category = categoryRepository.findById(categoryId);
-        if (category.isPresent()) {
-            Product product = new Product();
-            product.setCategory(category.get());
-            model.addAttribute("product", product);
-            model.addAttribute("allCategories", categoryRepository.findAll());
-           return "productForm";
-        }
-        return "redirect:/catalog/product/" + categoryId;
-    }
+//    @GetMapping("/{categoryId}/add")
+//    protected String showProductForm(@PathVariable("categoryId") final Integer categoryId,
+//                                     Model model) {
+//        if (currentSession.isLockscreenEnabled()) {
+//            return "lockscreen";
+//        }
+//        Optional<Category> category = categoryRepository.findById(categoryId);
+//        if (category.isPresent()) {
+//            Product product = new Product();
+//            product.setCategory(category.get());
+//            model.addAttribute("product", product);
+//            model.addAttribute("allCategories", categoryRepository.findAll());
+//           return "productForm";
+//        }
+//        return "redirect:/catalog/product/" + categoryId;
+//    }
 
     @PostMapping("/{categoryId}/add")
     protected String saveOrUpdateProduct( Model model,
@@ -71,7 +72,8 @@ public class ProductController {
                                           RedirectAttributes redirAttrs) {
 
         if (result.hasErrors()) {
-            return "catalogOverview";
+            redirAttrs.addFlashAttribute("error1", "The information is not correct!");
+            return "redirect:/catalog";
         }
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
@@ -84,26 +86,31 @@ public class ProductController {
                 return "redirect:/catalog/product/" + categoryId;
             }
         }
+        redirAttrs.addFlashAttribute("success1", "The product " + product.getName() + " is saved.");
         return "redirect:/catalog/product/" + categoryId;
     }
 
-    @GetMapping("/update/{productId}")
-    protected String UpdateProductForm(Model model,
-                                       @PathVariable("productId") final Integer productId) {
+    @PostMapping("/update/{productId}")
+    protected String UpdateProductForm(@PathVariable("productId") final Integer productId,
+                                       @RequestParam("categoryId") final Integer categoryId,
+                                       @ModelAttribute("product") Product product,
+                                       RedirectAttributes redirAttrs) {
         if (currentSession.isLockscreenEnabled()) {
             return "lockscreen";
         }
-        Optional<Product> product = productRepository.findById(productId);
-        if (product.isPresent()) {
-            Category category = product.get().getCategory();
-            product.get().setCategory(category);
-            model.addAttribute(product.get());
-            model.addAttribute("categoryId", category.getCategoryId());
-            return "productForm";
-        } else {
-            model.addAttribute(new Product());
+        Optional<Product> optional = productRepository.findById(productId);
+        Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
+        if (!optionalCategory.isPresent()||!optional.isPresent()) {
+            redirAttrs.addFlashAttribute("error1", "No product is added.");
+            return "redirect:/catalog/";
         }
-        return "redirect:/catalog/product/" + product.get().getCategory().getCategoryId();
+            optional.get().setCategory(optionalCategory.get());
+            optional.get().setName(product.getName());
+            optional.get().setPrice(product.getPrice());
+            optional.get().setProductId(productId);
+            productRepository.save(optional.get());
+        redirAttrs.addFlashAttribute("success1", "The product " + product.getName() + " is saved.");
+        return "redirect:/catalog/product/" + optional.get().getCategory().getCategoryId();
     }
 
     @GetMapping("/delete/{productId}")
