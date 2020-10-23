@@ -43,7 +43,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     // custom 403 access denied handler
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.csrf().disable()
+                    .authorizeRequests()
                     .antMatchers("/user/**", "/catalog/**").hasRole("BARMANAGER")
                     .antMatchers("/order/**").hasRole("BARTENDER")
                     .antMatchers("/css/**", "/js/**").permitAll()
