@@ -49,7 +49,7 @@
                 <div class="alert alert-primary" role="alert" id="productSaveSuccess" th:text="${success1}" th:if="${success1}"></div>
                 <div class="list-group list-group-flush" id="productList">
                     <button class="list-group-item list-group-item-action d-flex productListItem"
-                            th:each="product: ${allProducts}"
+                            th:each="product: ${#lists.sort(allProducts)}"
                             th:id="${'product' + product.getProductId()}"
                             th:attr="productPrice=|${product.getPrice()}|,
                          productName=|${product.getName()}|,
@@ -143,6 +143,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <button class="btn btn-secondary mr-auto" id="deleteProduct" onclick="deleteProduct()">Delete</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button class="btn btn-secondary" form="productForm" name="action" type="submit" value="Save" >Save</button>
 

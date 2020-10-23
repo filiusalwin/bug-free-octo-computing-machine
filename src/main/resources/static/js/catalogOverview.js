@@ -21,6 +21,7 @@ function openModalNewCategory() {
     categoryName = null;
     $('#maintainCategoryModal').modal('show');
     $('#deleteCategory').hide();
+    $("#categorySaveErrorFrontEnd").hide();
 }
 
 function openModalNewProduct() {
@@ -29,7 +30,9 @@ function openModalNewProduct() {
     $("#productNameInput,#productPriceInput, #productId").val("");
     productName = null;
     $("#productCategoryIdInput").val(categoryId);
+    $("#deleteProduct").hide();
     $("#productForm").attr("action", "/catalog/product/" + categoryId + "/add");
+    $("#productSaveErrorFrontEnd").hide();
 }
 
 function editProduct(id) {
@@ -49,6 +52,8 @@ function fillOutForm(data) {
     categoryName = data.name
     $("#categoryNameInput, #originalCategoryName").val(data.name);
     $("#categoryId").val(data.categoryId);
+    $('#deleteCategory').show();
+    $("#categorySaveErrorFrontEnd").hide();
 }
 
 function fillOutProductModal(data) {
@@ -56,10 +61,10 @@ function fillOutProductModal(data) {
     $("#productNameInput, #originalProductName").val(data.name);
     productName= data.name;
     $("#productPriceInput").val(data.price / 100).trigger("blur");
-    $("#productId").val(data.productId);
+    $("#productIdInput").val(data.productId);
     $("#productCategoryIdInput").val(categoryId);
-    $("#productForm").attr("action", "/catalog/product/update/" + data.productId);
-
+    $("#deleteProduct").show();
+    $("#productSaveErrorFrontEnd").hide();
 }
 
 function addCategoryByCategoryName(categoryName) {
@@ -151,6 +156,11 @@ function selectCategory(id) {
 function deleteCategory() {
     var categoryId = $("#categoryIdInput").val();
     window.location.href = "/catalog/delete/" + categoryId;
+}
+
+function deleteProduct() {
+    var productId = $("#productIdInput").val();
+    window.location.href = "/catalog/product/delete/" + productId;
 }
 
 function resetNewCategory() {
