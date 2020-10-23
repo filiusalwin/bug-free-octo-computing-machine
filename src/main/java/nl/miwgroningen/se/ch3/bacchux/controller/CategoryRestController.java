@@ -4,6 +4,7 @@ import nl.miwgroningen.se.ch3.bacchux.model.Category;
 
 import nl.miwgroningen.se.ch3.bacchux.model.CategoryDTO;
 import nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository;
+import nl.miwgroningen.se.ch3.bacchux.service.CurrentSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

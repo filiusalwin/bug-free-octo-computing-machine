@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">>
 <head>
-    ...
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar">
@@ -22,18 +22,28 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/catalog}" sec:authorize="hasAnyRole('ROLE_BARMANAGER')">Catalog</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/lockout}">Lockscreen</a>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item button" >
+                <a th:href="@{/lockout}"><button class="button" id="lockButton">
+                    <span> <div class="icon-lock">
+                    <div class="lock-top-1" style="background-color: #2CC3B5"></div>
+                    <div class="lock-top-2"></div>
+                    <div class="lock-body" style="background-color: #2CC3B5"></div>
+                    <div class="lock-hole"></div>
+                    </div></span></button></a>
             </li>
         </ul>
-        <ul class="navbar-nav ml-auto" sec:authorize="isAuthenticated()">
+        <ul class="navbar-nav float-lg-right" sec:authorize="isAuthenticated()">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" aria-haspopup="true"
                    sec:authentication="name" id="profileDropdown"
                    aria-expanded="false" data-toggle="dropdown"/>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
                     <a class="dropdown-item" th:href="@{/profile}">My Account</a>
-                    <a class="dropdown-item" th:href="@{/logout}">Log Out</a>
+                    <a class="dropdown-item"><form th:action="@{/bacchuxLogout}" method="POST">
+                        <input type="submit" id="logout" value="Logout"/>
+                    </form></a>
                 </div>
             </li>
         </ul>
