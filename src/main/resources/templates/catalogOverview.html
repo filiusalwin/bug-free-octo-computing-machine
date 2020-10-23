@@ -115,26 +115,25 @@
                     <form id="productForm"
                           th:action="@{catalog/product/{categoryId}/add(categoryId=${category.categoryId})}"
                           th:object="${product}" method="post">
-                        <div id="productIdInput" input="hidden">
 <!--
                         <p><input type="hidden" id="productIdInput" th:field="*{productId}"  /></p>
 -->
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" style="width: 100px;." id="basic-addon2">Name</span>
+                                <span class="input-group-text" style="width: 120px;." id="basic-addon2">Name</span>
                             </div>
                             <input type="text" id="productNameInput" class="form-control" placeholder="Name"
                                    aria-label="Name" aria-describedby="basic-addon1" th:field="*{name}"
-                                   onfocusout="checkIfProductNameExists()" required>
+                                   onfocusout="checkIfProductNameExists()" autocomplete="off" required>
                             <span id="productNameError" class="help">This product already exists.</span>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" style="width: 120px;" id="basic-addon3">Price (in cents)</span>
+                                <span class="input-group-text" style="width: 120px;" id="basic-addon3">Price</span>
                             </div>
                             <input type="text" id="productPriceInput" class="form-control" placeholder="Price"
-                                   aria-label="Price" aria-describedby="basic-addon1" th:field="*{price}"
-                                   onfocusout="checkIfPriceIsNumber()" required>
+                                   data-type="currency" required>
+                            <input type="hidden" th:field="*{price}">
                             <span id="priceError" class="help">Only numbers allowed</span>
                         </div>
                     </form>
@@ -149,5 +148,6 @@
     <div th:replace="fragments/footer :: footer"/>
     <div th:replace="fragments/header :: scriptFragment" />
     <script src="/js/catalogOverview.js"></script>
+    <script src="/js/order_currency.js"></script>
 </body>
 </html>
