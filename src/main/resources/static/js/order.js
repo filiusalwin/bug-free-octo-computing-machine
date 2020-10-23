@@ -78,11 +78,10 @@ function chooseCustomer(data) {
         clearUser();
         return;
     }
-    showCustomerInfo(data);
     currentBalance = data.balance;
     currentCredit = data.currentCredit;
+    showCustomerInfo(data);
     updateCurrentBalance();
-    updateCurrentCredit();
     if (!data.prepaidAllowed && !data.creditAllowed) {
         $("#noPaymentError").show();
     }
@@ -97,20 +96,23 @@ function chooseCustomer(data) {
 
 function showCustomerInfo(data) {
     if (!data) {
-        $("#customerName").text(null);
-        $("#customerInfo").text(null);
+        $("#customerName, #customerInfo").text(null);
         return;
     }
     $("#customerName").text(data.name);
-    var info = "Balance "
-            + formatCurrencyString(data.balance)
-            + "<br>Credit "
-            + formatCurrencyString(data.currentCredit);
-    $("#customerInfo").html(info);
+    showBalanceAndCredit();
     $("#profileFoto").show();
     $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
     $("#profileFoto2").attr('src','data:image/png;base64,' + data.picture);
 
+}
+
+function showBalanceAndCredit() {
+    var info = "Balance "
+            + formatCurrencyString(currentBalance)
+            + "<br>Credit "
+            + formatCurrencyString(currentCredit);
+    $("#customerInfo").html(info);
 }
 
 // Change picture when new user is chosen
@@ -136,6 +138,7 @@ function getCustomerByUsernameAnd(username, callback) {
         callback(data);
     });
 }
+
 
 // ---- Update Bill ---- \\
 function updateProductList(products) {
@@ -359,6 +362,7 @@ function prepaidSuccessAndReload() {
     paymentError();
     currentBalance -= totalPrice;
     updateCurrentBalance();
+    showBalanceAndCredit();
     doPaymentLog(paymentType = "prepaid");
     const message = "Payment successful. Remaining balance: " + formatCurrencyString(currentBalance);
     paymentSuccess(message);
@@ -368,7 +372,7 @@ function prepaidSuccessAndReload() {
 function creditSuccessAndReload() {
     paymentError();
     currentCredit += totalPrice;
-    updateCurrentCredit();
+    showBalanceAndCredit();
     doPaymentLog(paymentType = "credit");
     const message = "Payment successful. Credit total: " + formatCurrencyString(currentCredit);
     paymentSuccess(message);
@@ -419,7 +423,6 @@ function saveNewCustomer() {
     });
 }
 
-
 function savingCustomerSuccess(message) {
     var success = $("#savingUserSucces");
     if (!message) {
@@ -431,6 +434,7 @@ function savingCustomerSuccess(message) {
     $("#savingUserSucces").show();
     setTimeout(function () {success.hide()}, 3000)
 }
+
 function savingCustomerError(message) {
     var error = $("#savingUserError");
     if (!message) {
@@ -495,8 +499,8 @@ function doTopUp() {
     var username = $("#searchUser").val();
     var amount = Number($("#topUpAmount").val().replace(/[^0-9]+/g, ""));
     if (isNaN(amount)) {
-            alert("Invalid amount. Top-up not possible.");
-        }
+        alert("Invalid amount. Top-up not possible.");
+    }
 
     $.ajax({
         type: "PUT",
@@ -509,6 +513,7 @@ function doTopUp() {
             200: function() {
                 currentBalance += amount;
                 updateCurrentBalance();
+                showBalanceAndCredit();
                 $("#topUpAmount").val("");
             },
             404: function() {
@@ -516,10 +521,4 @@ function doTopUp() {
             }
         }
     });
-}
-
-// ---- Credit ---- \\
-function updateCurrentCredit() {
-    var message = "Current credit total: " + formatCurrencyString(currentCredit);
-    $("#currentCreditText").text(message);
 }
