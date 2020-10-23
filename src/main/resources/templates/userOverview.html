@@ -159,8 +159,11 @@
                         <div class="input-group mb-3">
                             <div class="form-check" >
                                 <label id="Credit-Choice-Label" for="credit_account">What is your bank account number?</label>
-                                <input type="text" id="credit_account" name="credit_account" onkeyup="ibanValidation()"  th:field="*{creditPaymentBankAccountNumber}">
-                                <span id="ibanError" class="help">This iban is not valid.</span>
+                                <input type="text" id="credit_account" name="credit_account" onkeyup="ibanValidation()"
+                                       th:field="*{creditPaymentBankAccountNumber}">
+                                <span id="ibanError" class="help">
+                                    This iban is not valid.
+                                </span>
                             </div>
                         </div>
                         <div>
