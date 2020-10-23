@@ -47,22 +47,22 @@ public class ProductController {
         return "redirect:/catalog/";
     }
 
-    @GetMapping("/{categoryId}/add")
-    protected String showProductForm(@PathVariable("categoryId") final Integer categoryId,
-                                     Model model) {
-        if (currentSession.isLockscreenEnabled()) {
-            return "lockscreen";
-        }
-        Optional<Category> category = categoryRepository.findById(categoryId);
-        if (category.isPresent()) {
-            Product product = new Product();
-            product.setCategory(category.get());
-            model.addAttribute("product", product);
-            model.addAttribute("allCategories", categoryRepository.findAll());
-           return "productForm";
-        }
-        return "redirect:/catalog/product/" + categoryId;
-    }
+//    @GetMapping("/{categoryId}/add")
+//    protected String showProductForm(@PathVariable("categoryId") final Integer categoryId,
+//                                     Model model) {
+//        if (currentSession.isLockscreenEnabled()) {
+//            return "lockscreen";
+//        }
+//        Optional<Category> category = categoryRepository.findById(categoryId);
+//        if (category.isPresent()) {
+//            Product product = new Product();
+//            product.setCategory(category.get());
+//            model.addAttribute("product", product);
+//            model.addAttribute("allCategories", categoryRepository.findAll());
+//           return "productForm";
+//        }
+//        return "redirect:/catalog/product/" + categoryId;
+//    }
 
     @PostMapping("/{categoryId}/add")
     protected String saveOrUpdateProduct( Model model,
@@ -72,7 +72,8 @@ public class ProductController {
                                           RedirectAttributes redirAttrs) {
 
         if (result.hasErrors()) {
-            return "catalogOverview";
+            redirAttrs.addFlashAttribute("error1", "The information is not correct!");
+            return "redirect:/catalog";
         }
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {

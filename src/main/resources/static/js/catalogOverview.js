@@ -30,7 +30,6 @@ function openModalNewProduct() {
     productName = null;
     $("#productCategoryIdInput").val(categoryId);
     $("#productForm").attr("action", "/catalog/product/" + categoryId + "/add");
-    $('#maintainCategoryModal').modal('show');
 }
 
 function editProduct(id) {
@@ -56,7 +55,7 @@ function fillOutProductModal(data) {
     $("#modalLabelProduct").html("Edit " + data.name);
     $("#productNameInput, #originalProductName").val(data.name);
     productName= data.name;
-    $("#productPriceInput").val((data.price/priceToEuro));
+    $("#productPriceInput").val(data.price / 100).trigger("blur");
     $("#productId").val(data.productId);
     $("#productCategoryIdInput").val(categoryId);
     $("#productForm").attr("action", "/catalog/product/update/" + data.productId);
@@ -102,7 +101,6 @@ function checkIfCategoryNameExists() {
 
 function checkIfProductNameExists() {
     productNameAfterTyping = $("#productNameInput").val();
-    console.log(productName);
     if (productName == productNameAfterTyping) {
             $("#categorySaveErrorFrontEnd").hide();
             return;

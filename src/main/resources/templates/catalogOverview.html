@@ -95,8 +95,10 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary mr-auto" id="deleteCategory" onclick="deleteCategory()">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button class="btn btn-secondary" form="categoryForm" name="action"
                             type="submit" value="Save" >Save</button>
+
                 </div>
             </div>
         </div>
@@ -133,15 +135,17 @@
                                 <span class="input-group-text" style="width: 100px;" id="basic-addon3">Price (€)</span>
                             </div>
                             <input type="text" id="productPriceInput" class="form-control" placeholder="Price"
-                                   aria-label="Price" aria-describedby="basic-addon3" th:field="*{price}"
+                                   aria-label="Price" aria-describedby="basic-addon3"
                                    data-type="currency" required>
-                            <input type="hidden" th:field="*{price}">
+                            <input id="price" type="hidden" th:field="*{price}">
                             <span id="priceError" class="help">Only numbers allowed</span>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button class="btn btn-secondary" form="productForm" name="action" type="submit" value="Save" >Save</button>
+
                 </div>
             </div>
         </div>
