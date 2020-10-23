@@ -20,31 +20,31 @@ INSERT INTO bacchux.product (product_id,name,price,category_id)
 INSERT INTO bacchux.product (product_id,name,price,category_id)
 	VALUES ('3','Leffe Tripel',450,'1');
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('15','Baxbier Kon Minder Citra',480,'1');
+	VALUES ('4','Baxbier Kon Minder Citra',480,'1');
 
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('4','Zoete Witte Wijn',320,'2');
+	VALUES ('5','Zoete Witte Wijn',320,'2');
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-    VALUES ('5','Merlot',370,'2');
+    VALUES ('6','Merlot',370,'2');
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('6','Cabernet Sauvignon',400,'2');
+	VALUES ('7','Cabernet Sauvignon',400,'2');
 
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('7','Cola',200,'3');
+	VALUES ('8','Cola',200,'3');
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('8','Fanta',180,'3');
+	VALUES ('9','Fanta',180,'3');
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('9','Red Bull',300,'3');
+	VALUES ('10','Red Bull',300,'3');
 
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('10','Borrelnoten',250,'4');
+	VALUES ('11','Borrelnoten',250,'4');
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('11','Tosti Kaas',150,'4');
+	VALUES ('12','Tosti Kaas',150,'4');
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('12','Tosti Ham & Kaas',180,'4');
+	VALUES ('13','Tosti Ham & Kaas',180,'4');
 
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('13','Cheeseburger',450,'5');
+	VALUES ('14','Cheeseburger',450,'5');
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('14','Veggieburger',350,'5');
+	VALUES ('15','Veggieburger',350,'5');
 
