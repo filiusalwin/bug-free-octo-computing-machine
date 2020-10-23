@@ -72,24 +72,10 @@ public class CategoryController {
         return "redirect:/catalog/";
     }
 
-    @PostMapping("/update/{categoryId}")
-    protected String UpdateCategoryForm(Model model,
-                                    @PathVariable("categoryId") final Integer categoryId) {
-        if (currentSession.isLockscreenEnabled()) {
-            return "lockscreen";
-        }
-        model.addAttribute("allCategories", categoryRepository.findAll());
-        Optional<Category> category = categoryRepository.findById(categoryId);
-        if (category.isPresent()) {
-            model.addAttribute(category.get());
-        } else {
-            model.addAttribute(new Category());
-        }
-        return "catalogOverview";
-    }
 
     @GetMapping("/delete/{categoryId}")
-    protected String deleteCategory(@PathVariable("categoryId") final Integer categoryId) {
+    protected String deleteCategory(@PathVariable("categoryId") final Integer categoryId,
+                                    RedirectAttributes redirAttrs) {
         if (currentSession.isLockscreenEnabled()) {
             return "lockscreen";
         }
@@ -97,6 +83,7 @@ public class CategoryController {
         if (category.isPresent()) {
             categoryRepository.deleteById(categoryId);
         }
+        redirAttrs.addFlashAttribute("success", "The category " + category.get().getName() + " is deleted.");
         return "redirect:/catalog/";
     }
 

@@ -47,23 +47,6 @@ public class ProductController {
         return "redirect:/catalog/";
     }
 
-//    @GetMapping("/{categoryId}/add")
-//    protected String showProductForm(@PathVariable("categoryId") final Integer categoryId,
-//                                     Model model) {
-//        if (currentSession.isLockscreenEnabled()) {
-//            return "lockscreen";
-//        }
-//        Optional<Category> category = categoryRepository.findById(categoryId);
-//        if (category.isPresent()) {
-//            Product product = new Product();
-//            product.setCategory(category.get());
-//            model.addAttribute("product", product);
-//            model.addAttribute("allCategories", categoryRepository.findAll());
-//           return "productForm";
-//        }
-//        return "redirect:/catalog/product/" + categoryId;
-//    }
-
     @PostMapping("/{categoryId}/add")
     protected String saveOrUpdateProduct( Model model,
                                           @PathVariable("categoryId") final Integer categoryId,
@@ -90,40 +73,20 @@ public class ProductController {
         return "redirect:/catalog/product/" + categoryId;
     }
 
-    @PostMapping("/update/{productId}")
-    protected String UpdateProductForm(@PathVariable("productId") final Integer productId,
-                                       @RequestParam("categoryId") final Integer categoryId,
-                                       @ModelAttribute("product") Product product,
-                                       RedirectAttributes redirAttrs) {
-        if (currentSession.isLockscreenEnabled()) {
-            return "lockscreen";
-        }
-        Optional<Product> optional = productRepository.findById(productId);
-        Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
-        if (!optionalCategory.isPresent()||!optional.isPresent()) {
-            redirAttrs.addFlashAttribute("error1", "No product is added.");
-            return "redirect:/catalog/";
-        }
-            optional.get().setCategory(optionalCategory.get());
-            optional.get().setName(product.getName());
-            optional.get().setPrice(product.getPrice());
-            optional.get().setProductId(productId);
-            productRepository.save(optional.get());
-        redirAttrs.addFlashAttribute("success1", "The product " + product.getName() + " is saved.");
-        return "redirect:/catalog/product/" + optional.get().getCategory().getCategoryId();
-    }
-
     @GetMapping("/delete/{productId}")
-    protected String deleteProduct(@PathVariable("productId") final Integer productId) {
+    protected String deleteProduct(@PathVariable("productId") final Integer productId,
+                                   RedirectAttributes redirAttrs) {
+        int categoryId = 0;
         if (currentSession.isLockscreenEnabled()) {
             return "lockscreen";
         }
         Optional<Product> product = productRepository.findById(productId);
         if (product.isPresent()) {
-            int categoryId = product.get().getCategory().getCategoryId();
+            categoryId = product.get().getCategory().getCategoryId();
             productRepository.deleteById(productId);
-            return "redirect:/catalog/product/" + categoryId;
+            redirAttrs.addFlashAttribute("success1", "The product " + product.get().getName() + " is deleted.");
+
         }
-        return "redirect:/catalog/product/{categoryId}/";
+        return "redirect:/catalog/product/" + categoryId;
     }
 }
