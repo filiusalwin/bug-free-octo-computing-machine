@@ -22,7 +22,7 @@
                         <span id="categoryId" hidden th:text="${category.getCategoryId()}"></span>
                     </h2>
                     <button class="btn btn-secondary ml-auto font-xl" onclick="openModalNewCategory()" data-toggle="modal"
-                            data-target="#maintainCategoryModal">+</button>
+                            data-target="#maintainCategoryModal"><i class="fas fa-plus-square"></i></button>
                 </div>
                 <div class="alert alert-danger" role="alert" id="categorySaveError" th:text="${error}" th:if="${error}"></div>
                 <div class="list-group list-group-flush" id="categoryList">
@@ -42,7 +42,7 @@
                         Products
                     </h2>
                     <button class="btn btn-secondary ml-auto font-xl" onclick="openModalNewProduct()" data-toggle="modal"
-                            data-target="#maintainProductModal" th:if="${allCategories.size()>0}">+</button>
+                            data-target="#maintainProductModal" th:if="${allCategories.size()>0}"><i class="fas fa-plus-square"></i></button>
                 </div>
                 <div class="alert alert-danger" role="alert" id="productSaveError" th:text="${error1}" th:if="${error1}"></div>
                 <div class="list-group list-group-flush" id="productList">
