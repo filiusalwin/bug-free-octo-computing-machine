@@ -26,7 +26,7 @@
                 </div>
                 <div class="alert alert-danger" role="alert" id="categorySaveError" th:text="${error}" th:if="${error}"></div>
                 <div class="alert alert-primary" role="alert" id="categorySaveSuccess" th:text="${success}" th:if="${success}"></div>
-                <div class="list-group list-group-flush" id="categoryList">
+                <div class="list-group list-group-flush" id="categ  oryList">
                     <button class="list-group-item list-group-item-action categoryButton"
                             th:each="category: ${allCategories}"
                             th:id="${'category' + category.getCategoryId()}"
@@ -126,16 +126,16 @@
                             <input type="text" id="productNameInput" class="form-control" placeholder="Name"
                                    aria-label="Name" aria-describedby="basic-addon1" th:field="*{name}"
                                    onfocusout="checkIfProductNameExists()" required>
-                            <span id="productNameError" class="help">This product already exists.</span>
                         </div>
+                        <div class="alert alert-danger" role="alert" id="productSaveErrorFrontEnd">This product already exists.</div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" style="width: 120px;" id="basic-addon3">Price (in cents)</span>
+                                <span class="input-group-text" style="width: 100px;" id="basic-addon3">Price (€)</span>
                             </div>
                             <input type="text" id="productPriceInput" class="form-control" placeholder="Price"
-                                   aria-label="Price" aria-describedby="basic-addon1" th:field="*{price}"
-                                   onfocusout="checkIfPriceIsNumber()" required>
-                            <span id="priceError" class="help">Only numbers allowed</span>
+                                   aria-label="Price" aria-describedby="basic-addon3" th:field="*{price}"
+                                   onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,''),
+                                    alert('Price must be a only number!')" >
                         </div>
                     </form>
                 </div>

@@ -1,9 +1,10 @@
 var newCategory;
 var newProduct;
 var categoryId;
+const priceToEuro = 100;
 
 $(document).ready(function() {
-    $("#categorySaveErrorFrontEnd").hide();
+    $("#categorySaveErrorFrontEnd, #productSaveErrorFrontEnd").hide();
     $("#productNameError").hide();
     $("#priceError").hide();
     categoryId = $("#categoryId").text();
@@ -17,16 +18,22 @@ function openModalNewCategory() {
     newCategory = true;
     $("#modalLabelCategory").html("New Category");
     $("#categoryNameInput, #originalCategoryName, #categoryIdInput" ).val("");
+    categoryName = null;
     $('#maintainCategoryModal').modal('show');
     $('#deleteCategory').hide();
 }
 
 function openModalNewProduct() {
     newProduct = true;
+    $("#modalLabelProduct").html("New product");
+    $("#productNameInput,#productPriceInput, #productId").val("");
+    productName = null;
+    $("#productCategoryIdInput").val(categoryId);
+    $("#productForm").attr("action", "/catalog/product/" + categoryId + "/add");
+    $('#maintainCategoryModal').modal('show');
 }
 
 function editProduct(id) {
-    console.log(id);
     product = $('#product' + id);
     var data = {
         name : product.attr("productName"),
@@ -48,7 +55,8 @@ function fillOutForm(data) {
 function fillOutProductModal(data) {
     $("#modalLabelProduct").html("Edit " + data.name);
     $("#productNameInput, #originalProductName").val(data.name);
-    $("#productPriceInput, #originalProductPrice").val(data.price);
+    productName= data.name;
+    $("#productPriceInput").val((data.price/priceToEuro));
     $("#productId").val(data.productId);
     $("#productCategoryIdInput").val(categoryId);
     $("#productForm").attr("action", "/catalog/product/update/" + data.productId);
@@ -71,7 +79,7 @@ function addCategoryByCategoryName(categoryName) {
 
 function checkIfCategoryNameExists() {
     categoryNameAfterTyping = $("#categoryNameInput").val();
-    if (categoryName == categoryNameAfterTyping ) {
+    if (categoryName == categoryNameAfterTyping) {
         $("#categorySaveErrorFrontEnd").hide();
         return;
     }
@@ -89,6 +97,30 @@ function checkIfCategoryNameExists() {
             return;
         }
         $("#categorySaveErrorFrontEnd").hide();
+    });
+}
+
+function checkIfProductNameExists() {
+    productNameAfterTyping = $("#productNameInput").val();
+    console.log(productName);
+    if (productName == productNameAfterTyping) {
+            $("#categorySaveErrorFrontEnd").hide();
+            return;
+        }
+    $.ajax({
+        type: "GET",
+        url: "/catalog/productName/" + productNameAfterTyping,
+        statusCode: {
+            404: function () {
+                return;
+            }
+        }
+    }).done(function (data) {
+        if (data !== "") {
+            $("#productSaveErrorFrontEnd").show();
+            return;
+        }
+        $("#productSaveErrorFrontEnd").hide();
     });
 }
 
