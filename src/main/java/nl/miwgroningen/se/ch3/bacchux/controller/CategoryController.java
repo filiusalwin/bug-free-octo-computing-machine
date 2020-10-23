@@ -51,6 +51,28 @@ public class CategoryController {
         }
         return "catalogOverview";
     }
+    @GetMapping("/{categoryId}")
+    protected String showCatalogByCategory(Model model,
+                                           @PathVariable("categoryId") final Integer categoryId) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
+        currentSession.setPreviousUrl("/catalog");
+        List<Category> allCategories = categoryRepository.findAll();
+        List<Product> allProducts = productRepository.findAll();
+        Optional<Category> category = categoryRepository.findById(categoryId);
+        allCategories.sort(Category::compareTo);
+        allProducts.sort(Product::compareTo);
+        model.addAttribute("allCategories", allCategories);
+        model.addAttribute("allProducts", allProducts);
+        model.addAttribute("product", new Product());
+        if (allCategories.isEmpty() || category.isEmpty()) {
+            model.addAttribute("category", new Category());
+        } else {
+            model.addAttribute("category", category.get());
+        }
+        return "catalogOverview";
+    }
 
 
     @PostMapping("/add")
@@ -69,7 +91,7 @@ public class CategoryController {
             }
         }
         redirAttrs.addFlashAttribute("success", "The category " + category.getName() + " is saved.");
-        return "redirect:/catalog/";
+        return "redirect:/catalog/" + category.getCategoryId();
     }
 
 
