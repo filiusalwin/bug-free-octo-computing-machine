@@ -78,6 +78,9 @@ public class LoginController {
 
     @GetMapping("/403")
     public String error403() {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         return "/403";
     }
 

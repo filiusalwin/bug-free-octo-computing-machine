@@ -201,6 +201,7 @@ public class UserController {
         user.setPin(user1.get().getPin());
         user.setPicture(user1.get().getPicture());
 
+        // Check picture
         if (picture.isEmpty()) {
            user.setPicture(user.getPicture());
         } else {
