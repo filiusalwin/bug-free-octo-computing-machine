@@ -51,7 +51,7 @@ function fillOutForm(data) {
     $("#modalLabelCategory").html("Edit " + data.name);
     categoryName = data.name
     $("#categoryNameInput, #originalCategoryName").val(data.name);
-    $("#categoryId").val(data.categoryId);
+    $("#categoryIdInput").val(data.categoryId);
     $('#deleteCategory').show();
     $("#categorySaveErrorFrontEnd").hide();
 }
@@ -154,8 +154,7 @@ function selectCategory(id) {
 }
 
 function deleteCategory() {
-    var categoryId = $("#categoryIdInput").val();
-    window.location.href = "/catalog/delete/" + categoryId;
+    window.location.href = "/catalog/delete/" + $("#categoryIdInput").val();
 }
 
 function deleteProduct() {
