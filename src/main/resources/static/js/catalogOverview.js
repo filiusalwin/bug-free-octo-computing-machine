@@ -162,3 +162,20 @@ function resetNewCategory() {
 function resetNewProduct() {
     newProduct = false;
 }
+
+function fixPrice() {
+    var amount = Number($("#productPriceInput").val().replace(/[^0-9]+/g, ""));
+    $("#price").val(amount);
+}
+
+$("#productForm").submit(function(event) {
+    var form = this;
+    $("#productPriceInput").trigger("blur");
+
+    event.preventDefault();
+
+    setTimeout( function () {
+        fixPrice();
+        form.submit();
+    }, 300);
+});

@@ -134,8 +134,9 @@
                             </div>
                             <input type="text" id="productPriceInput" class="form-control" placeholder="Price"
                                    aria-label="Price" aria-describedby="basic-addon3" th:field="*{price}"
-                                   onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,''),
-                                    alert('Price must be a only number!')" >
+                                   data-type="currency" required>
+                            <input type="hidden" th:field="*{price}">
+                            <span id="priceError" class="help">Only numbers allowed</span>
                         </div>
                     </form>
                 </div>
@@ -149,5 +150,6 @@
     <div th:replace="fragments/footer :: footer"/>
     <div th:replace="fragments/header :: scriptFragment" />
     <script src="/js/catalogOverview.js"></script>
+    <script src="/js/order_currency.js"></script>
 </body>
 </html>
