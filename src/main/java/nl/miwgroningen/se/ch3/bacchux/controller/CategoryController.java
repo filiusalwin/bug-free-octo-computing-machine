@@ -74,6 +74,9 @@ public class CategoryController {
     @GetMapping("/update/{categoryId}")
     protected String UpdateCategoryForm(Model model,
                                     @PathVariable("categoryId") final Integer categoryId) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         model.addAttribute("allCategories", categoryRepository.findAll());
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
@@ -86,6 +89,9 @@ public class CategoryController {
 
     @GetMapping("/delete/{categoryId}")
     protected String deleteCategory(@PathVariable("categoryId") final Integer categoryId) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
             categoryRepository.deleteById(categoryId);

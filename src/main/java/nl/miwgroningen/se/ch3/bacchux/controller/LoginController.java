@@ -46,6 +46,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login() {
+        currentSession.setLockscreenEnabled(false);
         checkForFirstUser();
         return "login";
     }

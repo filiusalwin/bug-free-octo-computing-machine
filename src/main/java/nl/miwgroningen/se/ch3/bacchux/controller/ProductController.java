@@ -4,6 +4,7 @@ import nl.miwgroningen.se.ch3.bacchux.model.Category;
 import nl.miwgroningen.se.ch3.bacchux.model.Product;
 import nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository;
 import nl.miwgroningen.se.ch3.bacchux.repository.ProductRepository;
+import nl.miwgroningen.se.ch3.bacchux.service.CurrentSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/catalog/product")
@@ -25,9 +25,15 @@ public class ProductController {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    CurrentSession currentSession;
+
     @GetMapping("/{categoryId}")
     protected String showProducts(@PathVariable("categoryId") final Integer categoryId,
                                   Model model){
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         model.addAttribute("allCategories", categoryRepository.findAll());
         model.addAttribute("allProducts", productRepository.findAll());
         model.addAttribute("product", new Product());
@@ -43,6 +49,9 @@ public class ProductController {
     @GetMapping("/{categoryId}/add")
     protected String showProductForm(@PathVariable("categoryId") final Integer categoryId,
                                      Model model) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         Optional<Category> category = categoryRepository.findById(categoryId);
         if (category.isPresent()) {
             Product product = new Product();
@@ -81,6 +90,9 @@ public class ProductController {
     @GetMapping("/update/{productId}")
     protected String UpdateProductForm(Model model,
                                        @PathVariable("productId") final Integer productId) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         Optional<Product> product = productRepository.findById(productId);
         if (product.isPresent()) {
             Category category = product.get().getCategory();
@@ -96,6 +108,9 @@ public class ProductController {
 
     @GetMapping("/delete/{productId}")
     protected String deleteProduct(@PathVariable("productId") final Integer productId) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         Optional<Product> product = productRepository.findById(productId);
         if (product.isPresent()) {
             int categoryId = product.get().getCategory().getCategoryId();

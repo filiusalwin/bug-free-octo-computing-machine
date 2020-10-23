@@ -62,6 +62,9 @@ public class UserController {
     @GetMapping("/update/{userId}")
     protected String UpdateUserForm(Model model,
                                     @PathVariable("userId") final Integer userId) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         model.addAttribute("allUsers", userRepository.findAll());
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
@@ -75,6 +78,9 @@ public class UserController {
     @GetMapping("/update/username/{username}")
     protected String UpdateUserFormByUsername(Model model,
                                     @PathVariable("username") final String username) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         model.addAttribute("allUsers", userRepository.findAll());
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isPresent()) {
@@ -235,6 +241,9 @@ public class UserController {
 
     @GetMapping("/delete/{userId}")
     protected String deleteUser(@PathVariable("userId") final Integer userId, RedirectAttributes redirAttrs) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         Optional<User> user = userRepository.findById(userId);
         Optional<User> currentUser = getCurrentUser();
         System.out.println(currentUser.get().getName());
@@ -249,6 +258,9 @@ public class UserController {
 
     @GetMapping("/bill/{userId}")
     protected String showUserBill(Model model, @PathVariable("userId") final Integer userId) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         Optional<User> userOpt = userRepository.findById(userId);
         if (userOpt.isEmpty()) {
             return "redirect:/user/";

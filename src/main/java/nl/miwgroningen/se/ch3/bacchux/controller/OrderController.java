@@ -49,6 +49,9 @@ public class OrderController {
 
     @GetMapping("new/prepaid")
     protected String addPrepaidCustomer(Model model) {
+        if (currentSession.isLockscreenEnabled()) {
+            return "lockscreen";
+        }
         model.addAttribute("allUsers", userRepository.findAll());
         User user = new User();
         user.setRoles("ROLE_CUSTOMER");
