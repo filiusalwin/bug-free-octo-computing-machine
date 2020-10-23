@@ -70,7 +70,7 @@
                     <div class="bigButton">
                         <button class="btn btn-primary p-3 font-xl w-100 h-100" id="selectCustomerButton"
                                 data-toggle="modal" data-target="#customerModal" onclick="choosePayment();">
-                            Select<br>Customer
+                            <i class="fas fa-user-check"></i> Select<br>Customer
                         </button>
                     </div>
                     <div class="bigBox p-2 border rounded">
@@ -90,7 +90,7 @@
                 <div class="d-flex justify-content-between flex-wrap mb-4">
                     <div class="bigButton">
                         <button class="btn btn-dark p-3 font-xl payment w-100 h-100" id="cashPayButton"
-                                onclick="choosePayment('direct')">
+                                onclick="choosePayment('direct')"> <i class="fas fa-cash-register"></i>
                             Direct<br>Payment
                         </button>
                     </div>
@@ -134,7 +134,7 @@
                 </div>
                 <div class="modal-body">
                     <button class="btn btn-dark mb-2" id="addPrepaidButton" onclick="addPrepaidCustomer()">
-                        + New Prepaid Customer
+                        <i class="fas fa-user-plus"></i> New Prepaid Customer
                     </button>
                     <datalist th:field="${user.userId}" id="userList">
                         <option th:each="user: ${#lists.sort(allUsers)}" th:value="${user.username}"  th:label="${user.name}"></option>
@@ -169,7 +169,9 @@
                         This user has no payment privileges.
                     </div>
                     <div class="text-center mt-2" id="chooseUser">
-                        <button class="btn-large p-3 font-lg border rounded btn-primary" onclick="chooseThisUser();">Ok</button>
+                        <h2>
+                            <button class="btn-large p-3 border rounded btn-primary w-50" onclick="chooseThisUser();"><i class="far fa-check-circle"></i></button>
+                        </h2>
                     </div>
                 </div>
             </div>
@@ -212,9 +214,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" id="saveButton" onclick="saveNewCustomer()" >Save</button>
-                    <button class="btn btn-secondary" form="newCustomerForm" name="action" type="reset" value="Reset">Reset</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-secondary" id="saveButton" onclick="saveNewCustomer()">Create</button>
                 </div>
             </div>
         </div>

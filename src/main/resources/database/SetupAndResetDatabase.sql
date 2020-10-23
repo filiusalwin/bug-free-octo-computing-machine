@@ -1,26 +1,50 @@
- DROP SCHEMA bacchux; -- Drops the old database
- CREATE DATABASE bacchux; -- Creates the new database
- CREATE USER 'userBacchUx'@'%' IDENTIFIED BY 'pwUserBacchUx'; -- Creates the user
- GRANT ALL ON bacchux.* TO 'userBacchUx'@'%'; -- Gives all privileges to the new user on the newly created database
- USE bacchux; -- Uses the new database
+DROP SCHEMA bacchux;
+CREATE DATABASE bacchux;
+DROP USER `userBacchUx`;
+CREATE USER 'userBacchUx'@'%' IDENTIFIED BY 'pwUserBacchUx';
+GRANT ALL ON bacchux.* TO 'userBacchUx'@'%';
+-- run spring after this so hibernate can make the tables
 
 -- Insert categories
-INSERT INTO `bacchux`.`category` (`category_id`, `name`) VALUES ('1', 'Alcohol');
-INSERT INTO `bacchux`.`category` (`category_id`, `name`) VALUES ('2', 'Softdrink');
-INSERT INTO `bacchux`.`category` (`category_id`, `name`) VALUES ('3', 'Food');
+INSERT INTO `bacchux`.`category` (`category_id`, `name`) VALUES ('1', 'Bier');
+INSERT INTO `bacchux`.`category` (`category_id`, `name`) VALUES ('2', 'Wijn');
+INSERT INTO `bacchux`.`category` (`category_id`, `name`) VALUES ('3', 'Softdrink');
+INSERT INTO `bacchux`.`category` (`category_id`, `name`) VALUES ('4', 'Snacks');
+INSERT INTO `bacchux`.`category` (`category_id`, `name`) VALUES ('5', 'Burgers');
 
 -- Insert products
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('1','Heineken',350,'1');
+	VALUES ('1','Grolsch',270,'1');
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('2','Amstel',350,'1');
+	VALUES ('2','Amstel',230,'1');
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('4','Wijn',270,'1');
+	VALUES ('3','Leffe Tripel',450,'1');
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('3','Fris',130,'2');
+	VALUES ('15','Baxbier Kon Minder Citra',480,'1');
+
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('5','Borrelnootjes',300,'3');
+	VALUES ('4','Zoete Witte Wijn',320,'2');
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('6','Tosti Kaas',200,'3');
+    VALUES ('5','Merlot',370,'2');
 INSERT INTO bacchux.product (product_id,name,price,category_id)
-	VALUES ('7','Tosti Ham & Kaas',250,'3');
+	VALUES ('6','Cabernet Sauvignon',400,'2');
+
+INSERT INTO bacchux.product (product_id,name,price,category_id)
+	VALUES ('7','Cola',200,'3');
+INSERT INTO bacchux.product (product_id,name,price,category_id)
+	VALUES ('8','Fanta',180,'3');
+INSERT INTO bacchux.product (product_id,name,price,category_id)
+	VALUES ('9','Red Bull',300,'3');
+
+INSERT INTO bacchux.product (product_id,name,price,category_id)
+	VALUES ('10','Borrelnoten',250,'4');
+INSERT INTO bacchux.product (product_id,name,price,category_id)
+	VALUES ('11','Tosti Kaas',150,'4');
+INSERT INTO bacchux.product (product_id,name,price,category_id)
+	VALUES ('12','Tosti Ham & Kaas',180,'4');
+
+INSERT INTO bacchux.product (product_id,name,price,category_id)
+	VALUES ('13','Cheeseburger',450,'5');
+INSERT INTO bacchux.product (product_id,name,price,category_id)
+	VALUES ('14','Veggieburger',350,'5');
+
