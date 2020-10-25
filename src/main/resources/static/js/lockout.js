@@ -28,6 +28,10 @@ function lockscreen() {
     window.location.assign("/lockout?error");
 }
 
+function logout() {
+    window.location.assign("/bacchuxLogout");
+}
+
 function noBack() {
     window.history.forward();
 }

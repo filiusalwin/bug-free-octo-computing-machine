@@ -76,7 +76,7 @@ input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: lightgray;
 }
 
-#sub, #lock, #cancel {
+#sub, #lock, #cancel, #logout {
     cursor: pointer;
     border-radius: 5em;
     color: black;
@@ -94,6 +94,10 @@ input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     text-align:center;
     width: 50%;
     margin-left: 25%;
+}
+
+#logout {
+    padding: 15px;
 }
 
 #cancel {
@@ -183,10 +187,6 @@ input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     background-color:#272e38;
 }
 
-#clock.light .alarm{
-    background:url('../img/alarm_light.jpg');
-}
-
 #clock.light .display{
     background-color:#dddddd;
     box-shadow:0 1px 1px rgba(0,0,0,0.08) inset, 0 1px 1px #fafafa;
@@ -210,10 +210,6 @@ input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
 #clock.dark .digits div span{
     background-color:#cacaca;
     border-color:#cacaca;
-}
-
-#clock.dark .alarm{
-    background:url('../img/alarm_dark.jpg');
 }
 
 #clock.dark .display{
