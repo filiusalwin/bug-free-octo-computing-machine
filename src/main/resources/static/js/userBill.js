@@ -53,6 +53,7 @@ function deductPayment() {
 function printPage() {
     var buttons = $(".hideOnPrint");
     buttons.hide();
+    $("#error").hide();
     print();
     buttons.show();
 }
