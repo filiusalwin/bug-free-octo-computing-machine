@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Optional;
 
 @RequestMapping("/order")
@@ -55,6 +58,15 @@ public class OrderController {
         model.addAttribute("allUsers", userRepository.findAll());
         User user = new User();
         user.setRoles("ROLE_CUSTOMER");
+        try {
+            File image = new File("src/main/resources/static/images/defaultPicture.png");
+            FileInputStream imageInFile = new FileInputStream(image);
+            byte[] imageInBytes = imageInFile.readAllBytes();
+            user.setPicture(imageInBytes);
+        } catch (IOException e) {
+            System.out.println("Could not store this profile picture. New user not added.");
+        }
+        model.addAttribute("picture", user.convertToBase64());
         model.addAttribute("user", new User());
         return "order_new_prepaid_customer";
     }

@@ -1,6 +1,6 @@
 const LOCKSCREEN_COUNTDOWN = 1; // 1 milliseconds then the app will be automatic locked
 const LOG_OUT_COUNTDOWN = 7200000; // 2 hours (7200000 ms) then the app wil log out
-const MESSAGE_COUNTDOWN = 10000; // 10 second then the locked message will be automatic disappear
+const MESSAGE_COUNTDOWN = 5000; // 10 second then the locked message will be automatic disappear
 
 
 $(document).ready(function() {
@@ -10,7 +10,7 @@ $(document).ready(function() {
     // the screen is locked
     if (window.location.href.indexOf("lockout?error") > -1) {
         $("#sub").show();
-        $("#lock").hide();
+        $("#lock, #logout").hide();
         setTimeout(logout, LOG_OUT_COUNTDOWN);
         setTimeout(hideMessage,MESSAGE_COUNTDOWN);
     } else {
@@ -22,6 +22,7 @@ $(document).ready(function() {
 
 function hideMessage() {
     $(".error").hide();
+    $("#logout").show();
 }
 
 function lockscreen() {
