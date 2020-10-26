@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="1059.1152316677847" y="0.0">nl.miwgroningen.se.ch3.bacchux.model.CreditPayment</node>
+    <node x="1010.4853621730388" y="3035.0">nl.miwgroningen.se.ch3.bacchux.controller.UserRestController</node>
+    <node x="705.4131147999101" y="2268.5">nl.miwgroningen.se.ch3.bacchux.model.IbanValidation</node>
+    <node x="5243.357592778895" y="3057.0">nl.miwgroningen.se.ch3.bacchux.controller.LogDetailRestController</node>
+    <node x="3650.295092778896" y="3002.0">nl.miwgroningen.se.ch3.bacchux.controller.CategoryController</node>
+    <node x="4455.147845405767" y="1147.0">nl.miwgroningen.se.ch3.bacchux.model.Product</node>
+    <node x="1445.2500000000005" y="1993.0">nl.miwgroningen.se.ch3.bacchux.model.UserDTO</node>
+    <node x="1307.7728454057674" y="3338.0">nl.miwgroningen.se.ch3.bacchux.configuration.SecurityConfiguration</node>
+    <node x="3238.5450927788957" y="2301.5">nl.miwgroningen.se.ch3.bacchux.service.CurrentSession</node>
+    <node x="4691.357592778895" y="3068.0">nl.miwgroningen.se.ch3.bacchux.controller.ProductRestController</node>
+    <node x="0.0" y="3035.0">nl.miwgroningen.se.ch3.bacchux.controller.CreditRestController</node>
+    <node x="1636.5075927788957" y="784.0">nl.miwgroningen.se.ch3.bacchux.model.User</node>
+    <node x="4789.107592778895" y="2290.0">nl.miwgroningen.se.ch3.bacchux.model.ProductDTO</node>
+    <node x="4961.357592778895" y="3068.0">nl.miwgroningen.se.ch3.bacchux.controller.CategoryRestController</node>
+    <node x="1681.2950927788959" y="3057.0">nl.miwgroningen.se.ch3.bacchux.controller.CustomerRestController</node>
+    <node x="5364.602028839706" y="1081.0">nl.miwgroningen.se.ch3.bacchux.model.LogDetail</node>
+    <node x="3349.295092778896" y="3013.0">nl.miwgroningen.se.ch3.bacchux.controller.OrderController</node>
+    <node x="292.125" y="2357.0">nl.miwgroningen.se.ch3.bacchux.repository.CreditPaymentRepository</node>
+    <node x="4151.295092778895" y="3024.0">nl.miwgroningen.se.ch3.bacchux.controller.ProductController</node>
+    <node x="1075.2500000000002" y="2213.0">nl.miwgroningen.se.ch3.bacchux.model.BacchuxUserDetails</node>
+    <node x="5063.232592778895" y="2290.0">nl.miwgroningen.se.ch3.bacchux.model.CategoryDTO</node>
+    <node x="4483.399259445562" y="220.5">nl.miwgroningen.se.ch3.bacchux.model.Category</node>
+    <node x="2269.295092778896" y="3057.0">nl.miwgroningen.se.ch3.bacchux.controller.PrepaidRestController</node>
+    <node x="1343.2728454057674" y="3068.0">nl.miwgroningen.se.ch3.bacchux.service.BacchuxUserDetailsService</node>
+    <node x="3091.295092778896" y="2980.0">nl.miwgroningen.se.ch3.bacchux.controller.LoginController</node>
+    <node x="426.0" y="2925.0">nl.miwgroningen.se.ch3.bacchux.controller.UserController</node>
+    <node x="4158.996448133244" y="2357.0">nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository</node>
+    <node x="5287.685362173039" y="2369.0">nl.miwgroningen.se.ch3.bacchux.repository.LogDetailRepository</node>
+    <node x="1340.7728454057674" y="3531.0">nl.miwgroningen.se.ch3.bacchux.configuration.SecurityConfiguration.MyHttpSessionListener</node>
+    <node x="3875.7672814665775" y="2357.0">nl.miwgroningen.se.ch3.bacchux.repository.ProductRepository</node>
+    <node x="0.0" y="3652.0">nl.miwgroningen.se.ch3.bacchux.configuration.MyAccessDeniedHandler</node>
+    <node x="2666.295092778896" y="2969.0">nl.miwgroningen.se.ch3.bacchux.controller.ProfileController</node>
+    <node x="2057.295092778896" y="3079.5">nl.miwgroningen.se.ch3.bacchux.BacchuxApplication</node>
+    <node x="2021.7950927788959" y="2357.0">nl.miwgroningen.se.ch3.bacchux.repository.UserRepository</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.ProductController" target="nl.miwgroningen.se.ch3.bacchux.repository.ProductRepository">
+      <point x="-128.0" y="-82.5" />
+      <point x="4279.295092778895" y="2825.0" />
+      <point x="4038.8922814665775" y="2825.0" />
+      <point x="32.625" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.ProductController" target="nl.miwgroningen.se.ch3.bacchux.model.Product">
+      <point x="128.0" y="-82.5" />
+      <point x="4535.295092778895" y="2905.0" />
+      <point x="4614.25498826291" y="2905.0" />
+      <point x="4614.25498826291" y="1973.0" />
+      <point x="4579.862131120053" y="1973.0" />
+      <point x="27.714285714285325" y="181.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CategoryRestController" target="nl.miwgroningen.se.ch3.bacchux.model.Category">
+      <point x="-32.75" y="-38.5" />
+      <point x="5059.607592778895" y="2905.0" />
+      <point x="5052.732592778895" y="2905.0" />
+      <point x="5052.732592778895" y="764.0" />
+      <point x="4671.2492594455625" y="764.0" />
+      <point x="77.35000000000036" y="126.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.model.ProductDTO" target="nl.miwgroningen.se.ch3.bacchux.model.Product">
+      <point x="0.0" y="-94.0" />
+      <point x="4874.107592778895" y="1953.0" />
+      <point x="4635.290702548624" y="1953.0" />
+      <point x="83.14285714285688" y="181.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.repository.ProductRepository" target="nl.miwgroningen.se.ch3.bacchux.model.Product">
+      <point x="0.0" y="-27.0" />
+      <point x="4006.2672814665775" y="1973.0" />
+      <point x="4524.4335596914825" y="1973.0" />
+      <point x="-27.714285714285325" y="181.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.service.BacchuxUserDetailsService" target="nl.miwgroningen.se.ch3.bacchux.model.BacchuxUserDetails">
+      <point x="-87.0" y="-38.5" />
+      <point x="1386.7728454057674" y="2805.0" />
+      <point x="1249.7500000000002" y="2805.0" />
+      <point x="0.0" y="171.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.UserRestController" target="nl.miwgroningen.se.ch3.bacchux.repository.UserRepository">
+      <point x="115.71428571428578" y="-71.5" />
+      <point x="1261.1996478873245" y="2855.0" />
+      <point x="2081.567820051623" y="2855.0" />
+      <point x="-71.72727272727252" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CreditRestController" target="nl.miwgroningen.se.ch3.bacchux.model.User">
+      <point x="0.0" y="-71.5" />
+      <point x="203.0" y="2905.0" />
+      <point x="146.72552397719573" y="2905.0" />
+      <point x="146.72552397719573" y="1893.0" />
+      <point x="1645.479815001118" y="1893.0" />
+      <point x="-152.52777777777783" y="544.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CategoryRestController" target="nl.miwgroningen.se.ch3.bacchux.model.CategoryDTO">
+      <point x="32.75" y="-38.5" />
+      <point x="5125.107592778895" y="2905.0" />
+      <point x="5107.982592778895" y="2905.0" />
+      <point x="-44.75" y="94.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CategoryController" target="nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository">
+      <point x="206.14285714285688" y="-104.5" />
+      <point x="4096.937949921753" y="2905.0" />
+      <point x="4259.121448133244" y="2905.0" />
+      <point x="-33.375" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.LoginController" target="nl.miwgroningen.se.ch3.bacchux.repository.UserRepository">
+      <point x="-89.25" y="-126.5" />
+      <point x="3121.045092778896" y="2855.0" />
+      <point x="2225.022365506168" y="2855.0" />
+      <point x="71.72727272727252" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.model.UserDTO" target="nl.miwgroningen.se.ch3.bacchux.model.User">
+      <point x="0.0" y="-391.0" />
+      <point x="1606.7500000000005" y="1973.0" />
+      <point x="1789.0353705566736" y="1973.0" />
+      <point x="-8.972222222222172" y="544.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.repository.UserRepository" target="nl.miwgroningen.se.ch3.bacchux.model.User">
+      <point x="0.0" y="-27.0" />
+      <point x="2153.295092778896" y="1953.0" />
+      <point x="1842.8687038900068" y="1953.0" />
+      <point x="44.861111111111086" y="544.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.PrepaidRestController" target="nl.miwgroningen.se.ch3.bacchux.model.User">
+      <point x="94.25" y="-49.5" />
+      <point x="2552.045092778896" y="1943.0" />
+      <point x="1860.8131483344514" y="1943.0" />
+      <point x="62.80555555555566" y="544.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.model.Product" target="nl.miwgroningen.se.ch3.bacchux.model.Category">
+      <point x="-72.75" y="-181.5" />
+      <point x="4479.397845405767" y="744.0" />
+      <point x="4560.7492594455625" y="744.0" />
+      <point x="-33.149999999999636" y="126.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CustomerRestController" target="nl.miwgroningen.se.ch3.bacchux.repository.UserRepository">
+      <point x="142.4000000000001" y="-49.5" />
+      <point x="2001.695092778896" y="2875.0" />
+      <point x="2129.386001869805" y="2875.0" />
+      <point x="-23.90909090909099" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.UserController" target="nl.miwgroningen.se.ch3.bacchux.model.User">
+      <point x="-29.8125" y="-181.5" />
+      <point x="634.6875" y="2825.0" />
+      <point x="606.625" y="2825.0" />
+      <point x="606.625" y="1923.0" />
+      <point x="1699.3131483344514" y="1923.0" />
+      <point x="-98.69444444444434" y="544.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.ProfileController" target="nl.miwgroningen.se.ch3.bacchux.service.CurrentSession">
+      <point x="135.0" y="-137.5" />
+      <point x="3003.795092778896" y="2895.0" />
+      <point x="3299.0450927788957" y="2895.0" />
+      <point x="-60.5" y="82.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.ProductRestController" target="nl.miwgroningen.se.ch3.bacchux.model.ProductDTO">
+      <point x="31.25" y="-38.5" />
+      <point x="4847.607592778895" y="2905.0" />
+      <point x="4831.607592778895" y="2905.0" />
+      <point x="-42.5" y="94.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.UserController" target="nl.miwgroningen.se.ch3.bacchux.service.CurrentSession">
+      <point x="208.6875" y="-181.5" />
+      <point x="873.1875" y="2885.0" />
+      <point x="3258.711759445562" y="2885.0" />
+      <point x="-100.83333333333348" y="82.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.repository.LogDetailRepository" target="nl.miwgroningen.se.ch3.bacchux.model.LogDetail">
+      <point x="0.0" y="-15.0" />
+      <point x="5387.685362173039" y="1973.0" />
+      <point x="5403.768695506373" y="1973.0" />
+      <point x="-78.33333333333348" y="247.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.UserController" target="nl.miwgroningen.se.ch3.bacchux.model.IbanValidation">
+      <point x="29.8125" y="-181.5" />
+      <point x="694.3125" y="2825.0" />
+      <point x="734.7881147999101" y="2825.0" />
+      <point x="-88.125" y="115.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.LogDetailRestController" target="nl.miwgroningen.se.ch3.bacchux.model.LogDetail">
+      <point x="44.0" y="-49.5" />
+      <point x="5463.357592778895" y="2905.0" />
+      <point x="5498.185362173039" y="2905.0" />
+      <point x="5498.185362173039" y="1973.0" />
+      <point x="5482.102028839706" y="1973.0" />
+      <point x="0.0" y="247.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.LoginController" target="nl.miwgroningen.se.ch3.bacchux.model.User">
+      <point x="-29.75" y="-126.5" />
+      <point x="3180.545092778896" y="2875.0" />
+      <point x="3178.878426112229" y="2875.0" />
+      <point x="3178.878426112229" y="1923.0" />
+      <point x="1896.7020372233403" y="1923.0" />
+      <point x="98.69444444444457" y="544.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.UserController" target="nl.miwgroningen.se.ch3.bacchux.model.CreditPayment">
+      <point x="-149.0625" y="-181.5" />
+      <point x="515.4375" y="2815.0" />
+      <point x="584.625" y="2815.0" />
+      <point x="584.625" y="764.0" />
+      <point x="1177.6777316677847" y="764.0" />
+      <point x="-16.9375" y="347.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.LogDetailRestController" target="nl.miwgroningen.se.ch3.bacchux.repository.LogDetailRepository">
+      <point x="-44.0" y="-49.5" />
+      <point x="5375.357592778895" y="2905.0" />
+      <point x="5387.685362173039" y="2905.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CategoryController" target="nl.miwgroningen.se.ch3.bacchux.service.CurrentSession">
+      <point x="-206.14285714285688" y="-104.5" />
+      <point x="3684.652235636039" y="2875.0" />
+      <point x="3420.0450927788957" y="2875.0" />
+      <point x="60.5" y="82.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.repository.CreditPaymentRepository" target="nl.miwgroningen.se.ch3.bacchux.model.CreditPayment">
+      <point x="-70.5" y="-27.0" />
+      <point x="362.625" y="754.0" />
+      <point x="1143.8027316677847" y="754.0" />
+      <point x="-50.8125" y="347.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.configuration.SecurityConfiguration.MyHttpSessionListener" target="nl.miwgroningen.se.ch3.bacchux.configuration.SecurityConfiguration">
+      <point x="0.0" y="-38.0" />
+      <point x="0.0" y="71.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CreditRestController" target="nl.miwgroningen.se.ch3.bacchux.repository.CreditPaymentRepository">
+      <point x="81.20000000000005" y="-71.5" />
+      <point x="284.1999999999998" y="2825.0" />
+      <point x="362.625" y="2825.0" />
+      <point x="-70.5" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository" target="nl.miwgroningen.se.ch3.bacchux.model.Category">
+      <point x="0.0" y="-27.0" />
+      <point x="4292.496448133244" y="1943.0" />
+      <point x="4179.698440643862" y="1943.0" />
+      <point x="4179.698440643862" y="734.0" />
+      <point x="4538.649259445562" y="734.0" />
+      <point x="-55.25" y="126.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.model.CreditPayment" target="nl.miwgroningen.se.ch3.bacchux.model.User">
+      <point x="84.6875" y="347.0" />
+      <point x="1279.3027316677847" y="744.0" />
+      <point x="1838.3825927788957" y="744.0" />
+      <point x="40.375" y="-544.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.UserController" target="nl.miwgroningen.se.ch3.bacchux.repository.UserRepository">
+      <point x="149.0625" y="-181.5" />
+      <point x="813.5625" y="2845.0" />
+      <point x="2057.658729142532" y="2845.0" />
+      <point x="-95.63636363636351" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.BacchuxApplication" target="nl.miwgroningen.se.ch3.bacchux.repository.UserRepository">
+      <point x="0.0" y="-27.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.ProductRestController" target="nl.miwgroningen.se.ch3.bacchux.model.Product">
+      <point x="-31.25" y="-38.5" />
+      <point x="4785.107592778895" y="2905.0" />
+      <point x="4778.607592778895" y="2905.0" />
+      <point x="4778.607592778895" y="1963.0" />
+      <point x="4607.576416834339" y="1963.0" />
+      <point x="55.42857142857156" y="181.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CategoryRestController" target="nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository">
+      <point x="-98.25" y="-38.5" />
+      <point x="4994.107592778895" y="2805.0" />
+      <point x="4392.621448133244" y="2805.0" />
+      <point x="100.125" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.configuration.SecurityConfiguration" target="nl.miwgroningen.se.ch3.bacchux.service.BacchuxUserDetailsService">
+      <point x="0.0" y="-71.5" />
+      <point x="0.0" y="38.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.model.CategoryDTO" target="nl.miwgroningen.se.ch3.bacchux.model.Category">
+      <point x="0.0" y="-94.0" />
+      <point x="5152.732592778895" y="754.0" />
+      <point x="4693.349259445562" y="754.0" />
+      <point x="99.44999999999982" y="126.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.LoginController" target="nl.miwgroningen.se.ch3.bacchux.service.CurrentSession">
+      <point x="89.25" y="-126.5" />
+      <point x="3299.545092778896" y="2905.0" />
+      <point x="3339.378426112229" y="2905.0" />
+      <point x="-20.166666666666515" y="82.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.model.Category" target="nl.miwgroningen.se.ch3.bacchux.model.Product">
+      <point x="11.050000000000182" y="126.5" />
+      <point x="4604.949259445562" y="764.0" />
+      <point x="4576.397845405767" y="764.0" />
+      <point x="24.25" y="-181.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.OrderController" target="nl.miwgroningen.se.ch3.bacchux.model.User">
+      <point x="23.41666666666606" y="-93.5" />
+      <point x="3513.211759445562" y="2905.0" />
+      <point x="3521.956195506372" y="2905.0" />
+      <point x="3521.956195506372" y="1893.0" />
+      <point x="1950.5353705566736" y="1893.0" />
+      <point x="152.52777777777783" y="544.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CreditRestController" target="nl.miwgroningen.se.ch3.bacchux.repository.UserRepository">
+      <point x="162.39999999999998" y="-71.5" />
+      <point x="365.4000000000001" y="2835.0" />
+      <point x="2033.7496382334414" y="2835.0" />
+      <point x="-119.5454545454545" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.model.User" target="nl.miwgroningen.se.ch3.bacchux.model.CreditPayment">
+      <point x="-121.125" y="-544.5" />
+      <point x="1676.8825927788957" y="764.0" />
+      <point x="1211.5527316677847" y="764.0" />
+      <point x="16.9375" y="347.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.OrderController" target="nl.miwgroningen.se.ch3.bacchux.service.CurrentSession">
+      <point x="-70.25000000000045" y="-93.5" />
+      <point x="3419.545092778895" y="2905.0" />
+      <point x="3379.711759445562" y="2905.0" />
+      <point x="20.166666666666515" y="82.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CategoryController" target="nl.miwgroningen.se.ch3.bacchux.model.Product">
+      <point x="0.0" y="-104.5" />
+      <point x="3890.795092778896" y="2855.0" />
+      <point x="3758.3398809523815" y="2855.0" />
+      <point x="3758.3398809523815" y="1953.0" />
+      <point x="4469.00498826291" y="1953.0" />
+      <point x="-83.14285714285688" y="181.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.UserController" target="nl.miwgroningen.se.ch3.bacchux.repository.CreditPaymentRepository">
+      <point x="-208.6875" y="-181.5" />
+      <point x="455.8125" y="2825.0" />
+      <point x="503.625" y="2825.0" />
+      <point x="70.5" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.ProfileController" target="nl.miwgroningen.se.ch3.bacchux.model.User">
+      <point x="0.0" y="-137.5" />
+      <point x="2868.795092778896" y="1933.0" />
+      <point x="1878.7575927788957" y="1933.0" />
+      <point x="80.75" y="544.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.ProductRestController" target="nl.miwgroningen.se.ch3.bacchux.repository.ProductRepository">
+      <point x="-93.75" y="-38.5" />
+      <point x="4722.607592778895" y="2815.0" />
+      <point x="4104.1422814665775" y="2815.0" />
+      <point x="97.875" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.UserRestController" target="nl.miwgroningen.se.ch3.bacchux.model.IbanValidation">
+      <point x="-115.71428571428578" y="-71.5" />
+      <point x="1029.771076458753" y="2825.0" />
+      <point x="852.2881147999101" y="2825.0" />
+      <point x="29.375" y="115.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.service.BacchuxUserDetailsService" target="nl.miwgroningen.se.ch3.bacchux.model.User">
+      <point x="0.0" y="-38.5" />
+      <point x="1473.7728454057674" y="2805.0" />
+      <point x="1434.7500000000005" y="2805.0" />
+      <point x="1434.7500000000005" y="1963.0" />
+      <point x="1771.090926112229" y="1963.0" />
+      <point x="-26.916666666666742" y="544.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CategoryController" target="nl.miwgroningen.se.ch3.bacchux.repository.ProductRepository">
+      <point x="137.42857142857156" y="-104.5" />
+      <point x="4028.2236642074677" y="2885.0" />
+      <point x="3973.6422814665775" y="2885.0" />
+      <point x="-32.625" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CategoryController" target="nl.miwgroningen.se.ch3.bacchux.model.Category">
+      <point x="-137.42857142857156" y="-104.5" />
+      <point x="3753.3665213503245" y="2875.0" />
+      <point x="3712.8397356360383" y="2875.0" />
+      <point x="3712.8397356360383" y="714.0" />
+      <point x="4494.449259445562" y="714.0" />
+      <point x="-99.44999999999982" y="126.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.ProductController" target="nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository">
+      <point x="-42.66666666666697" y="-82.5" />
+      <point x="4364.628426112229" y="2905.0" />
+      <point x="4325.871448133244" y="2905.0" />
+      <point x="33.375" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.OrderController" target="nl.miwgroningen.se.ch3.bacchux.repository.UserRepository">
+      <point x="-117.08333333333394" y="-93.5" />
+      <point x="3372.711759445562" y="2845.0" />
+      <point x="2248.931456415259" y="2845.0" />
+      <point x="95.63636363636351" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.repository.CreditPaymentRepository" target="nl.miwgroningen.se.ch3.bacchux.model.User">
+      <point x="70.5" y="-27.0" />
+      <point x="503.625" y="1903.0" />
+      <point x="1663.4242594455625" y="1903.0" />
+      <point x="-134.58333333333326" y="544.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.ProductController" target="nl.miwgroningen.se.ch3.bacchux.service.CurrentSession">
+      <point x="-213.33333333333303" y="-82.5" />
+      <point x="4193.961759445563" y="2835.0" />
+      <point x="3460.378426112229" y="2835.0" />
+      <point x="100.83333333333348" y="82.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.ProductController" target="nl.miwgroningen.se.ch3.bacchux.model.Category">
+      <point x="213.33333333333303" y="-82.5" />
+      <point x="4620.628426112229" y="2905.0" />
+      <point x="4659.647845405767" y="2905.0" />
+      <point x="4659.647845405767" y="764.0" />
+      <point x="4649.149259445562" y="764.0" />
+      <point x="55.25" y="126.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CreditRestController" target="nl.miwgroningen.se.ch3.bacchux.model.CreditPayment">
+      <point x="-81.19999999999982" y="-71.5" />
+      <point x="121.80000000000018" y="2905.0" />
+      <point x="135.72552397719573" y="2905.0" />
+      <point x="135.72552397719573" y="744.0" />
+      <point x="1109.9277316677847" y="744.0" />
+      <point x="-84.6875" y="347.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.UserRestController" target="nl.miwgroningen.se.ch3.bacchux.model.UserDTO">
+      <point x="38.57142857142867" y="-71.5" />
+      <point x="1184.0567907444674" y="2815.0" />
+      <point x="1485.6250000000005" y="2815.0" />
+      <point x="-121.125" y="391.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.UserRestController" target="nl.miwgroningen.se.ch3.bacchux.model.User">
+      <point x="0.0" y="-71.5" />
+      <point x="1145.4853621730388" y="2795.0" />
+      <point x="1054.9553571428573" y="2795.0" />
+      <point x="1054.9553571428573" y="1943.0" />
+      <point x="1735.20203722334" y="1943.0" />
+      <point x="-62.80555555555566" y="544.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.OrderController" target="nl.miwgroningen.se.ch3.bacchux.repository.ProductRepository">
+      <point x="70.24999999999955" y="-93.5" />
+      <point x="3560.045092778895" y="2885.0" />
+      <point x="3908.3922814665775" y="2885.0" />
+      <point x="-97.875" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.OrderController" target="nl.miwgroningen.se.ch3.bacchux.repository.CategoryRepository">
+      <point x="117.08333333333303" y="-93.5" />
+      <point x="3606.878426112229" y="2895.0" />
+      <point x="4192.371448133244" y="2895.0" />
+      <point x="-100.125" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.model.BacchuxUserDetails" target="nl.miwgroningen.se.ch3.bacchux.model.User">
+      <point x="0.0" y="-171.0" />
+      <point x="1249.7500000000002" y="1953.0" />
+      <point x="1753.1464816677847" y="1953.0" />
+      <point x="-44.861111111111086" y="544.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CustomerRestController" target="nl.miwgroningen.se.ch3.bacchux.model.User">
+      <point x="71.20000000000005" y="-49.5" />
+      <point x="1930.495092778896" y="2825.0" />
+      <point x="1903.8506147999103" y="2825.0" />
+      <point x="1903.8506147999103" y="1963.0" />
+      <point x="1824.9242594455625" y="1963.0" />
+      <point x="26.916666666666742" y="544.5" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.PrepaidRestController" target="nl.miwgroningen.se.ch3.bacchux.repository.UserRepository">
+      <point x="-94.25" y="-49.5" />
+      <point x="2363.545092778896" y="2875.0" />
+      <point x="2177.204183687987" y="2875.0" />
+      <point x="23.90909090909099" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.ProfileController" target="nl.miwgroningen.se.ch3.bacchux.repository.UserRepository">
+      <point x="-135.0" y="-137.5" />
+      <point x="2733.795092778896" y="2865.0" />
+      <point x="2201.113274597078" y="2865.0" />
+      <point x="47.81818181818198" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.LogDetailRestController" target="nl.miwgroningen.se.ch3.bacchux.repository.UserRepository">
+      <point x="-132.0" y="-49.5" />
+      <point x="5287.357592778895" y="2795.0" />
+      <point x="2272.84054732435" y="2795.0" />
+      <point x="119.5454545454545" y="27.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.controller.CustomerRestController" target="nl.miwgroningen.se.ch3.bacchux.model.UserDTO">
+      <point x="-142.4000000000001" y="-49.5" />
+      <point x="1716.8950927788958" y="2825.0" />
+      <point x="1647.1250000000005" y="2825.0" />
+      <point x="40.375" y="391.0" />
+    </edge>
+    <edge source="nl.miwgroningen.se.ch3.bacchux.service.BacchuxUserDetailsService" target="nl.miwgroningen.se.ch3.bacchux.repository.UserRepository">
+      <point x="87.0" y="-38.5" />
+      <point x="1560.7728454057674" y="2865.0" />
+      <point x="2105.476910960714" y="2865.0" />
+      <point x="-47.81818181818198" y="27.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.1683382235262736" x="1631.3054395269162" y="1864.5000000000002" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
