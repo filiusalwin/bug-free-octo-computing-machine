@@ -207,6 +207,8 @@
                             <input type="text" id="nameInput" class="form-control" placeholder="Name" aria-label="Name"
                                    aria-describedby="basic-addon4" th:field="*{name}" required>
                         </div>
+                        <div class="alert alert-danger" id="emptyfieldsError" style="display: none;">
+                        </div>
                         <div class="input-group mb-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" th:field="*{prepaidAllowed}" id="prepaidNewCustomer">

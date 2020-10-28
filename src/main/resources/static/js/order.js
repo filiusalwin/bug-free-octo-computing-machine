@@ -407,6 +407,11 @@ function addPrepaidCustomer() {
 }
 
 function saveNewCustomer() {
+    if ($("#usernameInput").val() === "" || $("#nameInput").val() === "") {
+        $("#emptyfieldsError").html("Both fields are required.");
+        $("#emptyfieldsError").show();
+        return;
+    }
     $.ajax({
         type: "PUT",
         url: "/order/newCustomer/",
