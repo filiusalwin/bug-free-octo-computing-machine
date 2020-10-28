@@ -44,10 +44,12 @@ function checkCorrectRadioBox(userData) {
         databaseRoleUser = "Customer";
     } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER") {
         $("#bartender").prop("checked", true);
+        $("#resetPassword").html("Reset password");
         databaseRoleUser = "Bartender";
     } else if (userData.roles === "ROLE_CUSTOMER,ROLE_BARTENDER,ROLE_BARMANAGER") {
         $("#barmanager").prop("checked", true);
         databaseRoleUser = "Barmanager";
+        $("#resetPassword").html("Reset password");
     }
 }
 
@@ -57,24 +59,25 @@ function fillOutForm(data) {
     $("#modalLabel").html("Edit " + data.username);
     $("#usernameInput, #originalUsername").val(data.username);
     $("#usernameError, #password_pincode,.custom-file").hide();
-    $("#Prepaid-Choice-Label, #resetPassword").show();
-    $("#Prepaid-Choice-Label").html("The prepaid balance: " + data.balance);
+    $("#resetPassword").show();
     $("#userIdInput").val(data.userId);
     $("#nameInput").val(data.name);
     $("#Prepaid").prop("checked", data.prepaidAllowed);
     $("#prepaid_balance").val(data.balance);
     $("#Credit").prop("checked", data.creditAllowed);
+    $("#credit_account").val(data.creditPaymentBankAccountNumber);
     $("#profileFoto").attr('src','data:image/png;base64,' + data.picture);
     if(data.picture === null) {
     resetPicture();
     }
     $('input[type=radio][name=roles]').change(function() {
         if (this.value === 'ROLE_CUSTOMER') {
-            $("#resetPassword").hide();
+            $("#resetPassword, #password_pincode").hide();
         } else {
             // if database role was customer a password needs to be added
             if (databaseRoleUser === "Customer") {
                 $("#resetPassword").html("Add password");
+                $("#password_pincode").hide();
             }
             $("#resetPassword").show();
         }
