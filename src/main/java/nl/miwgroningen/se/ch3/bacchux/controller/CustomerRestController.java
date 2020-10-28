@@ -9,9 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Optional;
 
-// is used to add a new customer from the order page, for security reasons the user url has been disbaled
+// is used to add a new customer from the order page, for security reasons the user url has been disabled
 // in order for a bartender to acces this particular method this new controller was created with the url
 // order/newCustomer
 
@@ -36,6 +39,14 @@ public class CustomerRestController {
         user.setName(name);
         user.setRoles("ROLE_CUSTOMER");
         user.setPrepaidAllowed(prepaidOn);
+        try {
+            File image = new File("src/main/resources/static/images/defaultPicture.png");
+            FileInputStream imageInFile = new FileInputStream(image);
+            byte[] imageInBytes = imageInFile.readAllBytes();
+            user.setPicture(imageInBytes);
+        } catch (IOException e) {
+            System.out.println("Could not store this profile picture. New user not added.");
+        }
         userRepository.save(user);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -48,6 +59,5 @@ public class CustomerRestController {
         }
         return new UserDTO(user.get());
     }
-
 
 }
